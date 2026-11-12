@@ -25,14 +25,18 @@ function RealThumb({
   if (!project.image || !project.imageAlt || !project.imageWidth || !project.imageHeight) {
     return <MockupThumb project={project} />;
   }
-  // sizes must match the card's rendered width: wide (col-span-4) cards
-  // are ~66vw on desktop, mid (col-span-3) ~50vw, narrow (col-span-2) ~33vw.
+  // sizes must match the card's rendered width. Video cards live in a
+  // 12-column grid at col-span-3 (~25vw on desktop); website cards live in
+  // a 6-column grid — wide (col-span-4) ~66vw, mid (col-span-3) ~50vw,
+  // narrow (col-span-2) ~33vw.
   const sizes =
-    project.span === "md:col-span-4"
-      ? "(max-width: 768px) 100vw, 66vw"
-      : project.span === "md:col-span-3"
-        ? "(max-width: 768px) 100vw, 50vw"
-        : "(max-width: 768px) 100vw, 33vw";
+    project.kind === "video"
+      ? "(max-width: 768px) 100vw, 25vw"
+      : project.span === "md:col-span-4"
+        ? "(max-width: 768px) 100vw, 66vw"
+        : project.span === "md:col-span-3"
+          ? "(max-width: 768px) 100vw, 50vw"
+          : "(max-width: 768px) 100vw, 33vw";
   return (
     <div className="relative h-full overflow-hidden bg-ink">
       <Image
@@ -67,8 +71,8 @@ function RealThumb({
               previewPlaying ? "opacity-0" : "opacity-100"
             }`}
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-              <Film className="h-6 w-6" />
+            <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+              <Film className="h-5 w-5" />
             </span>
           </span>
           <span className="absolute right-3 top-3 z-10 rounded-md bg-black/60 px-2 py-1 text-[10px] font-semibold tracking-wider text-white">
@@ -176,6 +180,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     setPreviewPlaying(false);
   };
 
+  const isVideo = project.kind === "video";
   return (
     <Reveal delay={(index % 3) * 0.08} className={project.span}>
       <a
@@ -192,10 +197,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <RealThumb project={project} videoRef={videoRef} previewPlaying={previewPlaying} />
           </div>
         </div>
-        <div className="flex flex-1 items-start justify-between gap-3 p-5 sm:p-6">
+        <div className={`flex flex-1 items-start justify-between gap-3 ${isVideo ? "p-4 sm:p-5" : "p-5 sm:p-6"}`}>
           <div>
             <p className="text-[11px] font-semibold tracking-[0.16em] text-bright">{project.category.toUpperCase()}</p>
-            <h3 className="mt-2 font-display text-xl font-bold text-white">{project.title}</h3>
+            <h3 className={`mt-2 font-display font-bold text-white ${isVideo ? "text-lg" : "text-xl"}`}>{project.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-mist">{project.description}</p>
           </div>
           <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-all duration-300 group-hover:border-primary group-hover:bg-primary">
@@ -241,13 +246,15 @@ export default function Work() {
             </div>
             <p className="text-sm text-mist">
               <span className="font-semibold text-white">5 websites</span> ·{" "}
-              <span className="font-semibold text-white">3 videos</span>
+              <span className="font-semibold text-white">10 videos</span>
             </p>
           </div>
         </Reveal>
 
-        <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count="3 videos" />
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
+        <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count="10 videos" />
+        {/* Video cards are smaller than website cards: 4 per row on desktop
+            (12-col grid, span-3) so the growing video list stays dense. */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
           {videos.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
           ))}
