@@ -18,7 +18,12 @@ const SERVICE_LINKS = [
   { label: "AI & Automation", href: "#ai-automation" },
 ];
 
-const SOCIALS = ["Instagram", "LinkedIn", "YouTube", "X"];
+const SOCIALS = [
+  { name: "Instagram", href: "https://www.instagram.com/developnearly/" },
+  { name: "LinkedIn", href: null },
+  { name: "YouTube", href: null },
+  { name: "X", href: null },
+];
 
 export default function Footer({ year }: { year: number }) {
   return (
@@ -83,9 +88,22 @@ export default function Footer({ year }: { year: number }) {
               </a>
               <h3 className="mt-7 text-xs font-semibold tracking-[0.2em] text-mist">SOCIAL</h3>
               <ul className="mt-4 space-y-3">
-                {SOCIALS.map((name) => (
-                  <li key={name} className="text-sm text-mist">
-                    {name} <span className="text-white/60">(coming soon)</span>
+                {SOCIALS.map((social) => (
+                  <li key={social.name} className="text-sm text-mist">
+                    {social.href ? (
+                      <a
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white/85 transition-colors hover:text-bright"
+                      >
+                        {social.name}
+                      </a>
+                    ) : (
+                      <>
+                        {social.name} <span className="text-white/60">(coming soon)</span>
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
