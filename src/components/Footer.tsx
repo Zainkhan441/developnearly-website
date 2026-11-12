@@ -20,9 +20,6 @@ const SERVICE_LINKS = [
 
 const SOCIALS = [
   { name: "Instagram", href: "https://www.instagram.com/developnearly/" },
-  { name: "LinkedIn", href: null },
-  { name: "YouTube", href: null },
-  { name: "X", href: null },
 ];
 
 export default function Footer({ year }: { year: number }) {
@@ -90,20 +87,14 @@ export default function Footer({ year }: { year: number }) {
               <ul className="mt-4 space-y-3">
                 {SOCIALS.map((social) => (
                   <li key={social.name} className="text-sm text-mist">
-                    {social.href ? (
-                      <a
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white/85 transition-colors hover:text-bright"
-                      >
-                        {social.name}
-                      </a>
-                    ) : (
-                      <>
-                        {social.name} <span className="text-white/60">(coming soon)</span>
-                      </>
-                    )}
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/85 transition-colors hover:text-bright"
+                    >
+                      {social.name}
+                    </a>
                   </li>
                 ))}
               </ul>
