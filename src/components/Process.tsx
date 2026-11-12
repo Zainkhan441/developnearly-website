@@ -51,8 +51,8 @@ export default function Process() {
 
           <ol className="relative grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-6">
             {STEPS.map((step, i) => (
-              <Reveal key={step.n} delay={i * 0.08}>
-                <li className="flex gap-5 lg:flex-col lg:gap-0">
+              <li key={step.n}>
+                <Reveal delay={i * 0.08} className="flex gap-5 lg:flex-col lg:gap-0">
                   <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-bright/50 bg-ink font-display text-sm font-bold text-bright shadow-[0_0_24px_rgba(59,130,246,0.35)]">
                     {step.n}
                   </span>
@@ -60,8 +60,8 @@ export default function Process() {
                     <h3 className="font-display text-xl font-bold text-white">{step.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-mist">{step.text}</p>
                   </div>
-                </li>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
           </ol>
         </div>

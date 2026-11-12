@@ -30,7 +30,7 @@ export default function Footer({ year }: { year: number }) {
             </h2>
             <a
               href="#contact"
-              className="group mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-bright"
+              className="group mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#2563eb] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8]"
             >
               Start a Project
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -66,16 +66,16 @@ export default function Footer({ year }: { year: number }) {
               <h3 className="text-xs font-semibold tracking-[0.2em] text-mist">CONTACT</h3>
               <a
                 href="mailto:developnearly@gmail.com"
-                className="mt-4 flex items-center gap-2 text-sm text-white/85 transition-colors hover:text-bright"
+                className="mt-4 flex min-w-0 items-center gap-2 text-sm text-white/85 transition-colors hover:text-bright"
               >
-                <Mail className="h-4 w-4 text-bright" />
-                developnearly@gmail.com
+                <Mail className="h-4 w-4 shrink-0 text-bright" />
+                <span className="min-w-0 break-all">developnearly@gmail.com</span>
               </a>
               <h3 className="mt-7 text-xs font-semibold tracking-[0.2em] text-mist">SOCIAL</h3>
               <ul className="mt-4 space-y-3">
                 {SOCIALS.map((name) => (
                   <li key={name} className="text-sm text-mist">
-                    {name} <span className="text-white/40">— coming soon</span>
+                    {name} <span className="text-white/60">— coming soon</span>
                   </li>
                 ))}
               </ul>

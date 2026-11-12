@@ -156,28 +156,28 @@ export default function Contact() {
                   <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-white">
                     Full Name <span aria-hidden="true" className="text-bright">*</span>
                   </label>
-                  <input id="contact-name" type="text" autoComplete="name" placeholder="Your name" value={form.name} onChange={set("name")} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "contact-name-error" : undefined} className={inputClass} />
+                  <input id="contact-name" name="name" type="text" autoComplete="name" placeholder="Your name" value={form.name} onChange={set("name")} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "contact-name-error" : undefined} className={inputClass} />
                   {errors.name ? <p id="contact-name-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.name}</p> : null}
                 </div>
                 <div>
                   <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-white">
                     Email Address <span aria-hidden="true" className="text-bright">*</span>
                   </label>
-                  <input id="contact-email" type="email" autoComplete="email" placeholder="you@company.com" value={form.email} onChange={set("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "contact-email-error" : undefined} className={inputClass} />
+                  <input id="contact-email" name="email" type="email" autoComplete="email" placeholder="you@company.com" value={form.email} onChange={set("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "contact-email-error" : undefined} className={inputClass} />
                   {errors.email ? <p id="contact-email-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.email}</p> : null}
                 </div>
                 <div>
                   <label htmlFor="contact-company" className="mb-2 block text-sm font-semibold text-white">
                     Company Name <span className="font-normal text-mist">(optional)</span>
                   </label>
-                  <input id="contact-company" type="text" autoComplete="organization" placeholder="Your company" value={form.company} onChange={set("company")} className={inputClass} />
+                  <input id="contact-company" name="company" type="text" autoComplete="organization" placeholder="Your company" value={form.company} onChange={set("company")} className={inputClass} />
                 </div>
                 <div>
                   <label htmlFor="contact-service" className="mb-2 block text-sm font-semibold text-white">
                     Service Required <span aria-hidden="true" className="text-bright">*</span>
                   </label>
                   <div className="relative">
-                    <select id="contact-service" value={form.service} onChange={set("service")} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "contact-service-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
+                    <select id="contact-service" name="service" value={form.service} onChange={set("service")} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "contact-service-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
                       <option value="" disabled>Select a service</option>
                       {SERVICES.map((s) => (
                         <option key={s} value={s}>{s}</option>
@@ -192,7 +192,7 @@ export default function Contact() {
                     Project Budget <span aria-hidden="true" className="text-bright">*</span>
                   </label>
                   <div className="relative">
-                    <select id="contact-budget" value={form.budget} onChange={set("budget")} aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "contact-budget-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
+                    <select id="contact-budget" name="budget" value={form.budget} onChange={set("budget")} aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "contact-budget-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
                       <option value="" disabled>Select a budget range</option>
                       {BUDGETS.map((b) => (
                         <option key={b} value={b}>{b}</option>
@@ -206,14 +206,14 @@ export default function Contact() {
                   <label htmlFor="contact-details" className="mb-2 block text-sm font-semibold text-white">
                     Project Details <span aria-hidden="true" className="text-bright">*</span>
                   </label>
-                  <textarea id="contact-details" rows={5} placeholder="Tell us about your project — goals, timeline, anything that matters." value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
+                  <textarea id="contact-details" name="details" rows={5} placeholder="Tell us about your project — goals, timeline, anything that matters." value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
                   {errors.details ? <p id="contact-details-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.details}</p> : null}
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-bright hover:shadow-[0_12px_40px_rgba(59,130,246,0.5)] sm:w-auto"
+                className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)] sm:w-auto"
               >
                 <Send className="h-5 w-5" />
                 Send Project Inquiry

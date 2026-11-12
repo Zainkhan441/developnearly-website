@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DLogo from "./DLogo";
 
 const LINKS = [
@@ -19,6 +19,15 @@ export default function Nav() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const wasOpenRef = useRef(false);
+
+  // Close the menu and return focus to the menu button. The focus move is
+  // delayed past the menu's 250ms exit animation: the clicked link stays
+  // mounted until the exit finishes, and fragment navigation on the click
+  // otherwise drops focus to <body> once the link unmounts.
+  const closeMenuAndRefocus = useCallback(() => {
+    setOpen(false);
+    window.setTimeout(() => menuButtonRef.current?.focus(), 300);
+  }, []);
 
   // Move keyboard focus into the menu when it opens, and return it to the
   // menu button when it closes.
@@ -39,12 +48,13 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") closeMenuAndRefocus();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open, closeMenuAndRefocus]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -93,7 +103,7 @@ export default function Nav() {
         <div className="relative z-10 hidden lg:block">
           <a
             href="#contact"
-            className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-bright hover:shadow-[0_8px_30px_rgba(59,130,246,0.45)]"
+            className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#2563eb] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_8px_30px_rgba(37,99,235,0.45)]"
           >
             Start a Project
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -122,7 +132,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="glass mx-4 rounded-2xl p-3 lg:hidden"
+            className="mx-4 rounded-2xl border border-white/10 bg-ink/95 p-3 shadow-2xl backdrop-blur-2xl lg:hidden"
           >
             <ul className="flex flex-col">
               {LINKS.map((link, i) => (
@@ -130,7 +140,7 @@ export default function Nav() {
                   <a
                     ref={i === 0 ? firstLinkRef : undefined}
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMenuAndRefocus}
                     className="flex min-h-12 items-center rounded-xl px-4 text-base font-medium text-white transition-colors hover:bg-white/5"
                   >
                     {link.label}
@@ -140,8 +150,8 @@ export default function Nav() {
               <li className="pt-2">
                 <a
                   href="#contact"
-                  onClick={() => setOpen(false)}
-                  className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-base font-semibold text-white"
+                  onClick={closeMenuAndRefocus}
+                  className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#2563eb] px-4 text-base font-semibold text-white"
                 >
                   Start a Project
                   <ArrowRight className="h-4 w-4" />

@@ -26,6 +26,21 @@ export default function Hero() {
   const mode = usePerformanceMode();
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
+  const [canvasReady, setCanvasReady] = useState(false);
+
+  // Defer the WebGL canvas until after first paint so the Three.js render
+  // loop (and its chunk download) doesn't compete with LCP. The static
+  // CssFallbackD stays visible until the canvas mounts. requestIdleCallback
+  // with a 600ms timeout fallback so it still mounts promptly on busy
+  // main threads where idle time is scarce.
+  useEffect(() => {
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(() => setCanvasReady(true), { timeout: 600 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = window.setTimeout(() => setCanvasReady(true), 600);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   // Mount the WebGL canvas only while the hero is in view — pauses the
   // render loop when scrolled away (no battery drain, no background rendering).
@@ -102,7 +117,7 @@ export default function Hero() {
           <motion.div variants={item} className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href="#contact"
-              className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-bright hover:shadow-[0_12px_40px_rgba(59,130,246,0.5)]"
+              className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)]"
             >
               Start a Project
               <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -128,7 +143,7 @@ export default function Hero() {
           <div aria-hidden="true" className="absolute inset-[12%] rounded-full bg-primary/25 blur-[90px]" />
           {mode === "low" ? (
             <CssFallbackD className="relative h-full w-full" />
-          ) : inView ? (
+          ) : inView && canvasReady ? (
             <div className="relative h-full w-full">
               <HeroCanvas mode={mode} />
             </div>
