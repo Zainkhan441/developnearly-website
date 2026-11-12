@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, MonitorSmartphone } from "lucide-react";
 import Reveal from "./Reveal";
 import { usePerformanceMode } from "./usePerformanceMode";
 
@@ -59,7 +59,7 @@ function FilmTimelineVisual() {
             <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
           </span>
         </div>
-        <p className="pt-2.5 font-display text-xs font-semibold tracking-wide text-white/90">DOCUMENTARY · 24:18</p>
+        <p className="pt-2.5 font-display text-xs font-semibold tracking-wide text-white/90">DOCUMENTARY</p>
       </div>
       <div className={`relative ml-auto w-2/3 rounded-2xl border border-white/10 bg-ink/90 p-3 shadow-2xl ${floatClass}`} style={{ animationDelay: "1.4s" }}>
         <div className="flex h-16 items-center justify-center rounded-xl bg-gradient-to-br from-[#7f1d1d] via-[#10131c] to-[#1e1b4b] sm:h-20">
@@ -83,7 +83,6 @@ function FilmTimelineVisual() {
           <span className="h-1 flex-1 rounded-full bg-white/15">
             <span className="block h-full w-2/3 rounded-full bg-gradient-to-r from-bright to-primary" />
           </span>
-          <span className="text-[10px] font-medium tracking-wider text-mist">00:42 / 24:18</span>
         </div>
       </div>
     </div>
@@ -130,13 +129,9 @@ function BrowserVisual() {
           </div>
         </div>
       </div>
-      <div className={`glass absolute -right-2 top-6 rounded-2xl px-4 py-3 shadow-xl sm:-right-4 ${floatClass}`}>
-        <p className="text-[10px] font-semibold tracking-widest text-mist">CONVERSION</p>
-        <p className="font-display text-xl font-bold text-white">+128%</p>
-      </div>
-      <div className={`glass absolute -left-2 bottom-8 rounded-2xl px-4 py-3 shadow-xl sm:-left-4 ${floatClass}`} style={{ animationDelay: "1.8s" }}>
-        <p className="text-[10px] font-semibold tracking-widest text-mist">LOAD TIME</p>
-        <p className="font-display text-xl font-bold text-bright">0.9s</p>
+      <div className={`glass absolute -right-2 top-6 flex items-center gap-2 rounded-2xl px-4 py-3 shadow-xl sm:-right-4 ${floatClass}`}>
+        <MonitorSmartphone className="h-4 w-4 text-bright" />
+        <span className="text-xs font-semibold tracking-wider text-white">Responsive Layout</span>
       </div>
     </div>
   );
@@ -200,7 +195,7 @@ function NodeNetworkVisual() {
       <div className="glass absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl px-4 py-3 sm:left-6 sm:right-auto sm:gap-8">
         <div>
           <p className="text-[10px] font-semibold tracking-widest text-mist">AUTOMATED TASKS</p>
-          <p className="font-display text-lg font-bold text-white">Running 24/7</p>
+          <p className="font-display text-lg font-bold text-white">Hands-free</p>
         </div>
         <span className="flex items-center gap-2 rounded-full bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-300">
           <span className="h-2 w-2 rounded-full bg-emerald-400" /> Live

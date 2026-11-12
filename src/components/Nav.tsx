@@ -40,18 +40,18 @@ export default function Nav() {
   }, [open ]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-white/10 bg-ink/95 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <div
         className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
           scrolled ? "py-3" : "py-5"
         }`}
       >
-        <div
-          className={`pointer-events-none absolute inset-0 transition-opacity duration-300 ${
-            scrolled ? "glass opacity-100" : "opacity-0"
-          }`}
-          aria-hidden="true"
-        />
         <a
           href="#home"
           className="relative z-10 rounded-lg focus-visible:outline-2"
