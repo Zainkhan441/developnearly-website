@@ -46,7 +46,7 @@ export const projects: Project[] = [
     imageAlt: "Alaska Restaurant website hero — night photo of the Clifton restaurant with gold ALASKA branding and reservation buttons",
     imageWidth: 1200,
     imageHeight: 750,
-    span: "md:col-span-4",
+    span: "md:col-span-2",
   },
   {
     slug: "knives-edc",
@@ -96,7 +96,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/a380-preview.mp4",
-    span: "md:col-span-4",
+    span: "md:col-span-2",
   },
   {
     slug: "dynamic-gym",
@@ -112,7 +112,7 @@ export const projects: Project[] = [
     imageAlt: "Dynamic Gym website hero — 'Build Strength. Break Limits.' headline over a dark gym interior with treadmills and training equipment",
     imageWidth: 1200,
     imageHeight: 750,
-    span: "md:col-span-3",
+    span: "md:col-span-2",
   },
   {
     slug: "tesla-airless-tire",
@@ -129,7 +129,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/tesla-airless-tire-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-2",
   },
   {
     slug: "zelnivo",

@@ -52,7 +52,7 @@ function RealThumb({
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
           tabIndex={-1}
           className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
@@ -187,12 +187,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-500 hover:-translate-y-1.5 hover:border-bright/50 hover:shadow-[0_24px_60px_rgba(59,130,246,0.18)]"
         aria-label={`${project.title} — ${project.category} (opens in a new tab)`}
       >
-        <div className="relative aspect-[16/10] min-h-0 flex-1 overflow-hidden">
+        <div className="relative aspect-video shrink-0 overflow-hidden">
           <div className="h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]">
             <RealThumb project={project} videoRef={videoRef} previewPlaying={previewPlaying} />
           </div>
         </div>
-        <div className="flex items-start justify-between gap-3 p-5 sm:p-6">
+        <div className="flex flex-1 items-start justify-between gap-3 p-5 sm:p-6">
           <div>
             <p className="text-[11px] font-semibold tracking-[0.16em] text-bright">{project.category.toUpperCase()}</p>
             <h3 className="mt-2 font-display text-xl font-bold text-white">{project.title}</h3>
