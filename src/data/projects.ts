@@ -26,8 +26,7 @@ export interface Project {
 
 /**
  * The ONLY projects shown on the site — real work with real links.
- * Thumbnails are real screenshots / video frames, except Dynamic Gym,
- * whose live site sits behind a Vercel login page (mockup kept).
+ * Thumbnails are real screenshots / video frames.
  */
 export const projects: Project[] = [
   {
@@ -104,6 +103,10 @@ export const projects: Project[] = [
     accent: "#ef4444",
     accentSoft: "#7f1d1d",
     mockupLabel: "DYNAMIC GYM",
+    image: "/work/dynamic-gym.webp",
+    imageAlt: "Dynamic Gym website hero — 'Build Strength. Break Limits.' headline over a dark gym interior with treadmills and training equipment",
+    imageWidth: 1200,
+    imageHeight: 750,
     span: "md:col-span-3",
   },
   {

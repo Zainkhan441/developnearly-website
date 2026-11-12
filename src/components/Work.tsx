@@ -171,8 +171,7 @@ export default function Work() {
         <Reveal className="mt-10">
           <p className="flex items-center gap-2 text-sm text-mist">
             <Globe className="h-4 w-4 text-bright" />
-            Thumbnails are real screenshots and video frames — except Dynamic Gym, whose live
-            site sits behind a login page, so its thumbnail is a visual mockup.
+            Thumbnails are real screenshots and video frames.
           </p>
         </Reveal>
       </div>
