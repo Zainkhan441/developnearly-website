@@ -26,18 +26,18 @@ export default function Marquee() {
   const animateClass = mode === "low" ? "" : mode === "mobile" ? "animate-marquee-slow" : "animate-marquee";
 
   return (
-    <div className="relative overflow-hidden border-y border-white/5 bg-panel py-5" aria-label="Our services">
+    <div className="relative overflow-hidden border-y border-white/5 bg-panel py-5" role="region" aria-label="Our services">
       <div className={`flex w-max ${animateClass}`}>
         <Row />
         <Row ariaHidden />
       </div>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-panel to-transparent"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink to-transparent"
+        className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-panel to-transparent"
       />
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Mail, MessageCircle, Send } from "lucide-react";
+import { Check, ChevronDown, Copy, Mail, MessageCircle, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import Reveal from "./Reveal";
 
@@ -40,6 +40,7 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
   const [emailAppOpened, setEmailAppOpened] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const set = (key: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -78,7 +79,25 @@ export default function Contact() {
     ];
     const mailto = `mailto:developnearly@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
     window.location.href = mailto;
+    setForm(EMPTY);
+    setErrors({});
     setEmailAppOpened(true);
+  };
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("developnearly@gmail.com");
+    } catch {
+      // Fallback for browsers without clipboard permission.
+      const ta = document.createElement("textarea");
+      ta.value = "developnearly@gmail.com";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -157,24 +176,30 @@ export default function Contact() {
                   <label htmlFor="contact-service" className="mb-2 block text-sm font-semibold text-white">
                     Service Required <span aria-hidden="true" className="text-bright">*</span>
                   </label>
-                  <select id="contact-service" value={form.service} onChange={set("service")} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "contact-service-error" : undefined} className={`${inputClass} appearance-none bg-ink`}>
-                    <option value="" disabled>Select a service</option>
-                    {SERVICES.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select id="contact-service" value={form.service} onChange={set("service")} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "contact-service-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
+                      <option value="" disabled>Select a service</option>
+                      {SERVICES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-mist" />
+                  </div>
                   {errors.service ? <p id="contact-service-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.service}</p> : null}
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="contact-budget" className="mb-2 block text-sm font-semibold text-white">
                     Project Budget <span aria-hidden="true" className="text-bright">*</span>
                   </label>
-                  <select id="contact-budget" value={form.budget} onChange={set("budget")} aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "contact-budget-error" : undefined} className={`${inputClass} appearance-none bg-ink`}>
-                    <option value="" disabled>Select a budget range</option>
-                    {BUDGETS.map((b) => (
-                      <option key={b} value={b}>{b}</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select id="contact-budget" value={form.budget} onChange={set("budget")} aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "contact-budget-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
+                      <option value="" disabled>Select a budget range</option>
+                      {BUDGETS.map((b) => (
+                        <option key={b} value={b}>{b}</option>
+                      ))}
+                    </select>
+                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-mist" />
+                  </div>
                   {errors.budget ? <p id="contact-budget-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.budget}</p> : null}
                 </div>
                 <div className="sm:col-span-2">
@@ -195,12 +220,36 @@ export default function Contact() {
               </button>
 
               {emailAppOpened ? (
-                <p role="status" className="mt-5 flex items-start gap-2.5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3.5 text-sm leading-relaxed text-emerald-200">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0" />
-                  Your email app should now open with your inquiry pre-filled — just press send
-                  in your email app to deliver it to developnearly@gmail.com. We will reply as
-                  soon as we can.
-                </p>
+                <div role="status" className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3.5 text-sm leading-relaxed text-emerald-200">
+                  <p className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0" />
+                    <span>
+                      Your email app should now open with your inquiry pre-filled — just press send
+                      in your email app to deliver it to developnearly@gmail.com. We will reply as
+                      soon as we can.
+                    </span>
+                  </p>
+                  <p className="mt-3 pl-[30px] text-emerald-100/80">
+                    If no email app opened, you can reach us directly instead:
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3 pl-[30px]">
+                    <a
+                      href="mailto:developnearly@gmail.com"
+                      className="inline-flex min-h-10 items-center gap-2 rounded-full bg-emerald-500/20 px-4 py-2 font-semibold text-emerald-100 transition-colors hover:bg-emerald-500/30"
+                    >
+                      <Mail className="h-4 w-4" />
+                      developnearly@gmail.com
+                    </a>
+                    <button
+                      type="button"
+                      onClick={copyEmail}
+                      className="inline-flex min-h-10 items-center gap-2 rounded-full border border-emerald-400/40 px-4 py-2 font-semibold text-emerald-100 transition-colors hover:bg-emerald-500/15"
+                    >
+                      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                      {copied ? "Copied" : "Copy email"}
+                    </button>
+                  </div>
+                </div>
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
                   This form opens your own email app with everything pre-filled — nothing is

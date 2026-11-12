@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowRight, Mail } from "lucide-react";
-import { useEffect, useState } from "react";
 import DLogo from "./DLogo";
 
 const NAV_LINKS = [
@@ -20,16 +19,7 @@ const SERVICE_LINKS = [
 
 const SOCIALS = ["Instagram", "LinkedIn", "YouTube", "X"];
 
-export default function Footer() {
-  // Computed client-side after mount so the year is always current
-  // without breaking static prerendering.
-  const [year, setYear] = useState<number | null>(null);
-  useEffect(() => {
-    // Deferred on purpose: Next.js prerendering forbids new Date() during
-    // render, so the year is read after mount (Next docs "defer" fix).
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setYear(new Date().getFullYear());
-  }, []);
+export default function Footer({ year }: { year: number }) {
   return (
     <footer className="border-t border-white/5 bg-panel/60">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -96,6 +86,10 @@ export default function Footer() {
         <div className="mt-14 flex flex-col gap-4 border-t border-white/5 pt-7 sm:flex-row sm:items-center sm:justify-between">
           <DLogo withWordmark />
           <p className="text-sm text-mist">© {year} DevelopNearly. All rights reserved.</p>
+          <nav aria-label="Legal" className="flex items-center gap-5 text-sm text-mist">
+            <a href="/privacy" className="transition-colors hover:text-bright">Privacy Policy</a>
+            <a href="/terms" className="transition-colors hover:text-bright">Terms of Service</a>
+          </nav>
         </div>
       </div>
     </footer>

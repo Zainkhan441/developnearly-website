@@ -1,3 +1,4 @@
+import { getCurrentYear } from "./year";
 import About from "../components/About";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
@@ -10,7 +11,8 @@ import Testimonials from "../components/Testimonials";
 import Why from "../components/Why";
 import Work from "../components/Work";
 
-export default function Home() {
+export default async function Home() {
+  const year = await getCurrentYear();
   return (
     <div className="min-h-full bg-ink font-sans text-white">
       <Nav />
@@ -25,7 +27,7 @@ export default function Home() {
         <Testimonials />
         <Contact />
       </main>
-      <Footer />
+      <Footer year={year} />
     </div>
   );
 }

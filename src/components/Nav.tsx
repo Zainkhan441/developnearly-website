@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DLogo from "./DLogo";
 
 const LINKS = [
@@ -16,6 +16,20 @@ const LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const wasOpenRef = useRef(false);
+
+  // Move keyboard focus into the menu when it opens, and return it to the
+  // menu button when it closes.
+  useEffect(() => {
+    if (open) {
+      firstLinkRef.current?.focus();
+    } else if (wasOpenRef.current) {
+      menuButtonRef.current?.focus();
+    }
+    wasOpenRef.current = open;
+  }, [open ]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -88,6 +102,7 @@ export default function Nav() {
 
         <button
           type="button"
+          ref={menuButtonRef}
           className="relative z-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-white/10 bg-panel/80 text-white lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -110,9 +125,10 @@ export default function Nav() {
             className="glass mx-4 rounded-2xl p-3 lg:hidden"
           >
             <ul className="flex flex-col">
-              {LINKS.map((link) => (
+              {LINKS.map((link, i) => (
                 <li key={link.href}>
                   <a
+                    ref={i === 0 ? firstLinkRef : undefined}
                     href={link.href}
                     onClick={() => setOpen(false)}
                     className="flex min-h-12 items-center rounded-xl px-4 text-base font-medium text-white transition-colors hover:bg-white/5"

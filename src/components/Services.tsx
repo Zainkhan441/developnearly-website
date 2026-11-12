@@ -197,8 +197,8 @@ function NodeNetworkVisual() {
           <p className="text-[10px] font-semibold tracking-widest text-mist">AUTOMATED TASKS</p>
           <p className="font-display text-lg font-bold text-white">Hands-free</p>
         </div>
-        <span className="flex items-center gap-2 rounded-full bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-300">
-          <span className="h-2 w-2 rounded-full bg-emerald-400" /> Live
+        <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/80">
+          Automation
         </span>
       </div>
     </div>
@@ -253,6 +253,7 @@ function ServiceSection({ id, label, title, description, services, cta, visual, 
 export default function Services() {
   return (
     <div id="services" className="scroll-mt-24">
+      <h2 className="sr-only">Our Services</h2>
       <section aria-label="Video editing services" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <ServiceSection
           id="video-editing"

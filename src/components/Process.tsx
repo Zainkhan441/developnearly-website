@@ -38,9 +38,14 @@ export default function Process() {
         <div ref={trackRef} className="relative mt-14 sm:mt-20">
           {/* Track line + animated scroll progress */}
           <div aria-hidden="true" className="absolute left-[19px] top-0 h-full w-px bg-white/10 lg:left-0 lg:top-[19px] lg:h-px lg:w-full">
+            {/* Mobile (vertical track): scaleY only. Desktop (horizontal track): scaleX only. */}
             <motion.div
-              className="h-full w-full origin-top bg-gradient-to-b from-bright to-primary lg:origin-left lg:bg-gradient-to-r"
-              style={{ scaleY: scrollYProgress, scaleX: scrollYProgress }}
+              className="h-full w-full origin-top bg-gradient-to-b from-bright to-primary lg:hidden"
+              style={{ scaleY: scrollYProgress }}
+            />
+            <motion.div
+              className="hidden h-full w-full origin-left bg-gradient-to-r from-bright to-primary lg:block"
+              style={{ scaleX: scrollYProgress }}
             />
           </div>
 

@@ -68,7 +68,7 @@ export default function Hero() {
           initial="hidden"
           animate="show"
           style={parallax ? { y: textY } : undefined}
-          className="lg:col-span-7"
+          className="hero-anim lg:col-span-7"
         >
           <motion.p
             variants={item}
@@ -123,7 +123,7 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           style={parallax ? { y: canvasY } : undefined}
-          className="relative aspect-square w-full max-w-[420px] justify-self-center lg:col-span-5 lg:max-w-none"
+          className="hero-anim relative aspect-square w-full max-w-[420px] justify-self-center lg:col-span-5 lg:max-w-none"
         >
           <div aria-hidden="true" className="absolute inset-[12%] rounded-full bg-primary/25 blur-[90px]" />
           {mode === "low" ? (

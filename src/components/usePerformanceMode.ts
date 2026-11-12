@@ -39,7 +39,9 @@ function detectMode(): PerformanceMode {
  *   marquee slow/static, animations minimal.
  */
 export function usePerformanceMode(): PerformanceMode {
-  const [mode, setMode] = useState<PerformanceMode>("high");
+  // Lazily detect on the client so phones never briefly mount the heavy
+  // canvas. On the server detectMode() returns "high" (no window access).
+  const [mode, setMode] = useState<PerformanceMode>(() => detectMode());
 
   useEffect(() => {
     const update = () => setMode(detectMode());
