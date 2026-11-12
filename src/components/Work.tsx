@@ -20,7 +20,7 @@ function RealThumb({ project }: { project: Project }) {
         ? "(max-width: 768px) 100vw, 50vw"
         : "(max-width: 768px) 100vw, 33vw";
   return (
-    <div className="relative aspect-[16/10] overflow-hidden bg-ink">
+    <div className="relative h-full overflow-hidden bg-ink">
       <Image
         src={project.image}
         alt={project.imageAlt}
@@ -58,7 +58,7 @@ function RealThumb({ project }: { project: Project }) {
  */
 function MockupThumb({ project }: { project: Project }) {
   return (
-    <div className="relative aspect-[16/10] overflow-hidden bg-panel p-4 sm:p-5">
+    <div className="relative h-full overflow-hidden bg-panel p-4 sm:p-5">
       <div className="relative flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-ink shadow-xl">
         <div className="flex items-center gap-1.5 border-b border-white/5 px-3 py-2">
           <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
@@ -145,11 +145,11 @@ export default function Work() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block h-full overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-500 hover:-translate-y-1.5 hover:border-bright/50 hover:shadow-[0_24px_60px_rgba(59,130,246,0.18)]"
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-500 hover:-translate-y-1.5 hover:border-bright/50 hover:shadow-[0_24px_60px_rgba(59,130,246,0.18)]"
                 aria-label={`${project.title} — ${project.category} (opens in a new tab)`}
               >
-                <div className="overflow-hidden">
-                  <div className="transition-transform duration-700 ease-out group-hover:scale-[1.04]">
+                <div className="relative aspect-[16/10] min-h-0 flex-1 overflow-hidden">
+                  <div className="h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]">
                     <RealThumb project={project} />
                   </div>
                 </div>
