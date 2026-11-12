@@ -24,6 +24,9 @@ export interface Project {
       the first 30 seconds of the video, from the start (Tesla: 13–43s, so its
       opening news clip stays out). */
   preview?: string;
+  /** Top-right badge on video cards. Defaults to "DOCUMENTARY" — set it to
+      the series name for series videos (e.g. "NFL", "BRAND AUDIT"). */
+  badge?: string;
   /** Grid span on md+ screens (editorial varied sizes). */
   span: "md:col-span-4" | "md:col-span-2" | "md:col-span-3";
 }
