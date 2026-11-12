@@ -32,9 +32,10 @@ interface FormState {
   service: string;
   budget: string;
   details: string;
+  honeypot: string;
 }
 
-const EMPTY: FormState = { name: "", email: "", company: "", service: "", budget: "", details: "" };
+const EMPTY: FormState = { name: "", email: "", company: "", service: "", budget: "", details: "", honeypot: "" };
 
 type Errors = Partial<Record<keyof FormState, string>>;
 
@@ -77,9 +78,11 @@ export default function Contact() {
 
     setStatus("sending");
     try {
-      // Real delivery: the inquiry is POSTed to our form endpoint and lands
-      // in the developnearly@gmail.com inbox. No email app needed.
-      const res = await fetch("https://formsubmit.co/ajax/developnearly@gmail.com", {
+      // Real delivery: the inquiry is POSTed to our own /api/contact route,
+      // which forwards it to our Google Apps Script backend. The email is
+      // sent from developnearly@gmail.com via Zain's own Gmail account,
+      // no third-party form service involved.
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -89,14 +92,11 @@ export default function Contact() {
           service: form.service,
           budget: form.budget,
           message: form.details.trim(),
-          _subject: `Project Inquiry | ${form.service} | ${form.name.trim()}`,
-          _template: "table",
-          _captcha: "false",
-          _honey: "",
+          honeypot: form.honeypot,
         }),
       });
-      const data = (await res.json().catch(() => null)) as { success?: string | boolean } | null;
-      if (!res.ok || !data || (data.success !== "true" && data.success !== true)) {
+      const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
+      if (!res.ok || !data || data.ok !== true) {
         throw new Error("Form delivery failed");
       }
       setSentTo(form.email.trim());
@@ -181,6 +181,19 @@ export default function Contact() {
               className="rounded-3xl border border-white/10 bg-panel p-6 sm:p-8"
               aria-label="Project quote request form"
             >
+              {/* Honeypot: invisible to humans, catches bots. */}
+              <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  autoComplete="off"
+                  tabIndex={-1}
+                  value={form.honeypot}
+                  onChange={set("honeypot")}
+                />
+              </div>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-white">
