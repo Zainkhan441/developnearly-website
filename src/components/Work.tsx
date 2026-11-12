@@ -1,13 +1,27 @@
 "use client";
 
+import { useRef, useState, type RefObject } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Film, Globe } from "lucide-react";
 import type { Project } from "../data/projects";
 import { projects } from "../data/projects";
 import Reveal from "./Reveal";
 
-/** Real thumbnail — a screenshot of the live site or a frame from the actual video. */
-function RealThumb({ project }: { project: Project }) {
+/**
+ * Real thumbnail — a screenshot of the live site or a frame from the actual video.
+ * Video cards additionally overlay a muted preview clip (project.preview) that
+ * fades in and plays while the card is hovered; the still image stays underneath
+ * as the poster/fallback.
+ */
+function RealThumb({
+  project,
+  videoRef,
+  previewPlaying,
+}: {
+  project: Project;
+  videoRef?: RefObject<HTMLVideoElement | null>;
+  previewPlaying?: boolean;
+}) {
   if (!project.image || !project.imageAlt || !project.imageWidth || !project.imageHeight) {
     return <MockupThumb project={project} />;
   }
@@ -30,9 +44,29 @@ function RealThumb({ project }: { project: Project }) {
         sizes={sizes}
         className="h-full w-full object-cover"
       />
+      {project.kind === "video" && project.preview && (
+        <video
+          ref={videoRef}
+          src={project.preview}
+          poster={project.image}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          tabIndex={-1}
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+            previewPlaying ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
       {project.kind === "video" && (
         <>
-          <span className="absolute inset-0 flex items-center justify-center">
+          <span
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+              previewPlaying ? "opacity-0" : "opacity-100"
+            }`}
+          >
             <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
               <Film className="h-6 w-6" />
             </span>
@@ -52,9 +86,8 @@ function RealThumb({ project }: { project: Project }) {
 }
 
 /**
- * CSS mockup thumbnail — only used when no real shot could be obtained.
- * Currently only Dynamic Gym: its live site sits behind a Vercel login page,
- * so no real screenshot is possible.
+ * CSS mockup thumbnail — fallback only, currently unused: every project now
+ * has a real screenshot or video frame.
  */
 function MockupThumb({ project }: { project: Project }) {
   return (
@@ -113,7 +146,82 @@ function MockupThumb({ project }: { project: Project }) {
   );
 }
 
+/** One portfolio card. Video cards play their muted preview on hover
+ * (mouse enter) and pause + reset on mouse leave. Touch devices have no
+ * hover, so nothing changes there — a tap still opens the Drive link.
+ * prefers-reduced-motion is respected: no hover playback. */
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [previewPlaying, setPreviewPlaying] = useState(false);
+
+  const handleMouseEnter = () => {
+    if (project.kind !== "video" || !project.preview) return;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const video = videoRef.current;
+    if (!video) return;
+    const playPromise = video.play();
+    if (playPromise) {
+      playPromise.then(() => setPreviewPlaying(true)).catch(() => undefined);
+    } else {
+      setPreviewPlaying(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      if (video.readyState > 0) video.currentTime = 0;
+    }
+    setPreviewPlaying(false);
+  };
+
+  return (
+    <Reveal delay={(index % 3) * 0.08} className={project.span}>
+      <a
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-500 hover:-translate-y-1.5 hover:border-bright/50 hover:shadow-[0_24px_60px_rgba(59,130,246,0.18)]"
+        aria-label={`${project.title} — ${project.category} (opens in a new tab)`}
+      >
+        <div className="relative aspect-[16/10] min-h-0 flex-1 overflow-hidden">
+          <div className="h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]">
+            <RealThumb project={project} videoRef={videoRef} previewPlaying={previewPlaying} />
+          </div>
+        </div>
+        <div className="flex items-start justify-between gap-3 p-5 sm:p-6">
+          <div>
+            <p className="text-[11px] font-semibold tracking-[0.16em] text-bright">{project.category.toUpperCase()}</p>
+            <h3 className="mt-2 font-display text-xl font-bold text-white">{project.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-mist">{project.description}</p>
+          </div>
+          <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-all duration-300 group-hover:border-primary group-hover:bg-primary">
+            <ArrowUpRight className="h-4 w-4" />
+          </span>
+        </div>
+      </a>
+    </Reveal>
+  );
+}
+
+function GroupHeading({ icon, title, count }: { icon: React.ReactNode; title: string; count: string }) {
+  return (
+    <div className="mb-6 flex items-center gap-3">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-ink text-bright">
+        {icon}
+      </span>
+      <h3 className="font-display text-2xl font-bold text-white">{title}</h3>
+      <span className="text-sm text-mist">{count}</span>
+    </div>
+  );
+}
+
 export default function Work() {
+  const videos = projects.filter((project) => project.kind === "video");
+  const websites = projects.filter((project) => project.kind === "website");
   return (
     <section id="work" aria-label="Selected work" className="scroll-mt-24 border-t border-white/5 bg-panel/40">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
@@ -138,33 +246,19 @@ export default function Work() {
           </div>
         </Reveal>
 
+        <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count="3 videos" />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
-          {projects.map((project, i) => (
-            <Reveal key={project.slug} delay={(i % 3) * 0.08} className={project.span}>
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-500 hover:-translate-y-1.5 hover:border-bright/50 hover:shadow-[0_24px_60px_rgba(59,130,246,0.18)]"
-                aria-label={`${project.title} — ${project.category} (opens in a new tab)`}
-              >
-                <div className="relative aspect-[16/10] min-h-0 flex-1 overflow-hidden">
-                  <div className="h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]">
-                    <RealThumb project={project} />
-                  </div>
-                </div>
-                <div className="flex items-start justify-between gap-3 p-5 sm:p-6">
-                  <div>
-                    <p className="text-[11px] font-semibold tracking-[0.16em] text-bright">{project.category.toUpperCase()}</p>
-                    <h3 className="mt-2 font-display text-xl font-bold text-white">{project.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-mist">{project.description}</p>
-                  </div>
-                  <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-all duration-300 group-hover:border-primary group-hover:bg-primary">
-                    <ArrowUpRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </a>
-            </Reveal>
+          {videos.map((project, i) => (
+            <ProjectCard key={project.slug} project={project} index={i} />
+          ))}
+        </div>
+
+        <div className="mt-16">
+          <GroupHeading icon={<Globe className="h-5 w-5" />} title="Web Development" count="5 websites" />
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
+          {websites.map((project, i) => (
+            <ProjectCard key={project.slug} project={project} index={i} />
           ))}
         </div>
 

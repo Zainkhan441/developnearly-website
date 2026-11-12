@@ -20,6 +20,9 @@ export interface Project {
   /** Intrinsic dimensions of the real thumbnail (prevents layout shift). */
   imageWidth?: number;
   imageHeight?: number;
+  /** Short muted preview clip (video projects only) played on card hover —
+      the first 15 seconds of the video, from the start. */
+  preview?: string;
   /** Grid span on md+ screens (editorial varied sizes). */
   span: "md:col-span-4" | "md:col-span-2" | "md:col-span-3";
 }
@@ -59,6 +62,7 @@ export const projects: Project[] = [
     imageAlt: "Frame from the Knives documentary — close-up of a D2 steel pocket knife resting on bark",
     imageWidth: 1200,
     imageHeight: 675,
+    preview: "/work/previews/knives-edc-preview.mp4",
     span: "md:col-span-2",
   },
   {
@@ -91,6 +95,7 @@ export const projects: Project[] = [
     imageAlt: "Frame from the A380 documentary — an Emirates Airbus A380 in flight against a clear blue sky",
     imageWidth: 1200,
     imageHeight: 675,
+    preview: "/work/previews/a380-preview.mp4",
     span: "md:col-span-4",
   },
   {
@@ -123,6 +128,7 @@ export const projects: Project[] = [
     imageAlt: "Frame from the Tesla Airless Tire documentary — close-up of an airless tire with flexible spokes on a red car rolling over broken road",
     imageWidth: 1200,
     imageHeight: 675,
+    preview: "/work/previews/tesla-airless-tire-preview.mp4",
     span: "md:col-span-3",
   },
   {
