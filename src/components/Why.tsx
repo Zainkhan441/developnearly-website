@@ -19,7 +19,7 @@ const PRINCIPLES = [
   {
     n: "04",
     title: "Attention to Detail",
-    text: "Small details make the difference — we sweat them, from the first frame to the final pixel.",
+    text: "Small details make the difference. We sweat them, from the first frame to the final pixel.",
   },
   {
     n: "05",
@@ -29,7 +29,7 @@ const PRINCIPLES = [
   {
     n: "06",
     title: "Results-Focused Execution",
-    text: "Beautiful work is only half the job — it has to perform for your business.",
+    text: "Beautiful work is only half the job. It has to perform for your business.",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Why() {
           Why DevelopNearly?
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-          Six principles guide everything we make — no shortcuts, no noise.
+          Six principles guide everything we make. No shortcuts, no noise.
         </p>
       </Reveal>
 

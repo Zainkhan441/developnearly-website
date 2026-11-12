@@ -6,7 +6,7 @@ const DEPARTMENTS = [
   {
     icon: Clapperboard,
     title: "Video Editing",
-    text: "Engaging video content that keeps audiences watching — from documentaries to Shorts and Reels.",
+    text: "Engaging video content that keeps audiences watching, from documentaries to Shorts and Reels.",
     href: "#video-editing",
   },
   {
@@ -18,7 +18,7 @@ const DEPARTMENTS = [
   {
     icon: Bot,
     title: "AI & Automation",
-    text: "Intelligent systems that simplify operations — chatbots, workflows, and business automation.",
+    text: "Intelligent systems that simplify operations: chatbots, workflows, and business automation.",
     href: "#ai-automation",
   },
 ];

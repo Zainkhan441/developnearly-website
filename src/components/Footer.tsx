@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import DLogo from "./DLogo";
 
 const NAV_LINKS = [
@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Our Work", href: "#work" },
   { label: "About", href: "#about" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -71,11 +72,20 @@ export default function Footer({ year }: { year: number }) {
                 <Mail className="h-4 w-4 shrink-0 text-bright" />
                 <span className="min-w-0 break-all">developnearly@gmail.com</span>
               </a>
+              <a
+                href="https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 flex min-w-0 items-center gap-2 text-sm text-white/85 transition-colors hover:text-[#25d366]"
+              >
+                <MessageCircle className="h-4 w-4 shrink-0 text-[#25d366]" />
+                <span className="min-w-0 break-all">+92 313 1134962</span>
+              </a>
               <h3 className="mt-7 text-xs font-semibold tracking-[0.2em] text-mist">SOCIAL</h3>
               <ul className="mt-4 space-y-3">
                 {SOCIALS.map((name) => (
                   <li key={name} className="text-sm text-mist">
-                    {name} <span className="text-white/60">— coming soon</span>
+                    {name} <span className="text-white/60">(coming soon)</span>
                   </li>
                 ))}
               </ul>

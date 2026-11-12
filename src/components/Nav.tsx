@@ -10,6 +10,7 @@ const LINKS = [
   { label: "Services", href: "#services" },
   { label: "Our Work", href: "#work" },
   { label: "About", href: "#about" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -79,7 +80,7 @@ export default function Nav() {
         <a
           href="#home"
           className="relative z-10 rounded-lg focus-visible:outline-2"
-          aria-label="DevelopNearly — back to home"
+          aria-label="DevelopNearly, back to home"
         >
           <DLogo withWordmark />
         </a>

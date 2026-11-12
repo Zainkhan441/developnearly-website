@@ -124,7 +124,7 @@ function BrowserVisual() {
             <div className="h-20 rounded-xl bg-gradient-to-br from-bright/30 to-transparent" />
           </div>
           <div className="flex gap-3 pt-1">
-            <span className="inline-flex h-9 items-center rounded-full bg-primary px-4 text-xs font-semibold text-white">Get Started</span>
+            <span className="inline-flex h-9 items-center rounded-full bg-[#2563eb] px-4 text-xs font-semibold text-white">Get Started</span>
             <span className="inline-flex h-9 items-center rounded-full border border-white/15 px-4 text-xs font-semibold text-white/80">Learn More</span>
           </div>
         </div>
@@ -257,7 +257,7 @@ export default function Services() {
       <section aria-label="Video editing services" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <ServiceSection
           id="video-editing"
-          label="01 — VIDEO EDITING"
+          label="01 · VIDEO EDITING"
           title="Stories That Keep People Watching."
           description="We create engaging video content designed to capture attention, communicate ideas, and keep audiences connected."
           services={VIDEO_SERVICES}
@@ -270,9 +270,9 @@ export default function Services() {
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
           <ServiceSection
             id="web-development"
-            label="02 — WEBSITE DEVELOPMENT"
+            label="02 · WEBSITE DEVELOPMENT"
             title="Digital Experiences Built to Perform."
-            description="We design and develop modern websites that combine beautiful design, powerful functionality, and seamless user experiences."
+            description="We design and develop modern websites that look great, work fast, and are easy for your customers to use."
             services={WEB_SERVICES}
             cta="Explore Web Development"
             visual={<BrowserVisual />}
@@ -285,9 +285,9 @@ export default function Services() {
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
           <ServiceSection
             id="ai-automation"
-            label="03 — AI & AUTOMATION"
+            label="03 · AI & AUTOMATION"
             title="Smarter Systems. Better Business."
-            description="We help businesses simplify operations and unlock new possibilities through intelligent AI solutions and automation."
+            description="We build AI tools and automations that take care of repetitive work, so your business runs smoother with less manual effort."
             services={AI_SERVICES}
             cta="Explore AI Solutions"
             visual={<NodeNetworkVisual />}

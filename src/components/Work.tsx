@@ -76,7 +76,7 @@ function RealThumb({
             </span>
           </span>
           <span className="absolute right-3 top-3 z-10 rounded-md bg-black/60 px-2 py-1 text-[10px] font-semibold tracking-wider text-white">
-            DOCUMENTARY
+            {project.badge ?? "DOCUMENTARY"}
           </span>
         </>
       )}
@@ -190,7 +190,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-500 hover:-translate-y-1.5 hover:border-bright/50 hover:shadow-[0_24px_60px_rgba(59,130,246,0.18)]"
-        aria-label={`${project.title} — ${project.category} (opens in a new tab)`}
+        aria-label={`${project.title}, ${project.category} (opens in a new tab)`}
       >
         <div className="relative aspect-video shrink-0 overflow-hidden">
           <div className="h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]">
@@ -245,13 +245,13 @@ export default function Work() {
               </p>
             </div>
             <p className="text-sm text-mist">
-              <span className="font-semibold text-white">5 websites</span> ·{" "}
-              <span className="font-semibold text-white">10 videos</span>
+              <span className="font-semibold text-white">{websites.length} websites</span> ·{" "}
+              <span className="font-semibold text-white">{videos.length} videos</span>
             </p>
           </div>
         </Reveal>
 
-        <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count="10 videos" />
+        <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count={`${videos.length} videos`} />
         {/* Video cards are smaller than website cards: 4 per row on desktop
             (12-col grid, span-3) so the growing video list stays dense. */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12">

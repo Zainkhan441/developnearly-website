@@ -24,12 +24,12 @@ export default function Testimonials() {
               Client testimonials will appear here as we complete more projects.
             </p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-mist sm:text-base">
-              We are building our portfolio of completed work — real feedback from real
+              We are building our portfolio of completed work. Real feedback from real
               clients will be shared here as it comes in.
             </p>
             <a
               href="#contact"
-              className="mt-8 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-bright"
+              className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#2563eb] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8]"
             >
               Become Our Next Success Story
             </a>

@@ -5,7 +5,7 @@ import { useRef } from "react";
 import Reveal from "./Reveal";
 
 const STEPS = [
-  { n: "01", title: "Discover", text: "We listen first — understanding your business, your audience, and what success looks like." },
+  { n: "01", title: "Discover", text: "We listen first, to understand your business, your audience, and what success looks like." },
   { n: "02", title: "Strategize", text: "We turn what we learned into a clear plan: scope, style, structure, and timeline." },
   { n: "03", title: "Create", text: "Design, development, and editing come together into a working first version." },
   { n: "04", title: "Refine", text: "We review, test, and polish with your feedback until every detail feels right." },
@@ -31,7 +31,7 @@ export default function Process() {
             From Idea to Impact.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-            A simple, transparent process — you always know where your project stands.
+            A simple, transparent process. You always know where your project stands.
           </p>
         </Reveal>
 
