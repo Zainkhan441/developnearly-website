@@ -7,18 +7,27 @@ export interface Project {
   category: string;
   description: string;
   url: string;
-  /** Brand accent used by the CSS/SVG mockup thumbnail. */
+  /** Brand accent used by the mockup thumbnail (and accents on real-image cards). */
   accent: string;
   accentSoft: string;
-  /** Short label rendered inside the mockup frame. */
+  /** Short label rendered inside the mockup frame (mockup-only projects). */
   mockupLabel: string;
+  /** Real thumbnail image in /public/work (screenshot or video frame).
+      Absent only when no real shot could be obtained — that project keeps its mockup. */
+  image?: string;
+  /** Descriptive alt text for the real thumbnail. */
+  imageAlt?: string;
+  /** Intrinsic dimensions of the real thumbnail (prevents layout shift). */
+  imageWidth?: number;
+  imageHeight?: number;
   /** Grid span on md+ screens (editorial varied sizes). */
   span: "md:col-span-4" | "md:col-span-2" | "md:col-span-3";
 }
 
 /**
  * The ONLY projects shown on the site — real work with real links.
- * Thumbnails are original CSS/SVG mockups, never invented clients.
+ * Thumbnails are real screenshots / video frames, except Dynamic Gym,
+ * whose live site sits behind a Vercel login page (mockup kept).
  */
 export const projects: Project[] = [
   {
@@ -31,6 +40,10 @@ export const projects: Project[] = [
     accent: "#f59e0b",
     accentSoft: "#78350f",
     mockupLabel: "ALASKA",
+    image: "/work/alaska-restaurant.webp",
+    imageAlt: "Alaska Restaurant website hero — night photo of the Clifton restaurant with gold ALASKA branding and reservation buttons",
+    imageWidth: 1200,
+    imageHeight: 750,
     span: "md:col-span-4",
   },
   {
@@ -43,6 +56,10 @@ export const projects: Project[] = [
     accent: "#60a5fa",
     accentSoft: "#1e3a5f",
     mockupLabel: "8 EDC POCKET KNIVES",
+    image: "/work/knives-edc.webp",
+    imageAlt: "Frame from the Knives documentary — close-up of a D2 steel pocket knife resting on bark",
+    imageWidth: 1200,
+    imageHeight: 675,
     span: "md:col-span-2",
   },
   {
@@ -55,6 +72,10 @@ export const projects: Project[] = [
     accent: "#94a3b8",
     accentSoft: "#334155",
     mockupLabel: "NEW FINE STEEL",
+    image: "/work/new-fine-steel.webp",
+    imageAlt: "New Fine Steel website hero — bold NEW FINE STEEL headline beside a photo of structural steel beams",
+    imageWidth: 1200,
+    imageHeight: 750,
     span: "md:col-span-2",
   },
   {
@@ -63,10 +84,14 @@ export const projects: Project[] = [
     kind: "video",
     category: "Video · Documentary",
     description: "A documentary edit on the Airbus A380 — the world's largest passenger aircraft.",
-    url: "https://drive.google.com/file/d/1MsgHXeaUHGt6MHSsvPvdui05FF_rVZ-/view",
+    url: "https://drive.google.com/file/d/14BCC8nDU9iHtROkyFtLvblETGHgBP7H3/view",
     accent: "#38bdf8",
     accentSoft: "#0c4a6e",
     mockupLabel: "AIRBUS A380",
+    image: "/work/a380.webp",
+    imageAlt: "Frame from the A380 documentary — an Emirates Airbus A380 in flight against a clear blue sky",
+    imageWidth: 1200,
+    imageHeight: 675,
     span: "md:col-span-4",
   },
   {
@@ -91,6 +116,10 @@ export const projects: Project[] = [
     accent: "#e879f9",
     accentSoft: "#701a75",
     mockupLabel: "TESLA AIRLESS TIRE",
+    image: "/work/tesla-airless-tire.webp",
+    imageAlt: "Frame from the Tesla Airless Tire documentary — close-up of an airless tire with flexible spokes on a red car rolling over broken road",
+    imageWidth: 1200,
+    imageHeight: 675,
     span: "md:col-span-3",
   },
   {
@@ -103,6 +132,10 @@ export const projects: Project[] = [
     accent: "#34d399",
     accentSoft: "#064e3b",
     mockupLabel: "ZELNIVO",
+    image: "/work/zelnivo.webp",
+    imageAlt: "Zelnivo store hero — Considered objects headline beside a glowing wooden house table lamp",
+    imageWidth: 1200,
+    imageHeight: 750,
     span: "md:col-span-3",
   },
   {
@@ -115,6 +148,10 @@ export const projects: Project[] = [
     accent: "#f472b6",
     accentSoft: "#831843",
     mockupLabel: "AYSH COLLECTION",
+    image: "/work/aysh-collection.webp",
+    imageAlt: "Aysh Collection website hero — Everyday elegance, tailored headline beside embroidered three-piece suits",
+    imageWidth: 1200,
+    imageHeight: 750,
     span: "md:col-span-3",
   },
 ];
