@@ -60,13 +60,13 @@ export default function Contact() {
 
   const validate = (): boolean => {
     const next: Errors = {};
-    if (form.name.trim().length < 2) next.name = "Please enter your full name.";
+    if (form.name.trim().length < 2) next.name = "Please enter your full name";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
-      next.email = "Please enter a valid email address.";
-    if (!form.service) next.service = "Please choose a service.";
-    if (!form.budget) next.budget = "Please choose a budget range.";
+      next.email = "Please enter a valid email address";
+    if (!form.service) next.service = "Please choose a service";
+    if (!form.budget) next.budget = "Please choose a budget range";
     if (form.details.trim().length < 10)
-      next.details = "Please tell us a little more about your project (at least 10 characters).";
+      next.details = "Please tell us a little more about your project (at least 10 characters)";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -136,11 +136,11 @@ export default function Contact() {
             <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
               Have an Idea?
               <br />
-              Let&apos;s Build Something <span className="text-gradient-blue">Meaningful.</span>
+              Let&apos;s Build Something <span className="text-gradient-blue">Meaningful</span>
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-mist sm:text-lg">
-              Tell us about your project and we will get back to you with next steps.
-              No pressure, no obligation. Just an honest conversation about your idea.
+              Tell us about your project and we will get back to you with next steps,
+              no pressure, no obligation, just an honest conversation about your idea
             </p>
 
             <div className="mt-10 space-y-4">
@@ -249,7 +249,7 @@ export default function Contact() {
                   <label htmlFor="contact-details" className="mb-2 block text-sm font-semibold text-white">
                     Project Details <span aria-hidden="true" className="text-bright">*</span>
                   </label>
-                  <textarea id="contact-details" name="details" rows={5} placeholder="Tell us about your project: goals, timeline, anything that matters." value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
+                  <textarea id="contact-details" name="details" rows={5} placeholder="Tell us about your project: goals, timeline, anything that matters" value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
                   {errors.details ? <p id="contact-details-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.details}</p> : null}
                 </div>
               </div>
@@ -268,8 +268,8 @@ export default function Contact() {
                   <p className="flex items-start gap-2.5">
                     <Check className="mt-0.5 h-5 w-5 shrink-0" />
                     <span>
-                      Message sent. It is in our inbox now. We will reply to{" "}
-                      <strong>{sentTo}</strong> as soon as we can.
+                      Message sent, it is in our inbox now and we will reply to{" "}
+                      <strong>{sentTo}</strong> as soon as we can
                     </span>
                   </p>
                   <p className="mt-3 pl-[30px] text-emerald-100/80">
@@ -298,8 +298,8 @@ export default function Contact() {
               ) : status === "error" ? (
                 <div role="alert" className="mt-5 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3.5 text-sm leading-relaxed text-amber-200">
                   <p>
-                    Something went wrong while sending. Your message was not delivered.
-                    Please reach us directly instead:
+                    Something went wrong while sending, your message was not delivered,
+                    please reach us directly instead:
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <a
@@ -322,8 +322,8 @@ export default function Contact() {
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
-                  Your message goes straight to our inbox. No email app needed.
-                  Prefer WhatsApp? Tap the number above and chat with us directly.
+                  Your message goes straight to our inbox with no email app needed
+                  Prefer WhatsApp? Tap the number above and chat with us directly
                 </p>
               )}
             </form>

@@ -6,19 +6,19 @@ const DEPARTMENTS = [
   {
     icon: Clapperboard,
     title: "Video Editing",
-    text: "Engaging video content that keeps audiences watching, from documentaries to Shorts and Reels.",
+    text: "Engaging video content that keeps audiences watching, from documentaries to Shorts and Reels",
     href: "#video-editing",
   },
   {
     icon: Globe,
     title: "Website Development",
-    text: "Modern, fast websites and web applications designed around your business and your customers.",
+    text: "Modern, fast websites and web applications designed around your business and your customers",
     href: "#web-development",
   },
   {
     icon: Bot,
     title: "AI & Automation",
-    text: "Intelligent systems that simplify operations: chatbots, workflows, and business automation.",
+    text: "Intelligent systems that simplify operations: chatbots, workflows, and business automation",
     href: "#ai-automation",
   },
 ];
@@ -33,15 +33,15 @@ export default function About() {
             ABOUT US
           </p>
           <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
-            Creative Thinking.
+            Creative Thinking
             <br />
-            <span className="text-gradient-blue">Intelligent Technology.</span>
+            <span className="text-gradient-blue">Intelligent Technology</span>
           </h2>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-            DevelopNearly is a creative digital agency focused on helping businesses turn
-            ideas into meaningful digital experiences. From compelling video content to
-            modern websites and intelligent automation, we bring creativity and technology
-            together to build solutions that matter.
+            DevelopNearly is a creative digital agency that helps businesses turn ideas
+            into meaningful digital experiences, from video content to modern websites
+            and intelligent automation, bringing creativity and technology together to
+            build solutions that matter
           </p>
           <div className="mt-8 flex items-center gap-4">
             <DLogo className="h-12 w-12" />

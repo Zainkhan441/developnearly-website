@@ -3,27 +3,27 @@ import Reveal from "./Reveal";
 const FAQS = [
   {
     q: "What services does DevelopNearly offer?",
-    a: "Three core services: professional video editing, complete website development, and AI & automation. Every project is handled in-house, from the first idea to launch.",
+    a: "Three core services: professional video editing, complete website development, and AI & automation, every project handled in-house, from the first idea to launch",
   },
   {
     q: "How much does a website cost?",
-    a: "Every project is priced on its scope: pages, features, and timeline. Tell us about your project through the form or WhatsApp and we will give you a clear, fixed price before any work starts. No hidden charges.",
+    a: "Every project is priced on its scope: pages, features, and timeline, so tell us about your project through the form or WhatsApp and we will give you a clear, fixed price before any work starts, no hidden charges",
   },
   {
     q: "How long does a project take?",
-    a: "Most small business websites take around 1–2 weeks once we have your content. Video editing depends on the length and style of the video. We always confirm the timeline with you before starting.",
+    a: "Most small business websites take around 1–2 weeks once we have your content, video editing depends on the length and style of the video, and we always confirm the timeline with you before starting",
   },
   {
     q: "Do you work with clients outside Pakistan?",
-    a: "Yes. We work with clients worldwide, fully remote, and communicate in English. You can reach us by email or WhatsApp from anywhere.",
+    a: "Yes, we work with clients worldwide, fully remote, and communicate in English, you can reach us by email or WhatsApp from anywhere",
   },
   {
     q: "What do you need from me to start?",
-    a: "Your goals, any content you already have (logo, photos, text), and examples of websites or videos you like. If you do not have everything yet, we will help you figure it out.",
+    a: "Your goals, any content you already have (logo, photos, text), and examples of websites or videos you like, and if you do not have everything yet, we will help you figure it out",
   },
   {
     q: "How do we begin?",
-    a: "Fill in the contact form below or message us on WhatsApp. We will reply with the next steps and a price. No pressure, no obligation.",
+    a: "Fill in the contact form below or message us on WhatsApp and we will reply with the next steps and a price, no pressure, no obligation",
   },
 ] as const;
 
@@ -37,10 +37,10 @@ export default function Faq() {
             FAQ
           </p>
           <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Questions? <span className="text-gradient-blue">Answered.</span>
+            Questions? <span className="text-gradient-blue">Answered</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-            Everything clients usually ask before starting a project. Anything else, just ask us directly.
+            Everything clients usually ask before starting a project, and anything else, just ask us directly
           </p>
         </Reveal>
 

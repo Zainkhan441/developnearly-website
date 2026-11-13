@@ -11,7 +11,7 @@ export default function Testimonials() {
             TESTIMONIALS
           </p>
           <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            What Clients Say.
+            What Clients Say
           </h2>
         </Reveal>
 
@@ -21,11 +21,11 @@ export default function Testimonials() {
               <MessageSquareQuote className="h-8 w-8" />
             </span>
             <p className="mt-6 max-w-md font-display text-xl font-semibold leading-relaxed text-white sm:text-2xl">
-              Client testimonials will appear here as we complete more projects.
+              Client testimonials will appear here as we complete more projects
             </p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-mist sm:text-base">
-              We are building our portfolio of completed work. Real feedback from real
-              clients will be shared here as it comes in.
+              We are building our portfolio of completed work and real feedback from real
+              clients will be shared here as it comes in
             </p>
             <a
               href="#contact"

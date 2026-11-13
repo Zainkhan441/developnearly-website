@@ -42,7 +42,7 @@ export default function Hero() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  // Mount the WebGL canvas only while the hero is in view — pauses the
+  // Mount the WebGL canvas only while the hero is in view - pauses the
   // render loop when scrolled away (no battery drain, no background rendering).
   useEffect(() => {
     const el = sectionRef.current;
@@ -99,19 +99,19 @@ export default function Hero() {
           >
             WE TURN IDEAS
             <br />
-            INTO <span className="text-gradient-blue">REALITY.</span>
+            INTO <span className="text-gradient-blue">REALITY</span>
           </motion.h1>
 
           <motion.p
             variants={item}
             className="mt-6 font-display text-xl font-semibold text-white/90 sm:text-2xl"
           >
-            Digital Experiences Built to Perform.
+            Digital Experiences Built to Perform
           </motion.p>
 
           <motion.p variants={item} className="mt-4 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-            We combine creative storytelling, modern web development, and intelligent AI
-            solutions to help ambitious businesses build, innovate, and grow.
+            We combine creative storytelling, modern web development, and smart AI tools
+            to help ambitious businesses build, grow, and reach more customers
           </motion.p>
 
           <motion.div variants={item} className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -132,7 +132,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* 3D D — real geometry; CSS fallback in low mode or on WebGL failure */}
+        {/* 3D D - real geometry; CSS fallback in low mode or on WebGL failure */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}

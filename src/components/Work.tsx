@@ -8,7 +8,7 @@ import { projects } from "../data/projects";
 import Reveal from "./Reveal";
 
 /**
- * Real thumbnail — a screenshot of the live site or a frame from the actual video.
+ * Real thumbnail - a screenshot of the live site or a frame from the actual video.
  * Video cards additionally overlay a muted preview clip (project.preview) that
  * fades in and plays while the card is hovered; the still image stays underneath
  * as the poster/fallback.
@@ -27,7 +27,7 @@ function RealThumb({
   }
   // sizes must match the card's rendered width. Video cards live in a
   // 12-column grid at col-span-3 (~25vw on desktop); website cards live in
-  // a 6-column grid — wide (col-span-4) ~66vw, mid (col-span-3) ~50vw,
+  // a 6-column grid - wide (col-span-4) ~66vw, mid (col-span-3) ~50vw,
   // narrow (col-span-2) ~33vw.
   const sizes =
     project.kind === "video"
@@ -90,7 +90,7 @@ function RealThumb({
 }
 
 /**
- * CSS mockup thumbnail — fallback only, currently unused: every project now
+ * CSS mockup thumbnail - fallback only, currently unused: every project now
  * has a real screenshot or video frame.
  */
 function MockupThumb({ project }: { project: Project }) {
@@ -152,7 +152,7 @@ function MockupThumb({ project }: { project: Project }) {
 
 /** One portfolio card. Video cards play their muted preview on hover
  * (mouse enter) and pause + reset on mouse leave. Touch devices have no
- * hover, so nothing changes there — a tap still opens the Drive link.
+ * hover, so nothing changes there - a tap still opens the Drive link.
  * prefers-reduced-motion is respected: no hover playback. */
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -238,10 +238,10 @@ export default function Work() {
                 OUR WORK
               </p>
               <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                Selected Work.
+                Selected Work
               </h2>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-                A selection of projects demonstrating our creative and technical capabilities.
+                A look at the work we have actually shipped
               </p>
             </div>
             <p className="text-sm text-mist">
@@ -272,7 +272,7 @@ export default function Work() {
         <Reveal className="mt-10">
           <p className="flex items-center gap-2 text-sm text-mist">
             <Globe className="h-4 w-4 text-bright" />
-            Thumbnails are real screenshots and video frames.
+            Thumbnails are real screenshots and video frames
           </p>
         </Reveal>
       </div>

@@ -19,7 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "DevelopNearly | Creative Digital Agency",
   description:
-    "DevelopNearly helps businesses grow through premium video editing, modern website development, and intelligent AI automation solutions.",
+    "DevelopNearly helps businesses grow through premium video editing, modern website development, and smart AI automation tools",
   metadataBase: new URL("https://developnearly-website.vercel.app"),
   alternates: {
     canonical: "/",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DevelopNearly | Creative Digital Agency",
     description:
-      "DevelopNearly helps businesses grow through premium video editing, modern website development, and intelligent AI automation solutions.",
+      "DevelopNearly helps businesses grow through premium video editing, modern website development, and smart AI automation tools",
     type: "website",
     siteName: "DevelopNearly",
     images: [
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "DevelopNearly. We turn ideas into reality.",
+        alt: "DevelopNearly, we turn ideas into reality",
       },
     ],
   },
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DevelopNearly | Creative Digital Agency",
     description:
-      "DevelopNearly helps businesses grow through premium video editing, modern website development, and intelligent AI automation solutions.",
+      "DevelopNearly helps businesses grow through premium video editing, modern website development, and smart AI automation tools",
     images: ["/og.png"],
   },
   icons: {
@@ -58,7 +58,7 @@ const organizationJsonLd = {
   url: "https://developnearly-website.vercel.app",
   email: "developnearly@gmail.com",
   description:
-    "DevelopNearly helps businesses grow through premium video editing, modern website development, and intelligent AI automation solutions.",
+    "DevelopNearly helps businesses grow through premium video editing, modern website development, and smart AI automation tools",
 };
 
 export default function RootLayout({

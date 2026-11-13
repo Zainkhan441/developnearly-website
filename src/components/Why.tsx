@@ -4,32 +4,32 @@ const PRINCIPLES = [
   {
     n: "01",
     title: "Creative Excellence",
-    text: "Every project is crafted with original thinking and a high standard of design.",
+    text: "Every project is crafted with original thinking and a high standard of design",
   },
   {
     n: "02",
     title: "Strategic Thinking",
-    text: "We start from your goals, so every creative decision serves a real purpose.",
+    text: "We start from your goals, so every creative decision serves a real purpose",
   },
   {
     n: "03",
     title: "Modern Technology",
-    text: "We build with current tools and frameworks that keep your project fast and future-ready.",
+    text: "We build with current tools and frameworks that keep your project fast and easy to update",
   },
   {
     n: "04",
     title: "Attention to Detail",
-    text: "Small details make the difference. We sweat them, from the first frame to the final pixel.",
+    text: "Small details make the difference and we sweat them, from the first frame to the final pixel",
   },
   {
     n: "05",
     title: "Reliable Collaboration",
-    text: "Clear communication and honest timelines, from first call to final delivery.",
+    text: "Clear communication and honest timelines, from first call to final delivery",
   },
   {
     n: "06",
     title: "Results-Focused Execution",
-    text: "Beautiful work is only half the job. It has to perform for your business.",
+    text: "Beautiful work is only half the job, it has to perform for your business",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Why() {
           Why DevelopNearly?
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-          Six principles guide everything we make. No shortcuts, no noise.
+          Six principles guide everything we make, no shortcuts, no noise
         </p>
       </Reveal>
 

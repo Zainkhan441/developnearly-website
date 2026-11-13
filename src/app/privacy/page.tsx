@@ -6,7 +6,7 @@ import { getCurrentYear } from "../year";
 export const metadata = {
   title: "Privacy Policy | DevelopNearly",
   description:
-    "How DevelopNearly handles the information you share when you contact us.",
+    "How DevelopNearly handles the information you share when you contact us",
 };
 
 export default async function PrivacyPage() {
@@ -27,21 +27,19 @@ export default async function PrivacyPage() {
             <p className="mt-3">
               When you use the contact form on this website, you share your name, email
               address, company name (optional), the service you are interested in, your
-              budget range, and the project details you write.
+              budget range, and the project details you write
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-2xl font-bold text-white">How it is sent</h2>
             <p className="mt-3">
-              The form does not send anything automatically and there is no server or
-              database behind it. Submitting the form opens your own email app with your
-              inquiry pre-filled, and the message is only delivered when you press send
-              in your email app. Your details go directly to our email inbox at{" "}
+              Submitting the form sends your inquiry straight to our email inbox at{" "}
               <a href="mailto:developnearly@gmail.com" className="font-medium text-bright hover:underline">
                 developnearly@gmail.com
               </a>
-              .
+              , we do not use a third-party form service, and your details are only
+              used to reply to your inquiry
             </p>
           </section>
 
@@ -49,15 +47,15 @@ export default async function PrivacyPage() {
             <h2 className="font-display text-2xl font-bold text-white">How we use it</h2>
             <p className="mt-3">
               We use the information you send only to reply to your inquiry and to discuss
-              your project. We do not sell, rent, or share your information with third
-              parties, and we do not use it for advertising.
+              your project, we do not sell, rent, or share your information with third
+              parties, and we do not use it for advertising
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-2xl font-bold text-white">Cookies and tracking</h2>
             <p className="mt-3">
-              This website sets no cookies and runs no analytics or tracking scripts.
+              This website sets no cookies and runs no analytics or tracking scripts
             </p>
           </section>
 
@@ -69,7 +67,6 @@ export default async function PrivacyPage() {
               <a href="mailto:developnearly@gmail.com" className="font-medium text-bright hover:underline">
                 developnearly@gmail.com
               </a>
-              .
             </p>
           </section>
         </div>

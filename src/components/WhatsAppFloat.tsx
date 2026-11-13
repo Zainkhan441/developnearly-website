@@ -3,7 +3,7 @@ import { MessageCircle } from "lucide-react";
 const WHATSAPP_URL =
   "https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project.";
 
-/** Floating WhatsApp button — always visible, opens a chat with DevelopNearly. */
+/** Floating WhatsApp button - always visible, opens a chat with DevelopNearly. */
 export default function WhatsAppFloat() {
   return (
     <a

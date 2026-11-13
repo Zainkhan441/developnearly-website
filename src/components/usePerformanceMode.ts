@@ -33,9 +33,9 @@ function detectMode(): PerformanceMode {
 
 /**
  * Adaptive performance hook.
- * - "high": desktop — full 3D + animations.
+ * - "high": desktop - full 3D + animations.
  * - "mobile": lightweight 3D, simplified effects, no mouse effects.
- * - "low": reduced motion or very weak device — no WebGL, reveals off,
+ * - "low": reduced motion or very weak device - no WebGL, reveals off,
  *   marquee slow/static, animations minimal.
  */
 export function usePerformanceMode(): PerformanceMode {

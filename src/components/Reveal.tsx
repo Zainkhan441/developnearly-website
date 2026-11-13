@@ -13,7 +13,7 @@ interface RevealProps {
 
 /**
  * Scroll-reveal wrapper. In "low" performance mode reveals are OFF and
- * content is visible by default — usability is never sacrificed for motion.
+ * content is visible by default - usability is never sacrificed for motion.
  */
 export default function Reveal({ children, className, delay = 0, y = 28 }: RevealProps) {
   const mode = usePerformanceMode();

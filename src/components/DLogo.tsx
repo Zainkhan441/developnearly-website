@@ -8,7 +8,7 @@ interface DLogoProps {
 /** Original geometric "D" mark + DevelopNearly wordmark (inline SVG, never an image). */
 export default function DLogo({ className = "h-9 w-9", withWordmark = false }: DLogoProps) {
   // Unique gradient id per logo instance. useId() returns strings like
-  // "«r0»" — strip every non-alphanumeric so the id is safe inside url(#...).
+  // "«r0»" - strip every non-alphanumeric so the id is safe inside url(#...).
   const gradientId = `dlogo-grad-${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   return (
     <span className="inline-flex items-center gap-2.5">

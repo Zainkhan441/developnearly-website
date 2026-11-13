@@ -13,18 +13,18 @@ export interface Project {
   /** Short label rendered inside the mockup frame (mockup-only projects). */
   mockupLabel: string;
   /** Real thumbnail image in /public/work (screenshot or video frame).
-      Absent only when no real shot could be obtained — that project keeps its mockup. */
+      Absent only when no real shot could be obtained - that project keeps its mockup. */
   image?: string;
   /** Descriptive alt text for the real thumbnail. */
   imageAlt?: string;
   /** Intrinsic dimensions of the real thumbnail (prevents layout shift). */
   imageWidth?: number;
   imageHeight?: number;
-  /** Short muted preview clip (video projects only) played on card hover —
+  /** Short muted preview clip (video projects only) played on card hover -
       the first 30 seconds of the video, from the start (Tesla: 13–43s, so its
       opening news clip stays out). */
   preview?: string;
-  /** Top-right badge on video cards. Defaults to "DOCUMENTARY" — set it to
+  /** Top-right badge on video cards. Defaults to "DOCUMENTARY" - set it to
       the series name for series videos (e.g. "NFL", "BRAND AUDIT"). */
   badge?: string;
   /** Grid span on md+ screens (editorial varied sizes). */
@@ -32,7 +32,7 @@ export interface Project {
 }
 
 /**
- * The ONLY projects shown on the site — real work with real links.
+ * The ONLY projects shown on the site - real work with real links.
  * Thumbnails are real screenshots / video frames.
  */
 export const projects: Project[] = [
@@ -41,7 +41,7 @@ export const projects: Project[] = [
     title: "Alaska Restaurant",
     kind: "website",
     category: "Website · Restaurant",
-    description: "A warm, modern restaurant website with menus, atmosphere and reservations in focus.",
+    description: "A warm, modern restaurant website with menus, atmosphere and reservations in focus",
     url: "https://alaska-restaurant.vercel.app",
     accent: "#f59e0b",
     accentSoft: "#78350f",
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     title: "Knives: 8 EDC Pocket Knives",
     kind: "video",
     category: "Video · Documentary",
-    description: "A cinematic documentary edit on eight everyday-carry pocket knives.",
+    description: "A cinematic documentary edit on eight everyday-carry pocket knives",
     url: "https://drive.google.com/file/d/1pEIetHR6nhlwy4LKJncj3wFOZ0t04Zhh/view",
     accent: "#60a5fa",
     accentSoft: "#1e3a5f",
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     title: "New Fine Steel",
     kind: "website",
     category: "Website · Steel & Industry",
-    description: "A clean industrial website presenting steel products and company capability.",
+    description: "A clean industrial website presenting steel products and company capability",
     url: "https://new-fine-steel.vercel.app",
     accent: "#94a3b8",
     accentSoft: "#334155",
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     title: "A380",
     kind: "video",
     category: "Video · Documentary",
-    description: "A documentary edit on the Airbus A380, the world's largest passenger aircraft.",
+    description: "A documentary edit on the Airbus A380, the world's largest passenger aircraft",
     url: "https://drive.google.com/file/d/14BCC8nDU9iHtROkyFtLvblETGHgBP7H3/view",
     accent: "#38bdf8",
     accentSoft: "#0c4a6e",
@@ -107,7 +107,7 @@ export const projects: Project[] = [
     title: "Dynamic Gym",
     kind: "website",
     category: "Website · Fitness",
-    description: "A bold, energetic gym website with programs, trainers and memberships.",
+    description: "A bold, energetic gym website with programs, trainers and memberships",
     url: "https://dynamic-gym-regulasprojects.vercel.app",
     accent: "#ef4444",
     accentSoft: "#7f1d1d",
@@ -123,7 +123,7 @@ export const projects: Project[] = [
     title: "Tesla Airless Tire",
     kind: "video",
     category: "Video · Documentary",
-    description: "A documentary edit exploring Tesla's airless tire technology.",
+    description: "A documentary edit exploring Tesla's airless tire technology",
     url: "https://drive.google.com/file/d/1aTG6ovNfDMnalS0Wd7JvTlx3GdpRsg8T/view",
     accent: "#e879f9",
     accentSoft: "#701a75",
@@ -140,7 +140,7 @@ export const projects: Project[] = [
     title: "Zelnivo",
     kind: "website",
     category: "Website · E-commerce",
-    description: "A modern e-commerce storefront built for browsing and buying with ease.",
+    description: "A modern e-commerce storefront for browsing and buying",
     url: "https://www.zelnivo.store",
     accent: "#34d399",
     accentSoft: "#064e3b",
@@ -156,7 +156,7 @@ export const projects: Project[] = [
     title: "Aysh Collection",
     kind: "website",
     category: "Website · E-commerce",
-    description: "An elegant online collection storefront with a refined shopping experience.",
+    description: "An elegant online collection storefront with a refined shopping experience",
     url: "https://aysh-collection.vercel.app",
     accent: "#f472b6",
     accentSoft: "#831843",
@@ -172,7 +172,7 @@ export const projects: Project[] = [
     title: "Avoid These 15 Suspicious Supplements (And 5 That Are ACTUALLY Safe)",
     kind: "video",
     category: "In Plain Bite",
-    description: "An In Plain Bite video on fifteen suspicious supplements to avoid, and five that are actually safe.",
+    description: "An In Plain Bite video on fifteen suspicious supplements to avoid, and five that are actually safe",
     url: "https://drive.google.com/file/d/1LXSWDrRLPA8Re5492qVs5RP3tmPorPbv/view",
     accent: "#ef4444",
     accentSoft: "#7f1d1d",
@@ -190,7 +190,7 @@ export const projects: Project[] = [
     title: "5 Winter Jacket Brands ROBBING You BLIND: And 3 Worth Every Penny",
     kind: "video",
     category: "Brand Audit",
-    description: "A Brand Audit video on five winter jacket brands robbing buyers blind, and three worth every penny.",
+    description: "A Brand Audit video on five winter jacket brands robbing buyers blind, and three worth every penny",
     url: "https://drive.google.com/file/d/1BopAMsuRA5DtbtCb4BqO79c0ewcJW_Wb/view",
     accent: "#38bdf8",
     accentSoft: "#0c4a6e",
@@ -208,7 +208,7 @@ export const projects: Project[] = [
     title: "20 Most SAVAGE plays in NFL History!",
     kind: "video",
     category: "NFL",
-    description: "An NFL video on the twenty most savage plays in NFL history.",
+    description: "An NFL video on the twenty most savage plays in NFL history",
     url: "https://drive.google.com/file/d/1ctwSL9nzBQpMF15cuiu0bPg03EP37cLR/view",
     accent: "#34d399",
     accentSoft: "#064e3b",
@@ -226,7 +226,7 @@ export const projects: Project[] = [
     title: "WHY LAMINE YAMAL WALKS 45% OF THE MATCH",
     kind: "video",
     category: "Football Spree",
-    description: "A Football Spree video on why Lamine Yamal walks 45% of the match.",
+    description: "A Football Spree video on why Lamine Yamal walks 45% of the match",
     url: "https://drive.google.com/file/d/1uya5I47Mohn29_e0Pums98drjc-Nvsyn/view",
     accent: "#e879f9",
     accentSoft: "#701a75",
@@ -244,7 +244,7 @@ export const projects: Project[] = [
     title: "7 illegale Gewohnheiten, die du als Autofahrer in Deutschland der 1970er Jahre hattest",
     kind: "video",
     category: "German Food",
-    description: "A German Food video on seven illegal habits of 1970s German drivers.",
+    description: "A German Food video on seven illegal habits of 1970s German drivers",
     url: "https://drive.google.com/file/d/1DbAHxX4YsFXowZoLOeohqcQPDRhQe3qc/view",
     accent: "#fbbf24",
     accentSoft: "#78350f",

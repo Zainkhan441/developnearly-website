@@ -1,4 +1,4 @@
-/** CSS fallback "D" — layered gradient glass mark, shown if WebGL fails or in low mode.
+/** CSS fallback "D" - layered gradient glass mark, shown if WebGL fails or in low mode.
  * Kept in its own module so importing it never pulls Three.js into the first-load bundle. */
 export function CssFallbackD({ className = "" }: { className?: string }) {
   return (

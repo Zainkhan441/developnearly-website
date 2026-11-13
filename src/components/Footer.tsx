@@ -29,7 +29,7 @@ export default function Footer({ year }: { year: number }) {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-md">
             <h2 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">
-              Have an idea? Let&apos;s build something <span className="text-gradient-blue">meaningful.</span>
+              Have an idea? Let&apos;s build something <span className="text-gradient-blue">meaningful</span>
             </h2>
             <a
               href="#contact"
@@ -104,7 +104,7 @@ export default function Footer({ year }: { year: number }) {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-white/5 pt-7 sm:flex-row sm:items-center sm:justify-between">
           <DLogo withWordmark />
-          <p className="text-sm text-mist">© {year} DevelopNearly. All rights reserved.</p>
+          <p className="text-sm text-mist">© {year} DevelopNearly, all rights reserved</p>
           <nav aria-label="Legal" className="flex items-center gap-5 text-sm text-mist">
             <a href="/privacy" className="transition-colors hover:text-bright">Privacy Policy</a>
             <a href="/terms" className="transition-colors hover:text-bright">Terms of Service</a>

@@ -5,7 +5,7 @@ import { getCurrentYear } from "../year";
 
 export const metadata = {
   title: "Terms of Service | DevelopNearly",
-  description: "The terms under which DevelopNearly provides its services.",
+  description: "The terms under which DevelopNearly provides its services",
 };
 
 export default async function TermsPage() {
@@ -25,9 +25,9 @@ export default async function TermsPage() {
             <h2 className="font-display text-2xl font-bold text-white">Services</h2>
             <p className="mt-3">
               DevelopNearly provides video editing, website development, and AI and
-              automation services. The exact scope, deliverables, timeline, and price of
+              automation services, the exact scope, deliverables, timeline, and price of
               each project are agreed with the client in writing (by email) before work
-              begins.
+              begins
             </p>
           </section>
 
@@ -35,8 +35,8 @@ export default async function TermsPage() {
             <h2 className="font-display text-2xl font-bold text-white">Quotes and payment</h2>
             <p className="mt-3">
               Any price given before a project is agreed is an estimate based on the
-              information available at the time. Payment terms are agreed per project
-              before work begins.
+              information available at the time, payment terms are agreed per project
+              before work begins
             </p>
           </section>
 
@@ -45,7 +45,7 @@ export default async function TermsPage() {
             <p className="mt-3">
               Clients are responsible for providing the content and materials needed for
               their project (such as text, images, footage, and brand assets) and for
-              confirming they have the right to use them.
+              confirming they have the right to use them
             </p>
           </section>
 
@@ -53,16 +53,16 @@ export default async function TermsPage() {
             <h2 className="font-display text-2xl font-bold text-white">No guarantees</h2>
             <p className="mt-3">
               We do not guarantee specific results, such as search engine rankings,
-              website traffic, sales, or revenue. We aim to deliver quality work, but
-              outcomes depend on many factors outside our control.
+              website traffic, sales, or revenue, we aim to deliver quality work, but
+              outcomes depend on many factors outside our control
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-2xl font-bold text-white">Changes to these terms</h2>
             <p className="mt-3">
-              We may update these terms from time to time. The version published on this
-              page is the current one.
+              We may update these terms from time to time, the version published on this
+              page is the current one
             </p>
           </section>
 
@@ -73,7 +73,6 @@ export default async function TermsPage() {
               <a href="mailto:developnearly@gmail.com" className="font-medium text-bright hover:underline">
                 developnearly@gmail.com
               </a>
-              .
             </p>
           </section>
         </div>

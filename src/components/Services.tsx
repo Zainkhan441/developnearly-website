@@ -258,8 +258,8 @@ export default function Services() {
         <ServiceSection
           id="video-editing"
           label="01 · VIDEO EDITING"
-          title="Stories That Keep People Watching."
-          description="We create engaging video content designed to capture attention, communicate ideas, and keep audiences connected."
+          title="Stories That Keep People Watching"
+          description="We create engaging video content designed to capture attention, communicate ideas, and keep audiences connected"
           services={VIDEO_SERVICES}
           cta="Explore Video Services"
           visual={<FilmTimelineVisual />}
@@ -271,8 +271,8 @@ export default function Services() {
           <ServiceSection
             id="web-development"
             label="02 · WEBSITE DEVELOPMENT"
-            title="Digital Experiences Built to Perform."
-            description="We design and develop modern websites that look great, work fast, and are easy for your customers to use."
+            title="Digital Experiences Built to Perform"
+            description="We design and develop modern websites that look great, work fast, and are easy for your customers to use"
             services={WEB_SERVICES}
             cta="Explore Web Development"
             visual={<BrowserVisual />}
@@ -286,8 +286,8 @@ export default function Services() {
           <ServiceSection
             id="ai-automation"
             label="03 · AI & AUTOMATION"
-            title="Smarter Systems. Better Business."
-            description="We build AI tools and automations that take care of repetitive work, so your business runs smoother with less manual effort."
+            title="Smarter Systems, Better Business"
+            description="We build AI tools and automations that take care of repetitive work, so your business runs smoother with less manual effort"
             services={AI_SERVICES}
             cta="Explore AI Solutions"
             visual={<NodeNetworkVisual />}
