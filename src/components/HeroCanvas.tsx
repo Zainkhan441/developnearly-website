@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { CssFallbackD } from "./CssFallbackD";
@@ -31,8 +31,8 @@ function useDShapeGeometry(high: boolean) {
       bevelEnabled: true,
       bevelThickness: 0.06,
       bevelSize: 0.05,
-      bevelSegments: high ? 3 : 1,
-      curveSegments: high ? 48 : 20,
+      bevelSegments: high ? 2 : 1,
+      curveSegments: high ? 32 : 20,
     });
     geometry.center();
     return geometry;
@@ -43,6 +43,37 @@ function DMark({ mode, interactive }: { mode: PerformanceMode; interactive: bool
   const group = useRef<THREE.Group>(null);
   const pointer = useRef({ x: 0, y: 0 });
   const geometry = useDShapeGeometry(mode === "high");
+  const invalidate = useThree((state) => state.invalidate);
+
+  // The canvas runs on demand (frameloop="demand" on the Canvas below), so
+  // the render loop only fires when we ask for a frame. Cap it at 30fps:
+  // the slow D rotation looks identical at 30fps and each frame is the
+  // expensive part, so this roughly halves the hero's main-thread cost.
+  // The loop also stops entirely while the tab is hidden.
+  useEffect(() => {
+    let timer: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (timer !== null) return;
+      invalidate();
+      timer = setInterval(() => invalidate(), 1000 / 30);
+    };
+    const stop = () => {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+    const onVisibility = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+    start();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [invalidate]);
 
   useEffect(() => {
     if (!interactive) return;
@@ -74,26 +105,17 @@ function DMark({ mode, interactive }: { mode: PerformanceMode; interactive: bool
 
   return (
     <group ref={group}>
-      <mesh geometry={geometry} castShadow={high} receiveShadow={high}>
-        {high ? (
-          <meshPhysicalMaterial
-            color="#3b82f6"
-            metalness={0.15}
-            roughness={0.12}
-            transmission={0.85}
-            thickness={1.4}
-            ior={1.45}
-            clearcoat={1}
-            clearcoatRoughness={0.1}
-            envMapIntensity={1.2}
-          />
-        ) : (
-          <meshStandardMaterial color="#3b82f6" metalness={0.65} roughness={0.25} />
-        )}
+      {/* Standard material, no transmission: the physical material's
+          transmission pass re-rendered the scene every frame and was the
+          single biggest main-thread cost on desktop. The glossy blue look
+          is kept with metalness/roughness instead. No shadows either:
+          the spotlight shadow map was a second full render pass. */}
+      <mesh geometry={geometry}>
+        <meshStandardMaterial color="#3b82f6" metalness={0.6} roughness={0.22} />
       </mesh>
       {/* Thin torus ring around the D for depth. */}
       <mesh rotation={[Math.PI / 2.4, 0.25, 0]} position={[0, 0, -0.15]}>
-        <torusGeometry args={[2.35, 0.028, 12, high ? 96 : 48]} />
+        <torusGeometry args={[2.35, 0.028, 12, high ? 64 : 48]} />
         <meshStandardMaterial color="#60a5fa" metalness={0.7} roughness={0.3} emissive="#1d4ed8" emissiveIntensity={0.5} />
       </mesh>
     </group>
@@ -113,7 +135,6 @@ function Scene({ mode }: { mode: PerformanceMode }) {
         penumbra={1}
         intensity={high ? 120 : 60}
         color="#93c5fd"
-        castShadow={high}
       />
       <DMark mode={mode} interactive={high} />
     </>
@@ -133,9 +154,9 @@ export default function HeroCanvas({ mode }: HeroCanvasProps) {
 
   return (
     <Canvas
-      dpr={high ? [1, 1.75] : [1, 1.25]}
+      dpr={high ? [1, 1.5] : [1, 1.25]}
       camera={{ position: [0, 0, 7.2], fov: 42 }}
-      shadows={high}
+      frameloop="demand"
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         if (!gl.getContext()) setFailed(true);

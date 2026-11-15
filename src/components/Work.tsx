@@ -26,12 +26,13 @@ function RealThumb({
     return <MockupThumb project={project} />;
   }
   // sizes must match the card's rendered width. Video cards live in a
-  // 12-column grid at col-span-3 (~25vw on desktop); website cards live in
-  // a 6-column grid - wide (col-span-4) ~66vw, mid (col-span-3) ~50vw,
+  // 12-column grid: 2 across on tablets (col-span-6, ~50vw) and 4 across
+  // on desktop (col-span-3, ~25vw); website cards live in a 6-column
+  // grid - wide (col-span-4) ~66vw, mid (col-span-3) ~50vw,
   // narrow (col-span-2) ~33vw.
   const sizes =
     project.kind === "video"
-      ? "(max-width: 768px) 100vw, 25vw"
+      ? "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
       : project.span === "md:col-span-4"
         ? "(max-width: 768px) 100vw, 66vw"
         : project.span === "md:col-span-3"
@@ -56,7 +57,7 @@ function RealThumb({
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           aria-hidden="true"
           tabIndex={-1}
           className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
@@ -252,8 +253,9 @@ export default function Work() {
         </Reveal>
 
         <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count={`${videos.length} videos`} />
-        {/* Video cards are smaller than website cards: 4 per row on desktop
-            (12-col grid, span-3) so the growing video list stays dense. */}
+        {/* Video cards are smaller than website cards: 2 per row on tablets
+            (12-col grid, span-6) and 4 per row on desktop (span-3) so the
+            growing video list stays dense without cramping tablet cards. */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
           {videos.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />

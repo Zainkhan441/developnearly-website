@@ -27,8 +27,10 @@ export interface Project {
   /** Top-right badge on video cards. Defaults to "DOCUMENTARY" - set it to
       the series name for series videos (e.g. "NFL", "BRAND AUDIT"). */
   badge?: string;
-  /** Grid span on md+ screens (editorial varied sizes). */
-  span: "md:col-span-4" | "md:col-span-2" | "md:col-span-3";
+  /** Grid span on md+ screens (editorial varied sizes). Video cards are
+      "md:col-span-6 lg:col-span-3": 2 across on tablets (768px) so titles
+      don't wrap word by word, 4 across on desktop. */
+  span: "md:col-span-4" | "md:col-span-2" | "md:col-span-3" | "md:col-span-6 lg:col-span-3";
 }
 
 /**
@@ -67,7 +69,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/knives-edc-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
   },
   {
     slug: "new-fine-steel",
@@ -100,7 +102,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/a380-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
   },
   {
     slug: "dynamic-gym",
@@ -133,7 +135,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/tesla-airless-tire-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
   },
   {
     slug: "zelnivo",
@@ -182,7 +184,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/suspicious-supplements-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
     badge: "IN PLAIN BITE",
   },
   {
@@ -200,7 +202,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/winter-jackets-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
     badge: "BRAND AUDIT",
   },
   {
@@ -218,7 +220,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/nfl-savage-plays-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
     badge: "NFL",
   },
   {
@@ -236,7 +238,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/yamal-walks-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
     badge: "FOOTBALL SPREE",
   },
   {
@@ -254,7 +256,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 675,
     preview: "/work/previews/illegale-gewohnheiten-preview.mp4",
-    span: "md:col-span-3",
+    span: "md:col-span-6 lg:col-span-3",
     badge: "GERMAN FOOD",
   },
 ];
