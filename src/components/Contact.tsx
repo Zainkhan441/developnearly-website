@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronDown, Copy, Mail, Send } from "lucide-react";
+import { Check, Copy, Mail, Send, Sparkles } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import type { Choice } from "../data/services";
 import { SERVICES as SERVICE_INFO, purposeOf } from "../data/services";
@@ -8,12 +8,6 @@ import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
 
-const SERVICES = [
-  "Video Editing",
-  "Website Development",
-  "Both (Video + Website)",
-  "Other",
-] as const;
 
 const CONTACT_EMAIL = "developnearly@gmail.com";
 const WHATSAPP_NUMBER = "+92 313 1134962";
@@ -23,14 +17,14 @@ const WHATSAPP_URL =
 interface FormState {
   name: string;
   email: string;
-  company: string;
+  whatsapp: string;
   service: string;
   budget: string;
   details: string;
   honeypot: string;
 }
 
-const EMPTY: FormState = { name: "", email: "", company: "", service: "", budget: "", details: "", honeypot: "" };
+const EMPTY: FormState = { name: "", email: "", whatsapp: "", service: "", budget: "", details: "", honeypot: "" };
 
 type Errors = Partial<Record<keyof FormState, string>>;
 
@@ -41,29 +35,18 @@ const inputClass =
 
 export default function Contact({ choice }: { choice: Choice }) {
   const info = SERVICE_INFO[choice.service];
-  const presetBudgets = info.budgetOptions.map((b) => b.label);
-  const BUDGETS = [
-    ...presetBudgets,
-    ...(presetBudgets.includes(choice.budgetLabel) ? [] : [choice.budgetLabel]),
-    "Not Sure Yet",
-  ];
   const initial: FormState = {
     ...EMPTY,
     service: info.formValue,
     budget: choice.budgetLabel,
-    details: `For: ${purposeOf(choice).label}\n`,
   };
+  const [pkg, setPkg] = useState("");
   const [form, setForm] = useState<FormState>(initial);
 
   // "Choose <package>" on the Packages section prefills the form.
   useEffect(() => {
     const onChoose = (e: Event) => {
-      const pkg = (e as CustomEvent<string>).detail;
-      setForm((f) => ({
-        ...f,
-        service: info.formValue,
-        details: f.details.includes(pkg) ? f.details : `${f.details.trimEnd()}\nPackage: ${pkg}\n`,
-      }));
+      setPkg((e as CustomEvent<string>).detail);
       window.setTimeout(() => document.getElementById("contact-name")?.focus({ preventScroll: true }), 600);
     };
     window.addEventListener(CHOOSE_PACKAGE_EVENT, onChoose);
@@ -86,10 +69,8 @@ export default function Contact({ choice }: { choice: Choice }) {
     if (form.name.trim().length < 2) next.name = "Please enter your full name";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
       next.email = "Please enter a valid email address";
-    if (!form.service) next.service = "Please choose a service";
-    if (!form.budget) next.budget = "Please choose a budget range";
-    if (form.details.trim().length < 10)
-      next.details = "Please tell us a little more about your project (at least 10 characters)";
+    if (form.whatsapp.trim() && form.whatsapp.replace(/[^0-9]/g, "").length < 7)
+      next.whatsapp = "Please enter a valid WhatsApp number, with country code";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -111,10 +92,21 @@ export default function Contact({ choice }: { choice: Choice }) {
         body: JSON.stringify({
           name: form.name.trim(),
           email: form.email.trim(),
-          company: form.company.trim(),
+          company: "",
           service: form.service,
           budget: form.budget,
-          message: form.details.trim(),
+          // The quiz answers travel with the message so every inquiry has the
+          // full picture, even when the visitor writes nothing else.
+          message: [
+            `For: ${purposeOf(choice).label}`,
+            `Budget: ${choice.budgetLabel}`,
+            pkg ? `Package: ${pkg}` : "",
+            form.whatsapp.trim() ? `WhatsApp: ${form.whatsapp.trim()}` : "",
+            "",
+            form.details.trim() || "(no extra details)",
+          ]
+            .filter((line, i, arr) => line !== "" || (i > 0 && arr[i - 1] !== ""))
+            .join("\n"),
           honeypot: form.honeypot,
         }),
       });
@@ -124,6 +116,7 @@ export default function Contact({ choice }: { choice: Choice }) {
       }
       setSentTo(form.email.trim());
       setForm(initial);
+      setPkg("");
       setErrors({});
       setStatus("sent");
     } catch {
@@ -157,13 +150,13 @@ export default function Contact({ choice }: { choice: Choice }) {
               GET A QUOTE
             </p>
             <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
-              Have an Idea?
+              Get your quote
               <br />
-              Let&apos;s Build Something <span className="text-gradient-blue">Meaningful</span>
+              in <span className="text-gradient-blue">30 seconds</span>
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-mist sm:text-lg">
-              Tell us about your project and we will get back to you with next steps,
-              no pressure, no obligation, just an honest conversation about your idea
+              Leave your name and email, we already know what you need from your answers,
+              and we will reply with a clear, fixed price
             </p>
 
             <div className="mt-10 space-y-4">
@@ -217,6 +210,12 @@ export default function Contact({ choice }: { choice: Choice }) {
                   onChange={set("honeypot")}
                 />
               </div>
+              {pkg ? (
+                <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-bright/40 bg-[#2563eb]/15 px-4 py-2 text-sm font-semibold text-white">
+                  <Sparkles className="h-4 w-4 text-bright" />
+                  Selected: {pkg}
+                </p>
+              ) : null}
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-white">
@@ -232,47 +231,18 @@ export default function Contact({ choice }: { choice: Choice }) {
                   <input id="contact-email" name="email" type="email" autoComplete="email" placeholder="you@company.com" value={form.email} onChange={set("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "contact-email-error" : undefined} className={inputClass} />
                   {errors.email ? <p id="contact-email-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.email}</p> : null}
                 </div>
-                <div>
-                  <label htmlFor="contact-company" className="mb-2 block text-sm font-semibold text-white">
-                    Company Name <span className="font-normal text-mist">(optional)</span>
-                  </label>
-                  <input id="contact-company" name="company" type="text" autoComplete="organization" placeholder="Your company" value={form.company} onChange={set("company")} className={inputClass} />
-                </div>
-                <div>
-                  <label htmlFor="contact-service" className="mb-2 block text-sm font-semibold text-white">
-                    Service Required <span aria-hidden="true" className="text-bright">*</span>
-                  </label>
-                  <div className="relative">
-                    <select id="contact-service" name="service" value={form.service} onChange={set("service")} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "contact-service-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
-                      <option value="" disabled>Select a service</option>
-                      {SERVICES.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-mist" />
-                  </div>
-                  {errors.service ? <p id="contact-service-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.service}</p> : null}
-                </div>
                 <div className="sm:col-span-2">
-                  <label htmlFor="contact-budget" className="mb-2 block text-sm font-semibold text-white">
-                    Project Budget <span aria-hidden="true" className="text-bright">*</span>
+                  <label htmlFor="contact-whatsapp" className="mb-2 block text-sm font-semibold text-white">
+                    WhatsApp Number <span className="font-normal text-mist">(optional, for a faster reply)</span>
                   </label>
-                  <div className="relative">
-                    <select id="contact-budget" name="budget" value={form.budget} onChange={set("budget")} aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "contact-budget-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
-                      <option value="" disabled>Select a budget range</option>
-                      {BUDGETS.map((b) => (
-                        <option key={b} value={b}>{b}</option>
-                      ))}
-                    </select>
-                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-mist" />
-                  </div>
-                  {errors.budget ? <p id="contact-budget-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.budget}</p> : null}
+                  <input id="contact-whatsapp" name="whatsapp" type="tel" autoComplete="tel" placeholder="+1 555 123 4567" value={form.whatsapp} onChange={set("whatsapp")} aria-invalid={Boolean(errors.whatsapp)} aria-describedby={errors.whatsapp ? "contact-whatsapp-error" : undefined} className={inputClass} />
+                  {errors.whatsapp ? <p id="contact-whatsapp-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.whatsapp}</p> : null}
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="contact-details" className="mb-2 block text-sm font-semibold text-white">
-                    Project Details <span aria-hidden="true" className="text-bright">*</span>
+                    Anything else we should know? <span className="font-normal text-mist">(optional)</span>
                   </label>
-                  <textarea id="contact-details" name="details" rows={5} placeholder="Tell us about your project: goals, timeline, anything that matters" value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
+                  <textarea id="contact-details" name="details" rows={4} placeholder="Your channel or website link, deadline, style you like…" value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
                   {errors.details ? <p id="contact-details-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.details}</p> : null}
                 </div>
               </div>
@@ -283,7 +253,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)] disabled:cursor-wait disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
               >
                 <Send className="h-5 w-5" />
-                {status === "sending" ? "Sending…" : "Send Project Inquiry"}
+                {status === "sending" ? "Sending…" : "Get My Quote"}
               </button>
 
               {status === "sent" ? (
@@ -345,8 +315,8 @@ export default function Contact({ choice }: { choice: Choice }) {
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
-                  Your message goes straight to our inbox with no email app needed
-                  Prefer WhatsApp? Tap the number above and chat with us directly
+                  Your answers are sent with your message, so you do not have to explain anything twice.
+                  Prefer WhatsApp? Tap the number above and chat with us directly.
                 </p>
               )}
             </form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Film, Globe } from "lucide-react";
 import type { Project } from "../data/projects";
@@ -171,6 +171,29 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       setPreviewPlaying(true);
     }
   };
+
+  // Touch screens have no hover: play the preview while the card is in view.
+  useEffect(() => {
+    if (project.kind !== "video" || !project.preview) return;
+    if (!window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const video = videoRef.current;
+    const card = video?.closest("a");
+    if (!video || !card) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().then(() => setPreviewPlaying(true)).catch(() => undefined);
+        } else {
+          video.pause();
+          setPreviewPlaying(false);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [project.kind, project.preview]);
 
   const handleMouseLeave = () => {
     const video = videoRef.current;
