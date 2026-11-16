@@ -128,7 +128,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
     audience: ["Faceless YouTube channels", "Creators & podcasters", "Brands & local businesses"],
     services: [
       "Faceless YouTube videos",
-      "Documentary-style edits",
+      "Story-driven long-form edits",
       "YouTube Shorts & Reels",
       "Captions & text animation",
       "Stock footage & B-roll",
