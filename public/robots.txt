@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://developnearly-website.vercel.app/sitemap.xml
+Sitemap: https://developnearly.online/sitemap.xml

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "DevelopNearly | Creative Digital Agency",
   description:
     "DevelopNearly is a creative digital agency that helps creators and businesses grow online",
-  metadataBase: new URL("https://developnearly-website.vercel.app"),
+  metadataBase: new URL("https://developnearly.online"),
   alternates: {
     canonical: "/",
   },
@@ -55,7 +55,7 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "DevelopNearly",
-  url: "https://developnearly-website.vercel.app",
+  url: "https://developnearly.online",
   email: "developnearly@gmail.com",
   description:
     "DevelopNearly is a creative digital agency that helps creators and businesses grow online",
