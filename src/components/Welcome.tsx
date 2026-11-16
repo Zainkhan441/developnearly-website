@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  Check,
   BriefcaseBusiness,
   Clapperboard,
   Globe,
@@ -16,7 +15,6 @@ import {
   Music2,
   RefreshCw,
   ShoppingBag,
-  Sparkles,
   Smartphone,
   UserRound,
   PenLine,
@@ -171,38 +169,6 @@ function CustomField({
   );
 }
 
-function BuildingScreen({ service }: { service: ServiceKey }) {
-  const lines =
-    service === "video"
-      ? ["Matching editors to your style", "Picking examples of our edits", "Pricing packages for you"]
-      : ["Matching designs to your business", "Picking websites we built", "Pricing packages for you"];
-  return (
-    <div role="status" aria-live="polite" className="mx-auto w-full max-w-sm text-center">
-      <span className="relative mx-auto flex h-16 w-16 items-center justify-center">
-        <span className="absolute inset-0 animate-ping rounded-full bg-primary/30" />
-        <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#2563eb] text-white shadow-[0_0_40px_rgba(37,99,235,0.6)]">
-          <Sparkles className="h-7 w-7" />
-        </span>
-      </span>
-      <p className="mt-7 font-display text-2xl font-bold text-white sm:text-3xl">Building your packages…</p>
-      <ul className="mt-6 space-y-3 text-left">
-        {lines.map((l, i) => (
-          <motion.li
-            key={l}
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.25 + i * 0.4, duration: 0.3 }}
-            className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/90"
-          >
-            <Check className="h-4 w-4 shrink-0 text-emerald-400" strokeWidth={3} />
-            {l}
-          </motion.li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 export default function Welcome({
   initialService,
   onDone,
@@ -213,14 +179,7 @@ export default function Welcome({
   const [service, setService] = useState<ServiceKey | null>(initialService ?? null);
   const [purpose, setPurpose] = useState<string | null>(null);
   const [purposeNote, setPurposeNote] = useState<string | undefined>(undefined);
-  const [building, setBuilding] = useState(false);
-
-  // Short "building your packages" moment before the site opens, so the
-  // tailored site feels made for the visitor (it is).
-  const finish = (choice: Choice) => {
-    setBuilding(true);
-    window.setTimeout(() => onDone(choice), 1700);
-  };
+  const finish = (choice: Choice) => onDone(choice);
   const step = service === null ? 0 : purpose === null ? 1 : 2;
   const firstStep = initialService ? 1 : 0;
   const totalSteps = initialService ? 2 : 3;
@@ -284,9 +243,6 @@ export default function Welcome({
         </div>
 
         <div className="flex flex-1 flex-col justify-center py-10">
-          {building ? (
-            <BuildingScreen service={service ?? "video"} />
-          ) : (
           <AnimatePresence mode="wait">
             <motion.div
               key={`${step}-${service ?? ""}`}
@@ -383,11 +339,10 @@ export default function Welcome({
               </div>
             </motion.div>
           </AnimatePresence>
-          )}
         </div>
 
         <div className="flex min-h-11 items-center justify-between">
-          {step > firstStep && !building ? (
+          {step > firstStep ? (
             <button
               type="button"
               onClick={back}
