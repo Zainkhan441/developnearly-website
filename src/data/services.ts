@@ -148,7 +148,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["EDITS THAT KEEP", "VIEWERS"],
         highlight: "WATCHING",
         subhead: "Long-form YouTube edits for faceless channels and creators, built for retention so people watch to the end",
-        faq: { q: "Do you edit faceless documentary-style videos?", a: "Yes, that is what we do most. You send the script and voiceover, we send back a finished video with stock footage, B-roll, maps, text animation and sound design" },
+        faq: { q: "Do you edit faceless YouTube videos?", a: "Yes, that is what we do most. You send the script and voiceover, we send back a finished video with stock footage, B-roll, maps, text animation and sound design" },
       },
       {
         id: "shorts",
@@ -234,7 +234,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
       {
         q: "Do you edit for faceless YouTube channels?",
-        a: "Yes, most of our work is faceless: documentaries, list videos, explainers and sports videos. We build them from your script and voiceover with stock footage, B-roll and text animation",
+        a: "Yes, most of our work is faceless: story videos, list videos, explainers and sports videos. We build them from your script and voiceover with stock footage, B-roll and text animation",
       },
       {
         q: "What do I need to send you?",
