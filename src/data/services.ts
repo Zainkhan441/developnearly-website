@@ -418,16 +418,16 @@ function videoPackage(target: number, purpose: string, name: string, tagline: st
   return { name, price: usd(price), value: price, per, tagline, features };
 }
 
-const WEB_MIN: Record<string, number> = { store: 499, business: 299, redesign: 299 };
+const WEB_MIN: Record<string, number> = { store: 199, business: 199, redesign: 199 };
 
 function webPackage(target: number, purpose: string, name: string, tagline: string): Package {
   const price = nicePrice(Math.max(target, WEB_MIN[purpose] ?? 149));
   const features: string[] = [];
   const store = purpose === "store";
-  const minPages = purpose === "business" || purpose === "redesign" ? 3 : 1;
+  const minPages = (purpose === "business" || purpose === "redesign") && price >= 250 ? 3 : 1;
   const pages = purpose === "landing" ? 1 : Math.max(minPages, price < 300 ? 1 : Math.round(price / 110));
   if (store) {
-    const products = price < 550 ? 10 : price < 620 ? 20 : price < 800 ? 30 : price < 1500 ? 50 : price < 2500 ? 150 : 500;
+    const products = price < 230 ? 3 : price < 300 ? 5 : price < 550 ? 10 : price < 620 ? 20 : price < 800 ? 30 : price < 1500 ? 50 : price < 2500 ? 150 : 500;
     features.push(`Online store with up to ${products} products`);
     features.push("Cart, checkout & payment setup");
   } else if (pages === 1) {

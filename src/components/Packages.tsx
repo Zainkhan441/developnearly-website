@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowRight, Check, Gift, Sparkles } from "lucide-react";
+import { Check, Gift, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
-import { FREE_SAMPLE, REVISIONS, SERVICES, buildPackages, purposeOf } from "../data/services";
+import { FREE_SAMPLE, REVISIONS, SERVICES, buildPackages } from "../data/services";
+import { packageMessage, sampleMessage, waLink } from "../data/whatsapp";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
 
@@ -12,11 +13,6 @@ export const CHOOSE_PACKAGE_EVENT = "dn:choose-package";
 export default function Packages({ choice }: { choice: Choice }) {
   const info = SERVICES[choice.service];
   const { packages: shown, recommended } = buildPackages(choice);
-  const purpose = purposeOf(choice).label;
-  const whatsapp = (name: string, price: string, per?: string) =>
-    `https://wa.me/923131134962?text=${encodeURIComponent(
-      `Hi DevelopNearly! I am interested in the ${name} package (${price}${per ? ` ${per}` : ""}) for: ${purpose}`,
-    )}`;
 
   const choose = (name: string, price: string) => {
     window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: `${name} package (${price})` }));
@@ -80,25 +76,24 @@ export default function Packages({ choice }: { choice: Choice }) {
                   ))}
                 </ul>
                 <a
-                  href="#contact"
-                  onClick={() => choose(pkg.name, pkg.price)}
+                  href={waLink(packageMessage(choice, pkg.name, pkg.price, pkg.per))}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`group mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ${
                     featured
                       ? "bg-[#2563eb] text-white hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)]"
                       : "border border-white/15 bg-white/5 text-white hover:border-bright/60 hover:bg-white/10"
                   }`}
                 >
+                  <WhatsAppIcon className="h-5 w-5" />
                   Choose {pkg.name}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 <a
-                  href={whatsapp(pkg.name, pkg.price, pkg.per)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex min-h-10 items-center justify-center gap-2 text-sm font-semibold text-mist transition-colors hover:text-[#25d366]"
+                  href="#contact"
+                  onClick={() => choose(pkg.name, `${pkg.price}${pkg.per ? ` ${pkg.per}` : ""}`)}
+                  className="mt-3 inline-flex min-h-10 items-center justify-center text-sm font-medium text-mist underline-offset-4 transition-colors hover:text-white hover:underline"
                 >
-                  <WhatsAppIcon className="h-4 w-4 text-[#25d366]" />
-                  Ask on WhatsApp
+                  Prefer email?
                 </a>
               </div>
             </Reveal>
@@ -119,12 +114,14 @@ export default function Packages({ choice }: { choice: Choice }) {
                 </p>
               </div>
               <a
-                href="#contact"
-                onClick={() => window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: FREE_SAMPLE }))}
+                href={waLink(sampleMessage(choice))}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-sample={FREE_SAMPLE}
                 className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-full bg-emerald-500 px-6 text-sm font-semibold text-ink transition-colors hover:bg-emerald-400"
               >
+                <WhatsAppIcon className="h-5 w-5" />
                 Get my free sample
-                <ArrowRight className="h-4 w-4" />
               </a>
             </div>
           </Reveal>

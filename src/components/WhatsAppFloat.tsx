@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import WhatsAppIcon from "./WhatsAppIcon";
+import type { Choice } from "../data/services";
+import { introMessage, waLink } from "../data/whatsapp";
 
-const WHATSAPP_URL =
-  "https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project.";
 
 /**
  * Floating WhatsApp button - always visible, opens a chat with DevelopNearly.
@@ -16,7 +16,7 @@ const WHATSAPP_URL =
  *   their own contact controls;
  * - on desktop it keeps its bottom-right spot, also hidden over contact/FAQ.
  */
-export default function WhatsAppFloat() {
+export default function WhatsAppFloat({ choice }: { choice?: Choice }) {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function WhatsAppFloat() {
 
   return (
     <a
-      href={WHATSAPP_URL}
+      href={waLink(introMessage(choice))}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with DevelopNearly on WhatsApp"

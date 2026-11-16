@@ -1,8 +1,10 @@
 "use client";
 
-import { ArrowRight, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import DLogo from "./DLogo";
 import WhatsAppIcon from "./WhatsAppIcon";
+import type { Choice } from "../data/services";
+import { introMessage, waLink } from "../data/whatsapp";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -21,9 +23,9 @@ const SOCIALS = [
   { name: "Instagram", href: "https://www.instagram.com/developnearly/" },
 ];
 
-export default function Footer({ year, servicePage = false }: { year: number; servicePage?: boolean }) {
+export default function Footer({ year, servicePage = false, choice }: { year: number; servicePage?: boolean; choice?: Choice }) {
   const navLinks = servicePage ? NAV_LINKS : NAV_LINKS.filter((l) => !l.href.startsWith("#"));
-  const ctaHref = servicePage ? "#contact" : "/";
+  const ctaHref = waLink(introMessage(choice));
   return (
     <footer className="border-t border-white/5 bg-panel/60">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -34,10 +36,12 @@ export default function Footer({ year, servicePage = false }: { year: number; se
             </h2>
             <a
               href={ctaHref}
-              className="group mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#2563eb] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8]"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#25d366] px-6 py-3 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5b]"
             >
-              Start a Project
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <WhatsAppIcon className="h-5 w-5" />
+              Chat on WhatsApp
             </a>
           </div>
 
@@ -76,7 +80,7 @@ export default function Footer({ year, servicePage = false }: { year: number; se
                 <span className="min-w-0 break-all">developnearly@gmail.com</span>
               </a>
               <a
-                href="https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project."
+                href={waLink(introMessage(choice))}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 flex min-w-0 items-center gap-2 text-sm text-white/85 transition-colors hover:text-[#25d366]"

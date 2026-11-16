@@ -7,12 +7,10 @@ import { SERVICES as SERVICE_INFO, purposeOf } from "../data/services";
 import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
+import { WHATSAPP_DISPLAY as WHATSAPP_NUMBER, introMessage, waLink } from "../data/whatsapp";
 
 
 const CONTACT_EMAIL = "developnearly@gmail.com";
-const WHATSAPP_NUMBER = "+92 313 1134962";
-const WHATSAPP_URL =
-  "https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project.";
 
 interface FormState {
   name: string;
@@ -41,6 +39,7 @@ export default function Contact({ choice }: { choice: Choice }) {
     budget: choice.budgetLabel,
   };
   const [pkg, setPkg] = useState("");
+  const WHATSAPP_URL = waLink(introMessage(choice));
   const [form, setForm] = useState<FormState>(initial);
 
   // "Choose <package>" on the Packages section prefills the form.
@@ -147,19 +146,30 @@ export default function Contact({ choice }: { choice: Choice }) {
           <Reveal className="lg:col-span-5">
             <p className="mb-4 flex items-center gap-2.5 text-xs font-semibold tracking-[0.22em] text-bright">
               <span aria-hidden="true" className="h-px w-8 bg-primary" />
-              GET A QUOTE
+              LET&apos;S TALK
             </p>
             <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
-              Get your quote
+              Message us on
               <br />
-              in <span className="text-gradient-blue">30 seconds</span>
+              <span className="text-[#25d366]">WhatsApp</span>
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-mist sm:text-lg">
-              Leave your name and email, we already know what you need from your answers,
-              and we will reply with a clear, fixed price
+              The fastest way to start, your answers are already typed in the message,
+              just press send and we will reply with a clear, fixed price
             </p>
 
-            <div className="mt-10 space-y-4">
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-9 flex min-h-16 items-center justify-center gap-3 rounded-2xl bg-[#25d366] px-6 text-lg font-bold text-ink shadow-[0_16px_50px_rgba(37,211,102,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5b]"
+            >
+              <WhatsAppIcon className="h-7 w-7" />
+              Chat on WhatsApp
+            </a>
+            <p className="mt-3 text-center text-sm text-mist">{WHATSAPP_NUMBER}</p>
+
+            <div className="mt-8">
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
                 className="group flex min-h-14 items-center gap-4 rounded-2xl border border-white/10 bg-panel px-5 transition-colors hover:border-bright/50"
@@ -168,23 +178,8 @@ export default function Contact({ choice }: { choice: Choice }) {
                   <Mail className="h-5 w-5" />
                 </span>
                 <span>
-                  <span className="block text-xs font-semibold tracking-widest text-mist">EMAIL US</span>
+                  <span className="block text-xs font-semibold tracking-widest text-mist">OR EMAIL US</span>
                   <span className="block font-medium text-white group-hover:text-bright">{CONTACT_EMAIL}</span>
-                </span>
-              </a>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex min-h-14 items-center gap-4 rounded-2xl border border-white/10 bg-panel px-5 transition-colors hover:border-[#25d366]/60"
-              >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#25d366]/15 text-[#25d366]">
-                  <WhatsAppIcon className="h-5 w-5" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-xs font-semibold tracking-widest text-mist">WHATSAPP</span>
-                  <span className="block font-medium text-white group-hover:text-[#25d366]">{WHATSAPP_NUMBER}</span>
-                  <span className="block text-xs text-mist">Tap to chat on WhatsApp</span>
                 </span>
               </a>
             </div>
@@ -210,6 +205,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                   onChange={set("honeypot")}
                 />
               </div>
+              <p className="mb-5 font-display text-xl font-bold text-white">No WhatsApp? Send us an email instead</p>
               {pkg ? (
                 <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-bright/40 bg-[#2563eb]/15 px-4 py-2 text-sm font-semibold text-white">
                   <Sparkles className="h-4 w-4 text-bright" />
@@ -316,7 +312,6 @@ export default function Contact({ choice }: { choice: Choice }) {
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
                   Your answers are sent with your message, so you do not have to explain anything twice.
-                  Prefer WhatsApp? Tap the number above and chat with us directly.
                 </p>
               )}
             </form>

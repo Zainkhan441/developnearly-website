@@ -1,9 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ServiceKey } from "../data/services";
+import type { Choice } from "../data/services";
+import { introMessage, waLink } from "../data/whatsapp";
+import WhatsAppIcon from "./WhatsAppIcon";
 import Link from "next/link";
 import DLogo from "./DLogo";
 
@@ -19,10 +21,11 @@ const SITE_LINKS = [
   { label: "Terms", href: "/terms" },
 ];
 
-export default function Nav({ service }: { service?: ServiceKey }) {
+export default function Nav({ choice }: { choice?: Choice }) {
+  const service = choice?.service;
   const LINKS = service ? PAGE_LINKS : SITE_LINKS;
-  const ctaHref = service ? "#contact" : "/";
-  const ctaLabel = service ? "Get a Quote" : "Start a Project";
+  const ctaHref = waLink(introMessage(choice));
+  const ctaLabel = "WhatsApp Us";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -112,10 +115,12 @@ export default function Nav({ service }: { service?: ServiceKey }) {
         <div className="relative z-10 hidden shrink-0 lg:block">
           <a
             href={ctaHref}
-            className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#2563eb] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_8px_30px_rgba(37,99,235,0.45)]"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#25d366] px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5b] hover:shadow-[0_8px_30px_rgba(37,211,102,0.45)]"
           >
+            <WhatsAppIcon className="h-4 w-4" />
             {ctaLabel}
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
         </div>
 
@@ -159,11 +164,13 @@ export default function Nav({ service }: { service?: ServiceKey }) {
               <li className="pt-2">
                 <a
                   href={ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={closeMenuAndRefocus}
-                  className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#2563eb] px-4 text-base font-semibold text-white"
+                  className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#25d366] px-4 text-base font-semibold text-ink"
                 >
+                  <WhatsAppIcon className="h-5 w-5" />
                   {ctaLabel}
-                  <ArrowRight className="h-4 w-4" />
                 </a>
               </li>
             </ul>

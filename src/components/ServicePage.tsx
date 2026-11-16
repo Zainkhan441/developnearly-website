@@ -26,7 +26,7 @@ export default function ServicePage({
   const service = choice.service;
   return (
     <div className="min-h-full bg-ink font-sans text-white">
-      <Nav service={choice.service} />
+      <Nav choice={choice} />
       <main id="main-content">
         <ServiceHero choice={choice} />
         {service === "web" ? <ClientStrip /> : null}
@@ -38,8 +38,8 @@ export default function ServicePage({
         <Faq choice={choice} />
         <Contact choice={choice} />
       </main>
-      <Footer year={year} servicePage />
-      <WhatsAppFloat />
+      <Footer year={year} servicePage choice={choice} />
+      <WhatsAppFloat choice={choice} />
     </div>
   );
 }
