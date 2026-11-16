@@ -461,8 +461,8 @@ const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one :
 
 // Per-video rates used only to work out how many videos a budget covers.
 // The package price itself always follows the budget.
-const BASE_LONG_UNIT = 55; // one long-form edit, 10–20 min
-const BASE_SHORT_UNIT = 15; // one Short / Reel / TikTok
+const BASE_LONG_UNIT = 30; // one long-form edit, 10–20 min
+const BASE_SHORT_UNIT = 8; // one Short / Reel / TikTok
 const SHORT_FIRST = new Set(["shorts", "reels", "tiktok", "facebook"]);
 const SHORT_LABEL: Record<string, string> = {
   shorts: "YouTube Shorts",
@@ -478,8 +478,8 @@ function roundCount(n: number): number {
   return ROUND_COUNTS.reduce((best, c) => (Math.abs(c - n) < Math.abs(best - n) ? c : best), ROUND_COUNTS[0]);
 }
 
-const QUALITY_COST: Record<QualityKey, number> = { standard: 0.75, pro: 1, premium: 1.5 };
-const LENGTH_COST: Record<LengthKey, number> = { short: 0.8, medium: 1, long: 1.5, xlong: 2.2 };
+const QUALITY_COST: Record<QualityKey, number> = { standard: 0.7, pro: 1, premium: 1.4 };
+const LENGTH_COST: Record<LengthKey, number> = { short: 0.8, medium: 1, long: 1.3, xlong: 1.7 };
 const LENGTH_TEXT: Record<LengthKey, string> = {
   short: "up to 10 min",
   medium: "up to 20 min",
