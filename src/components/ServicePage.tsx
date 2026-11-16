@@ -3,6 +3,8 @@
 import type { Choice } from "../data/services";
 import { purposeOf } from "../data/services";
 import ClientStrip from "./ClientStrip";
+import ScrollProgress from "./ScrollProgress";
+import Stats from "./Stats";
 import Contact from "./Contact";
 import Faq from "./Faq";
 import Footer from "./Footer";
@@ -26,9 +28,11 @@ export default function ServicePage({
   const service = choice.service;
   return (
     <div className="min-h-full bg-ink font-sans text-white">
+      <ScrollProgress />
       <Nav choice={choice} />
       <main id="main-content">
         <ServiceHero choice={choice} />
+        <Stats service={service} />
         {service === "web" ? <ClientStrip /> : null}
         <Work kind={service === "video" ? "video" : "website"} showFirst={purposeOf(choice).showFirst} />
         <Services service={service} />

@@ -28,6 +28,7 @@ import type { Choice, ServiceKey } from "../data/services";
 import { CUSTOM, SERVICES } from "../data/services";
 import DLogo from "./DLogo";
 import PayAfterBadge from "./PayAfterBadge";
+import TiltCard from "./TiltCard";
 
 /**
  * Full-screen welcome questions shown before anything else on the site:
@@ -218,6 +219,8 @@ export default function Welcome({
       className="fixed inset-0 z-[100] overflow-y-auto bg-ink"
     >
       <div aria-hidden="true" className="pointer-events-none fixed inset-0">
+        <div className="absolute left-[8%] top-[20%] h-40 w-40 animate-float-soft rounded-full bg-gradient-to-br from-bright/30 to-transparent blur-2xl" />
+        <div className="absolute bottom-[18%] right-[10%] h-52 w-52 animate-float-soft rounded-full bg-gradient-to-br from-primary/30 to-transparent blur-2xl [animation-delay:2s]" />
         <div className="absolute -top-40 left-1/2 h-[32rem] w-[50rem] -translate-x-1/2 rounded-full bg-primary/25 blur-[140px]" />
         <div className="absolute bottom-[-20%] right-[-10%] h-[26rem] w-[26rem] rounded-full bg-[#1d4ed8]/20 blur-[120px]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
@@ -271,6 +274,7 @@ export default function Welcome({
               <div className="mt-9">
                 {step === 0 && (
                   <div className="grid gap-4">
+                    <TiltCard className="rounded-2xl" max={6}>
                     <Option
                       big
                       autoFocus
@@ -279,6 +283,8 @@ export default function Welcome({
                       hint="YouTube, Shorts, Reels, TikTok, podcasts, ads · free sample edit"
                       onClick={() => setService("video")}
                     />
+                    </TiltCard>
+                    <TiltCard className="rounded-2xl" max={6}>
                     <Option
                       big
                       icon={MonitorSmartphone}
@@ -286,6 +292,7 @@ export default function Welcome({
                       hint="Business site, landing page, online store"
                       onClick={() => setService("web")}
                     />
+                    </TiltCard>
                     <p className="mt-2 text-center text-sm text-mist">
                       <span className="font-semibold text-white">8 YouTube videos</span> edited ·{" "}
                       <span className="font-semibold text-white">5 websites</span> live

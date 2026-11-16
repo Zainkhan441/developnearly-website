@@ -6,6 +6,7 @@ import { ArrowUpRight, Film, Globe } from "lucide-react";
 import type { Project } from "../data/projects";
 import { projects } from "../data/projects";
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 
 /**
  * Real thumbnail - a screenshot of the live site or a frame from the actual video.
@@ -207,6 +208,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isVideo = project.kind === "video";
   return (
     <Reveal delay={(index % 3) * 0.08} className={project.span}>
+      <TiltCard className="h-full rounded-3xl" max={6}>
       <a
         href={project.url}
         target="_blank"
@@ -232,6 +234,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </span>
         </div>
       </a>
+      </TiltCard>
     </Reveal>
   );
 }

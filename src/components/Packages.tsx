@@ -5,6 +5,7 @@ import type { Choice } from "../data/services";
 import { FREE_SAMPLE, NON_PAYMENT_RULES, PAYMENT_RULES, REVISIONS, SERVICES, buildPackages } from "../data/services";
 import { packageMessage, sampleMessage, waLink } from "../data/whatsapp";
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 import WhatsAppIcon from "./WhatsAppIcon";
 
 /** Event the Contact form listens for, so "Choose" prefills the form. */
@@ -46,6 +47,7 @@ export default function Packages({ choice }: { choice: Choice }) {
             const featured = pkg === recommended;
             return (
             <Reveal key={pkg.name} delay={i * 0.08} className="h-full">
+              <TiltCard className="h-full rounded-3xl" max={5}>
               <div
                 className={`relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 sm:p-8 ${
                   featured
@@ -96,6 +98,7 @@ export default function Packages({ choice }: { choice: Choice }) {
                   Prefer email?
                 </a>
               </div>
+              </TiltCard>
             </Reveal>
             );
           })}
