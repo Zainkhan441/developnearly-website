@@ -420,8 +420,10 @@ function nicePrice(n: number): number {
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-const LONG_UNIT = 89; // one long-form edit, up to 15 min
-const SHORT_UNIT = 25; // one Short / Reel / TikTok
+// Per-video rates used only to work out how many videos a budget covers.
+// The package price itself always follows the budget.
+const LONG_UNIT = 55; // one long-form edit, up to 15 min
+const SHORT_UNIT = 15; // one Short / Reel / TikTok
 const SHORT_FIRST = new Set(["shorts", "reels", "tiktok", "facebook"]);
 const SHORT_LABEL: Record<string, string> = {
   shorts: "YouTube Shorts",
@@ -448,13 +450,13 @@ function videoPackage(target: number, purpose: string, name: string, tagline: st
     shorts = Math.max(2, Math.round((target * 0.5) / SHORT_UNIT));
     longs = Math.max(0, Math.floor((target - shorts * SHORT_UNIT) / LONG_UNIT));
   } else {
-    longs = Math.max(1, Math.floor((target * 0.8) / LONG_UNIT));
+    longs = Math.max(1, Math.floor((target * 0.7) / LONG_UNIT));
     shorts = Math.max(0, Math.round((target - longs * LONG_UNIT) / SHORT_UNIT));
   }
   longs = roundCount(longs);
   shorts = shortsOnly ? Math.max(2, roundCount(shorts)) : shorts > 0 ? Math.max(2, roundCount(shorts)) : 0;
-  const raw = longs * LONG_UNIT + shorts * SHORT_UNIT;
-  const price = nicePrice(raw);
+  const price = nicePrice(target);
+  const raw = price;
   const per = monthly ? "/ month" : undefined;
   const features: string[] = [];
   const [longOne, longMany] =
@@ -482,10 +484,10 @@ function webPackage(target: number, purpose: string, name: string, tagline: stri
   const features: string[] = [];
   const store = purpose === "store";
   const minPages = (purpose === "business" || purpose === "redesign") && price >= 250 ? 3 : 1;
-  const rawPages = price < 300 ? 1 : price < 600 ? 5 : price < 1000 ? 8 : price < 1500 ? 10 : 15;
+  const rawPages = price < 250 ? 1 : price < 400 ? 5 : price < 700 ? 8 : price < 1000 ? 10 : price < 1500 ? 15 : 20;
   const pages = purpose === "landing" ? 1 : Math.max(minPages, rawPages);
   if (store) {
-    const products = price < 230 ? 3 : price < 300 ? 5 : price < 550 ? 10 : price < 620 ? 20 : price < 800 ? 30 : price < 1500 ? 50 : price < 2500 ? 150 : 500;
+    const products = price < 230 ? 10 : price < 300 ? 20 : price < 550 ? 30 : price < 800 ? 50 : price < 1500 ? 100 : price < 2500 ? 300 : 1000;
     features.push(`Online store with up to ${products} products`);
     features.push("Cart, checkout & payment setup");
   } else if (pages === 1) {
@@ -495,7 +497,7 @@ function webPackage(target: number, purpose: string, name: string, tagline: stri
   }
   features.push("Mobile-friendly design");
   features.push("Contact form & WhatsApp button");
-  if (price >= 300) features.push("Google Maps, gallery & SEO setup");
+  if (price >= 250) features.push("Google Maps, gallery & SEO setup");
   if (price >= 700) features.push(store ? "Discount codes & order emails" : "Blog or booking system");
   if (price >= 1200) features.push("Fully custom design & animations");
   if (price >= 1200) features.push("Copywriting for every page");
