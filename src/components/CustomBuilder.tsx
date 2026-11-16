@@ -113,6 +113,7 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
   const [pages, setPages] = useState(purpose === "landing" ? 1 : 5);
   const [products, setProducts] = useState(30);
   const [extras, setExtras] = useState<string[]>([]);
+  const [offer, setOffer] = useState("");
 
   const store = purpose === "store";
   const price = video
@@ -136,11 +137,14 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
     for (const e of WEB_EXTRAS) if (extras.includes(e.id)) lines.push(e.label);
   }
   const empty = video && longs === 0 && shorts === 0;
-  const priceText = `${usd(price)}${video && monthly ? " / month" : ""}`;
+  const per = video && monthly ? " / month" : "";
+  const priceText = `${usd(price)}${per}`;
+  const offerNum = Math.round(Number(offer));
+  const offerText = offer.trim() && offerNum > 0 ? `${usd(offerNum)}${per}` : "";
   const message = `Hi DevelopNearly! I built my own ${video ? "video editing" : "website"} package for ${purposeLabel}:\n${lines
     .map((l) => `• ${l}`)
-    .join("\n")}\nEstimated price: ${priceText}. Can we talk about it?`;
-  const discount = `Hi DevelopNearly! I built my own package for ${purposeLabel} (${lines.join(", ")}), estimated at ${priceText}. Is there any discount you can offer?`;
+    .join("\n")}\nEstimated price: ${priceText}${offerText ? `\nMy offer: ${offerText}` : ""}. Can we talk about it?`;
+  const discount = `Hi DevelopNearly! I built my own package for ${purposeLabel} (${lines.join(", ")}), estimated at ${priceText}.${offerText ? ` My offer is ${offerText}.` : ""} Is there any discount you can offer?`;
 
   const toggleExtra = (id: string) =>
     setExtras((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : [...xs, id]));
@@ -153,11 +157,31 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
       </span>
       <h3 className="font-display text-2xl font-bold text-white">Custom</h3>
       <p className="mt-1.5 text-sm text-mist">Put together exactly what you need</p>
-      <p className="mt-6 flex items-baseline gap-2">
-        <span className="font-display text-5xl font-bold tracking-tight text-white">{empty ? "$0" : usd(price)}</span>
-        {video && monthly && !empty ? <span className="text-sm text-mist">/ month</span> : null}
-      </p>
-      <p className="mt-1 text-xs text-mist">Estimated price, final price agreed on WhatsApp</p>
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+          <p className="text-[11px] font-semibold tracking-wider text-mist">ESTIMATED</p>
+          <p className="mt-1 font-display text-3xl font-bold tracking-tight text-white">{empty ? "$0" : usd(price)}</p>
+          {per ? <p className="text-xs text-mist">per month</p> : null}
+        </div>
+        <label className="block rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-3 focus-within:border-emerald-300">
+          <span className="text-[11px] font-semibold tracking-wider text-emerald-300">YOUR PRICE</span>
+          <span className="mt-1 flex items-baseline gap-1">
+            <span className="font-display text-3xl font-bold text-white/70">$</span>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={1}
+              value={offer}
+              onChange={(e) => setOffer(e.target.value)}
+              placeholder={empty ? "0" : String(price)}
+              aria-label="Your price in US dollars"
+              className="w-full min-w-0 bg-transparent outline-none focus-visible:!outline-none font-display text-3xl font-bold tracking-tight text-white placeholder:text-white/25 focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            />
+          </span>
+          {per ? <span className="block text-xs text-emerald-300/70">per month</span> : null}
+        </label>
+      </div>
+      <p className="mt-2 text-xs text-mist">Write the price that works for you, we will reply on WhatsApp</p>
 
       <div className="mt-6 flex-1 space-y-5">
         {video ? (
