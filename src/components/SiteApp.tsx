@@ -6,15 +6,14 @@ import { SERVICES } from "../data/services";
 import ServicePage from "./ServicePage";
 import Welcome from "./Welcome";
 
-const STORAGE_KEY = "dn-choice-v2";
+const STORAGE_KEY = "dn-choice";
 
-function readStored(initialService?: ServiceKey): Choice | null {
+function readStored(): Choice | null {
   try {
-    const raw = window.sessionStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const c = JSON.parse(raw) as Choice;
     if (!SERVICES[c.service] || typeof c.budgetValue !== "number" || !c.budgetLabel) return null;
-    if (initialService && c.service !== initialService) return null;
     return c;
   } catch {
     return null;
@@ -23,8 +22,9 @@ function readStored(initialService?: ServiceKey): Choice | null {
 
 /**
  * The whole site behind the welcome questions: nothing of the site is
- * rendered until the visitor has answered them. Answers are remembered for
- * the browser tab (sessionStorage) so a refresh does not ask again.
+ * rendered until the visitor has answered them. The questions are asked
+ * only once: answers are saved in the browser (localStorage) and are final,
+ * every later visit opens straight to the site set up by those answers.
  */
 export default function SiteApp({ year, initialService }: { year: number; initialService?: ServiceKey }) {
   const [ready, setReady] = useState(false);
@@ -34,7 +34,7 @@ export default function SiteApp({ year, initialService }: { year: number; initia
     // Read after mount (sessionStorage is browser-only), async so the
     // state change never runs synchronously inside the effect.
     const id = window.setTimeout(() => {
-      setChoice(readStored(initialService));
+      setChoice(readStored());
       setReady(true);
     }, 0);
     return () => window.clearTimeout(id);
@@ -42,7 +42,7 @@ export default function SiteApp({ year, initialService }: { year: number; initia
 
   const done = (c: Choice) => {
     try {
-      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(c));
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(c));
     } catch {
       // Storage can be unavailable (private mode); the answers still apply.
     }
@@ -50,18 +50,9 @@ export default function SiteApp({ year, initialService }: { year: number; initia
     setChoice(c);
   };
 
-  const reset = () => {
-    try {
-      window.sessionStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // ignore
-    }
-    setChoice(null);
-  };
-
   if (!ready) return <div className="min-h-screen bg-ink" aria-busy="true" />;
   if (!choice) return <Welcome initialService={initialService} onDone={done} />;
-  return <ServicePage choice={choice} year={year} onChangeAnswers={reset} />;
+  return <ServicePage choice={choice} year={year} />;
 }
 
 /**
@@ -82,7 +73,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
 
   const done = (c: Choice) => {
     try {
-      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(c));
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(c));
     } catch {
       // ignore
     }

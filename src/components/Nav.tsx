@@ -1,10 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Menu, SlidersHorizontal, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Choice } from "../data/services";
-import { purposeOf } from "../data/services";
+import type { ServiceKey } from "../data/services";
 import Link from "next/link";
 import DLogo from "./DLogo";
 
@@ -20,24 +19,7 @@ const SITE_LINKS = [
   { label: "Terms", href: "/terms" },
 ];
 
-/** Shows the visitor's answers, with a button to answer again. */
-function AnswersChip({ choice, onChange, className = "" }: { choice: Choice; onChange: () => void; className?: string }) {
-  return (
-    <button
-      type="button"
-      onClick={onChange}
-      title="Change your answers"
-      className={`inline-flex min-h-10 max-w-[13rem] items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 text-xs font-semibold text-white/85 transition-colors hover:border-bright/60 hover:text-white sm:max-w-none sm:text-sm ${className}`}
-    >
-      <SlidersHorizontal className="h-4 w-4 shrink-0 text-bright" />
-      <span className="truncate">{purposeOf(choice).label}</span>
-      <span className="text-bright">Change</span>
-    </button>
-  );
-}
-
-export default function Nav({ choice, onChangeAnswers }: { choice?: Choice; onChangeAnswers?: () => void }) {
-  const service = choice?.service;
+export default function Nav({ service }: { service?: ServiceKey }) {
   const LINKS = service ? PAGE_LINKS : SITE_LINKS;
   const ctaHref = service ? "#contact" : "/";
   const ctaLabel = service ? "Get a Quote" : "Start a Project";
@@ -126,9 +108,6 @@ export default function Nav({ choice, onChangeAnswers }: { choice?: Choice; onCh
           ))}
         </nav>
 
-        {choice && onChangeAnswers ? (
-          <AnswersChip choice={choice} onChange={onChangeAnswers} className="relative z-10 ml-auto lg:ml-0" />
-        ) : null}
 
         <div className="relative z-10 hidden shrink-0 lg:block">
           <a

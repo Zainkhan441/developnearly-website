@@ -19,16 +19,14 @@ import Work from "./Work";
 export default function ServicePage({
   choice,
   year,
-  onChangeAnswers,
 }: {
   choice: Choice;
   year: number;
-  onChangeAnswers: () => void;
 }) {
   const service = choice.service;
   return (
     <div className="min-h-full bg-ink font-sans text-white">
-      <Nav choice={choice} onChangeAnswers={onChangeAnswers} />
+      <Nav service={choice.service} />
       <main id="main-content">
         <ServiceHero choice={choice} />
         {service === "web" ? <ClientStrip /> : null}
