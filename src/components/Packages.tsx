@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
+import { BadgePercent, Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
 import { FREE_SAMPLE, NON_PAYMENT_RULES, PAYMENT_RULES, REVISIONS, SERVICES, buildPackages } from "../data/services";
 import { discountMessage, packageMessage, sampleMessage, waLink } from "../data/whatsapp";
@@ -90,19 +90,20 @@ export default function Packages({ choice }: { choice: Choice }) {
                   Choose {pkg.name}
                 </a>
                 <a
-                  href="#contact"
-                  onClick={() => choose(pkg.name, `${pkg.price}${pkg.per ? ` ${pkg.per}` : ""}`)}
-                  className="mt-3 inline-flex min-h-10 items-center justify-center text-sm font-medium text-mist underline-offset-4 transition-colors hover:text-white hover:underline"
-                >
-                  Prefer email?
-                </a>
-                <a
                   href={waLink(discountMessage(choice, pkg.name, pkg.price, pkg.per))}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center justify-center text-sm font-medium text-emerald-300 underline-offset-4 transition-colors hover:text-emerald-200 hover:underline"
+                  className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 text-[15px] font-semibold text-emerald-300 transition-colors hover:border-emerald-300 hover:bg-emerald-500/20 hover:text-emerald-200"
                 >
-                  Want a discount? Just ask
+                  <BadgePercent className="h-5 w-5 shrink-0" />
+                  Ask for a discount
+                </a>
+                <a
+                  href="#contact"
+                  onClick={() => choose(pkg.name, `${pkg.price}${pkg.per ? ` ${pkg.per}` : ""}`)}
+                  className="mt-2 inline-flex min-h-10 items-center justify-center text-sm font-medium text-mist underline-offset-4 transition-colors hover:text-white hover:underline"
+                >
+                  Prefer email?
                 </a>
               </div>
             </Reveal>

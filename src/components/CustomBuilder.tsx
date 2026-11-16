@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus, SlidersHorizontal } from "lucide-react";
+import { BadgePercent, Minus, Plus, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import type { Choice, LengthKey, QualityKey } from "../data/services";
 import {
@@ -245,9 +245,10 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
         href={empty ? undefined : waLink(discount)}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 inline-flex min-h-10 items-center justify-center gap-1.5 text-sm font-medium text-emerald-300 underline-offset-4 transition-colors hover:text-emerald-200 hover:underline"
+        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 text-[15px] font-semibold text-emerald-300 transition-colors hover:border-emerald-300 hover:bg-emerald-500/20 hover:text-emerald-200"
       >
-        Want a discount? Just ask
+        <BadgePercent className="h-5 w-5 shrink-0" />
+                  Ask for a discount
       </a>
     </div>
   );
