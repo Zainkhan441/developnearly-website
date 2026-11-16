@@ -635,8 +635,43 @@ export function videoQuote(purpose: string, c: VideoCustom): number {
   const q = QUALITY_COST[c.quality];
   const lenCost =
     purpose === "business" ? 1 : purpose === "podcast" ? 1 + (LENGTH_COST[c.length] - 1) * 0.5 : LENGTH_COST[c.length];
-  const raw = c.longs * BASE_LONG_UNIT * q * lenCost + c.shorts * BASE_SHORT_UNIT * q;
-  return raw > 0 ? nicePrice(Math.max(29, raw)) : 0;
+  return c.longs * BASE_LONG_UNIT * q * lenCost + c.shorts * BASE_SHORT_UNIT * q;
+}
+
+export type PlanKey = "once" | "monthly" | "3m" | "6m";
+export const PLAN_OPTIONS: Array<{ id: PlanKey; label: string; months: number; save: number }> = [
+  { id: "once", label: "One-time", months: 0, save: 0 },
+  { id: "monthly", label: "Monthly", months: 1, save: 0 },
+  { id: "3m", label: "3 months", months: 3, save: 10 },
+  { id: "6m", label: "6 months", months: 6, save: 15 },
+];
+
+/** Bulk discount in percent for a number of videos. */
+export function bulkDiscount(count: number): number {
+  return count >= 40 ? 15 : count >= 20 ? 10 : count >= 10 ? 5 : 0;
+}
+
+export interface VideoEstimate {
+  subtotal: number;
+  bulkPct: number;
+  bulkOff: number;
+  planPct: number;
+  planOff: number;
+  total: number;
+  count: number;
+  perVideo: number;
+}
+
+/** Full breakdown for a custom video package, rounded to whole dollars. */
+export function videoEstimate(purpose: string, c: VideoCustom, plan: PlanKey): VideoEstimate {
+  const count = c.longs + c.shorts;
+  const subtotal = Math.round(videoQuote(purpose, c));
+  const bulkPct = bulkDiscount(count);
+  const bulkOff = Math.round((subtotal * bulkPct) / 100);
+  const planPct = PLAN_OPTIONS.find((p) => p.id === plan)?.save ?? 0;
+  const planOff = Math.round(((subtotal - bulkOff) * planPct) / 100);
+  const total = count ? Math.max(5, subtotal - bulkOff - planOff) : 0;
+  return { subtotal, bulkPct, bulkOff, planPct, planOff, total, count, perVideo: count ? total / count : 0 };
 }
 
 export const WEB_EXTRAS: Array<{ id: string; label: string; price: number; store?: boolean; site?: boolean }> = [
@@ -669,5 +704,5 @@ export function webQuote(purpose: string, c: WebCustom): number {
     (sum, e) => sum + (e.id === "copy" ? e.price + c.pages * 10 : e.price),
     0,
   );
-  return nicePrice(base + extras);
+  return Math.round(base + extras);
 }
