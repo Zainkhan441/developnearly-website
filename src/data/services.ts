@@ -71,7 +71,7 @@ export const FREE_SAMPLE = "Free 30 sec – 1 min sample edit";
 export const PAY_AFTER = "Pay after delivery";
 const PAY_FAQ = {
   q: "When do I pay?",
-  a: "Only after you see the finished work and are happy with it, no upfront payment, you check a preview first and pay within 3 days of approving it, then you get the final files",
+  a: "Only after you have seen the finished work and you are happy with it. You check a preview first, pay within 3 days of approving it, and then get the final files",
 };
 
 /** What happens when approved work is not paid for, shown with the packages and in the terms. */
@@ -148,7 +148,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["EDITS THAT KEEP", "VIEWERS"],
         highlight: "WATCHING",
         subhead: "Long-form YouTube edits for faceless channels and creators, built for retention so people watch to the end",
-        faq: { q: "Do you edit faceless documentary-style videos?", a: "Yes, that is our speciality: script and voiceover in, finished video out, with stock footage, B-roll, maps, text animation and sound design" },
+        faq: { q: "Do you edit faceless documentary-style videos?", a: "Yes, that is what we do most. You send the script and voiceover, we send back a finished video with stock footage, B-roll, maps, text animation and sound design" },
       },
       {
         id: "shorts",
@@ -230,19 +230,19 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       PAY_FAQ,
       {
         q: "Can I get a free sample first?",
-        a: "Yes, send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can see our quality before you pay anything, the sample is watermarked and is only for you to judge our work",
+        a: "Yes. Send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can judge our work before paying anything. The sample comes with a watermark",
       },
       {
         q: "Do you edit for faceless YouTube channels?",
-        a: "Yes, most of our work is faceless content: documentaries, list videos, explainers and sports videos, built from a script and voiceover with stock footage, B-roll and text animation",
+        a: "Yes, most of our work is faceless: documentaries, list videos, explainers and sports videos. We build them from your script and voiceover with stock footage, B-roll and text animation",
       },
       {
         q: "What do I need to send you?",
-        a: "For faceless videos, the script and voiceover, plus any example videos you like, for other videos, your raw footage, everything can be shared through Google Drive",
+        a: "For faceless videos, your script and voiceover, plus a few videos you like. For anything else, your raw footage. Everything can go through Google Drive",
       },
       {
         q: "How fast is delivery?",
-        a: "Shorts and Reels in about 48 hours, long-form videos in 3–4 days, monthly clients get priority",
+        a: "Shorts and Reels in about 48 hours, long videos in 3–4 days. Monthly clients get priority",
       },
       {
         q: "How many revisions do I get?",
@@ -250,7 +250,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
       {
         q: "Can I try one video first?",
-        a: "Yes, start with the free sample edit or the Essential package, if you like the result you can move to a monthly plan",
+        a: "Yes. Start with the free sample or the Essential package, and move to a monthly plan once you like the results",
       },
       {
         q: "Do you work with clients outside Pakistan?",
@@ -357,7 +357,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       PAY_FAQ,
       {
         q: "How long does a website take?",
-        a: "A landing page takes about 5–7 days, a business website 1–2 weeks and an online store 2–3 weeks, once we have your content",
+        a: "Once we have your content, a landing page takes about 5–7 days, a business website 1–2 weeks and an online store 2–3 weeks",
       },
       {
         q: "Will my website work on phones?",
@@ -369,11 +369,11 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
       {
         q: "What do I need to give you?",
-        a: "Your logo, photos and some text about your business, if you do not have everything yet, we will help you",
+        a: "Your logo, photos and a little text about your business. Don't have everything yet? We will help you with the rest",
       },
       {
         q: "Do you also handle domain and hosting?",
-        a: "Yes, we help you choose a domain and set up hosting, domain and hosting fees are paid directly by you, so you own everything",
+        a: "Yes. We help you pick a domain and set up hosting. You pay those fees directly, so everything stays in your name",
       },
       {
         q: "Do you work with clients outside Pakistan?",
@@ -384,6 +384,8 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
 };
 
 export const SERVICE_LIST: ServiceInfo[] = [SERVICES.video, SERVICES.web];
+
+const CUSTOM_ID = "custom";
 
 /** The visitor's answers to the welcome questions. */
 export interface Choice {
@@ -396,9 +398,46 @@ export interface Choice {
   budgetLabel: string;
   /** Budget in USD that packages are built around. */
   budgetValue: number;
+  /** Level of finish the visitor wants. Older saved answers have none. */
+  quality?: QualityKey;
+  /** Typical length of a long video (video only, long-form purposes). */
+  length?: LengthKey;
 }
 
-export const CUSTOM = "custom";
+export type QualityKey = "standard" | "pro" | "premium";
+export type LengthKey = "short" | "medium" | "long" | "xlong";
+
+export interface QualityOption {
+  id: QualityKey;
+  label: string;
+  hint: string;
+}
+
+/** The "how polished should it be" question, worded per service. */
+export const QUALITY_OPTIONS: Record<ServiceKey, QualityOption[]> = {
+  video: [
+    { id: "standard", label: "Clean & Simple", hint: "Smooth cuts, captions and music, great for regular uploads" },
+    { id: "pro", label: "Professional", hint: "B-roll, text animation and sound design that keeps people watching" },
+    { id: "premium", label: "Premium Cinematic", hint: "Color grading, custom motion graphics and story-driven editing" },
+  ],
+  web: [
+    { id: "standard", label: "Essential", hint: "A clean, modern website that does the job well" },
+    { id: "pro", label: "Professional", hint: "A custom design built around your brand" },
+    { id: "premium", label: "Premium", hint: "Fully custom, with animations and advanced features" },
+  ],
+};
+
+export const LENGTH_OPTIONS: Array<{ id: LengthKey; label: string }> = [
+  { id: "short", label: "Under 10 minutes" },
+  { id: "medium", label: "10 – 20 minutes" },
+  { id: "long", label: "20 – 40 minutes" },
+  { id: "xlong", label: "40 minutes or more" },
+];
+
+/** Purposes where most videos are long, so we ask how long. */
+export const LONG_FORM_PURPOSES = new Set(["youtube", "podcast", "other", CUSTOM_ID]);
+
+export const CUSTOM = CUSTOM_ID;
 
 export function purposeOf(choice: Choice): Purpose {
   const info = SERVICES[choice.service];
@@ -420,8 +459,10 @@ function nicePrice(n: number): number {
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-const LONG_UNIT = 89; // one long-form edit, up to 15 min
-const SHORT_UNIT = 25; // one Short / Reel / TikTok
+// Per-video rates used only to work out how many videos a budget covers.
+// The package price itself always follows the budget.
+const BASE_LONG_UNIT = 27; // one long-form edit, 10–20 min
+const BASE_SHORT_UNIT = 7.2; // one Short / Reel / TikTok
 const SHORT_FIRST = new Set(["shorts", "reels", "tiktok", "facebook"]);
 const SHORT_LABEL: Record<string, string> = {
   shorts: "YouTube Shorts",
@@ -430,8 +471,33 @@ const SHORT_LABEL: Record<string, string> = {
   facebook: "Facebook Reels",
 };
 
-function videoPackage(target: number, purpose: string, name: string, tagline: string): Package {
-  const monthly = target >= 250;
+/** Snap a count to a number a person would actually offer (no "7 videos" or "13 Shorts"). */
+const ROUND_COUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60];
+function roundCount(n: number): number {
+  if (n <= 0) return 0;
+  return ROUND_COUNTS.reduce((best, c) => (Math.abs(c - n) < Math.abs(best - n) ? c : best), ROUND_COUNTS[0]);
+}
+
+const QUALITY_COST: Record<QualityKey, number> = { standard: 0.7, pro: 1, premium: 1.4 };
+const LENGTH_COST: Record<LengthKey, number> = { short: 0.8, medium: 1, long: 1.3, xlong: 1.7 };
+const LENGTH_TEXT: Record<LengthKey, string> = {
+  short: "up to 10 min",
+  medium: "up to 20 min",
+  long: "up to 40 min",
+  xlong: "40 min+",
+};
+
+interface Opts {
+  quality: QualityKey;
+  length: LengthKey;
+}
+
+function videoPackage(target: number, purpose: string, name: string, tagline: string, monthly: boolean, opts: Opts): Package {
+  const q = QUALITY_COST[opts.quality];
+  // Podcasts are mostly talking heads, so extra length costs less there.
+  const lenCost = purpose === "business" ? 1 : purpose === "podcast" ? 1 + (LENGTH_COST[opts.length] - 1) * 0.5 : LENGTH_COST[opts.length];
+  const LONG_UNIT = BASE_LONG_UNIT * q * lenCost;
+  const SHORT_UNIT = BASE_SHORT_UNIT * q;
   const shortsOnly = SHORT_FIRST.has(purpose);
   const shortWord = SHORT_LABEL[purpose] ?? "Shorts or Reels";
   let longs = 0;
@@ -442,11 +508,15 @@ function videoPackage(target: number, purpose: string, name: string, tagline: st
     shorts = Math.max(2, Math.round((target * 0.5) / SHORT_UNIT));
     longs = Math.max(0, Math.floor((target - shorts * SHORT_UNIT) / LONG_UNIT));
   } else {
-    longs = Math.max(1, Math.floor((target * 0.8) / LONG_UNIT));
+    longs = Math.max(1, Math.round((target * 0.7) / LONG_UNIT));
     shorts = Math.max(0, Math.round((target - longs * LONG_UNIT) / SHORT_UNIT));
+    // Keep a sensible mix: a few clips per long video, not a pile of Shorts.
+    shorts = Math.min(shorts, longs * 4);
   }
-  const raw = longs * LONG_UNIT + shorts * SHORT_UNIT;
-  const price = nicePrice(raw);
+  longs = roundCount(longs);
+  shorts = shortsOnly ? Math.max(2, roundCount(shorts)) : shorts > 0 ? Math.max(2, roundCount(shorts)) : 0;
+  const price = nicePrice(target);
+  const raw = price;
   const per = monthly ? "/ month" : undefined;
   const features: string[] = [];
   const [longOne, longMany] =
@@ -454,50 +524,63 @@ function videoPackage(target: number, purpose: string, name: string, tagline: st
       ? ["full podcast episode", "full podcast episodes"]
       : purpose === "business"
         ? ["promo or ad video (up to 3 min)", "promo or ad videos (up to 3 min)"]
-        : ["long-form video (up to 15 min)", "long-form videos (up to 15 min)"];
+        : [`long-form video (${LENGTH_TEXT[opts.length]})`, `long-form videos (${LENGTH_TEXT[opts.length]})`];
   if (longs) features.push(`${plural(longs, longOne, longMany)}${monthly ? " a month" : ""}`);
   if (shorts) features.push(`${shorts === 1 ? "1 Short or Reel" : `${shorts} ${shortWord}`}${monthly ? " a month" : ""}`);
-  features.push(shortsOnly ? "Strong hooks & animated captions" : "Stock footage, B-roll & text animation");
-  features.push("Music & sound design");
-  if (raw >= 400) features.push("Thumbnail for every long video");
-  if (raw >= 700) features.push("Motion graphics & custom animations");
+  if (opts.quality === "standard") features.push(shortsOnly ? "Clean cuts & animated captions" : "Clean cuts, captions & text");
+  else features.push(shortsOnly ? "Strong hooks & animated captions" : "Stock footage, B-roll & text animation");
+  features.push(opts.quality === "standard" ? "Background music" : "Music & sound design");
+  if (opts.quality === "premium") features.push("Color grading & cinematic look");
+  if (!shortsOnly && longs && (raw >= 400 || (opts.quality === "premium" && raw >= 150))) features.push("Thumbnail for every long video");
+  if (raw >= 700 || (opts.quality === "premium" && raw >= 250)) features.push("Motion graphics & custom animations");
   if (raw >= 250) features.push("One dedicated editor");
-  features.push(raw >= 600 ? "Priority, same-week delivery" : shortsOnly || longs === 0 ? "Delivered in 2–4 days" : "Delivered in 3–5 days");
+  features.push(raw >= 600 ? "Priority, same-week delivery" : shortsOnly || longs === 0 ? "Delivered in 2–3 days" : "Delivered in 3–4 days");
   features.push(`${REVISIONS} free revisions on every video`);
   return { name, price: usd(price), value: price, per, tagline, features };
 }
 
 const WEB_MIN: Record<string, number> = { store: 199, business: 199, redesign: 199 };
 
-function webPackage(target: number, purpose: string, name: string, tagline: string): Package {
-  const price = nicePrice(Math.max(target, WEB_MIN[purpose] ?? 149));
+const WEB_QUALITY_SCOPE: Record<QualityKey, number> = { standard: 1.3, pro: 1, premium: 0.7 };
+const WEB_DESIGN: Record<QualityKey, string> = {
+  standard: "Clean, modern design",
+  pro: "Custom design built around your brand",
+  premium: "Premium custom design with smooth animations",
+};
+
+function webPackage(target: number, purpose: string, name: string, tagline: string, _monthly: boolean, opts: Opts): Package {
+  const actual = nicePrice(Math.max(target, WEB_MIN[purpose] ?? 149));
+  // Scope (pages, products, extras) depends on the price and on how polished
+  // the design is: a premium finish costs more per page.
+  const price = actual * WEB_QUALITY_SCOPE[opts.quality];
   const features: string[] = [];
   const store = purpose === "store";
-  const minPages = (purpose === "business" || purpose === "redesign") && price >= 250 ? 3 : 1;
-  const pages = purpose === "landing" ? 1 : Math.max(minPages, price < 300 ? 1 : Math.round(price / 110));
+  const minPages = (purpose === "business" || purpose === "redesign") && actual >= 250 ? 3 : 1;
+  const rawPages = price < 250 ? 1 : price < 400 ? 5 : price < 700 ? 8 : price < 1000 ? 10 : price < 1500 ? 15 : 20;
+  const pages = purpose === "landing" ? 1 : Math.max(minPages, rawPages);
   if (store) {
-    const products = price < 230 ? 3 : price < 300 ? 5 : price < 550 ? 10 : price < 620 ? 20 : price < 800 ? 30 : price < 1500 ? 50 : price < 2500 ? 150 : 500;
+    const products = price < 230 ? 10 : price < 300 ? 20 : price < 550 ? 30 : price < 800 ? 50 : price < 1500 ? 100 : price < 2500 ? 300 : 1000;
     features.push(`Online store with up to ${products} products`);
     features.push("Cart, checkout & payment setup");
   } else if (pages === 1) {
-    features.push("1 page, built to turn visitors into leads");
+    features.push(purpose === "landing" ? "1 page, built to turn visitors into leads" : "1 page with everything about your business");
   } else {
     features.push(price >= 2500 ? "As many pages as you need" : `Up to ${pages} pages`);
   }
+  features.push(WEB_DESIGN[opts.quality]);
   features.push("Mobile-friendly design");
   features.push("Contact form & WhatsApp button");
-  if (price >= 300) features.push("Google Maps, gallery & SEO setup");
+  if (price >= 250) features.push("Google Maps, gallery & SEO setup");
   if (price >= 700) features.push(store ? "Discount codes & order emails" : "Blog or booking system");
-  if (price >= 1200) features.push("Fully custom design & animations");
   if (price >= 1200) features.push("Copywriting for every page");
   if (price >= 2500) features.push("Custom features (member login, dashboards)");
   if (price >= 4000) features.push("Advanced SEO & speed optimization");
   if (price >= 4000) features.push("Dedicated project manager & strategy calls");
   features.push(price >= 1200 ? `${price >= 2500 ? 3 : 1} month${price >= 2500 ? "s" : ""} of free updates after launch` : "Speed & security setup");
-  const days = price < 300 ? "5–7 days" : price < 800 ? "1–2 weeks" : price < 1500 ? "2–3 weeks" : "3–5 weeks";
+  const days = actual < 300 ? "5–7 days" : actual < 800 ? "1–2 weeks" : actual < 1500 ? "2–3 weeks" : "3–5 weeks";
   features.push(`Ready in ${days}`);
   features.push(`${REVISIONS} free revisions`);
-  return { name, price: usd(price), value: price, per: store || price >= 1200 ? "starting" : undefined, tagline, features };
+  return { name, price: usd(actual), value: actual, per: store || actual >= 1200 ? "starting" : undefined, tagline, features };
 }
 
 /**
@@ -508,10 +591,14 @@ function webPackage(target: number, purpose: string, name: string, tagline: stri
 export function buildPackages(choice: Choice): { packages: Package[]; recommended: Package } {
   const b = Math.max(30, choice.budgetValue);
   const purpose = choice.purpose === CUSTOM ? (choice.service === "video" ? "other" : "notsure") : choice.purpose;
-  const make = choice.service === "video" ? videoPackage : webPackage;
+  const opts: Opts = { quality: choice.quality ?? "pro", length: choice.length ?? "medium" };
+  const build = choice.service === "video" ? videoPackage : webPackage;
+  const make = (t: number, p: string, n: string, tag: string, m: boolean) => build(t, p, n, tag, m, opts);
+  // One billing style per row: either all three are monthly plans or all one-time.
+  const monthly = b >= 250;
   const tiers: Array<[number, string, string]> = [
     [b * 0.55, "Essential", "A great place to start"],
-    [b, "Growth", "Our most popular choice"],
+    [b, "Growth", "The best value for most clients"],
     [b * 1.7, "Premium", "Everything, done for you"],
   ];
   // Each tier must cost more than the one before (small budgets hit the
@@ -519,15 +606,68 @@ export function buildPackages(choice: Choice): { packages: Package[]; recommende
   const packages: Package[] = [];
   for (const [t, n, tag] of tiers) {
     let target = t;
-    let pkg = make(target, purpose, n, tag);
+    let pkg = make(target, purpose, n, tag, monthly);
     const prev = packages[packages.length - 1];
     for (let i = 0; prev && (pkg.value ?? 0) <= (prev.value ?? 0) && i < 30; i++) {
       target *= 1.15;
-      pkg = make(target, purpose, n, tag);
+      pkg = make(target, purpose, n, tag, monthly);
     }
     packages.push(pkg);
   }
   const recommended = packages[1];
   recommended.featured = true;
   return { packages, recommended };
+}
+
+/* ---------- "Build your own package" estimates ---------- */
+
+export const SHORT_FIRST_PURPOSES = SHORT_FIRST;
+
+export interface VideoCustom {
+  longs: number;
+  shorts: number;
+  quality: QualityKey;
+  length: LengthKey;
+}
+
+/** Estimated price for a video package the visitor puts together. */
+export function videoQuote(purpose: string, c: VideoCustom): number {
+  const q = QUALITY_COST[c.quality];
+  const lenCost =
+    purpose === "business" ? 1 : purpose === "podcast" ? 1 + (LENGTH_COST[c.length] - 1) * 0.5 : LENGTH_COST[c.length];
+  const raw = c.longs * BASE_LONG_UNIT * q * lenCost + c.shorts * BASE_SHORT_UNIT * q;
+  return raw > 0 ? nicePrice(Math.max(29, raw)) : 0;
+}
+
+export const WEB_EXTRAS: Array<{ id: string; label: string; price: number; store?: boolean; site?: boolean }> = [
+  { id: "booking", label: "Blog or booking system", price: 120, site: true },
+  { id: "orders", label: "Discount codes & order emails", price: 90, store: true },
+  { id: "seo", label: "Advanced SEO setup", price: 100 },
+  { id: "copy", label: "We write the text for you", price: 80 },
+  { id: "updates", label: "3 months of free updates", price: 90 },
+];
+
+export const STORE_PRODUCTS = [10, 20, 30, 50, 100, 300, 1000];
+const STORE_PRODUCT_COST: Record<number, number> = { 10: 0, 20: 50, 30: 100, 50: 200, 100: 400, 300: 900, 1000: 2000 };
+const WEB_QUALITY_COST: Record<QualityKey, number> = { standard: 0.8, pro: 1, premium: 1.4 };
+
+export interface WebCustom {
+  pages: number;
+  products: number;
+  quality: QualityKey;
+  extras: string[];
+}
+
+/** Estimated price for a website the visitor puts together. */
+export function webQuote(purpose: string, c: WebCustom): number {
+  const q = WEB_QUALITY_COST[c.quality];
+  const base =
+    purpose === "store"
+      ? (249 + (STORE_PRODUCT_COST[c.products] ?? 0) + Math.max(0, c.pages - 5) * 40) * q
+      : (149 + Math.max(0, c.pages - 1) * 45) * q;
+  const extras = WEB_EXTRAS.filter((e) => c.extras.includes(e.id)).reduce(
+    (sum, e) => sum + (e.id === "copy" ? e.price + c.pages * 10 : e.price),
+    0,
+  );
+  return nicePrice(base + extras);
 }

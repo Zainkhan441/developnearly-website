@@ -1,9 +1,10 @@
 "use client";
 
-import { Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
+import { BadgePercent, Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
 import { FREE_SAMPLE, NON_PAYMENT_RULES, PAYMENT_RULES, REVISIONS, SERVICES, buildPackages } from "../data/services";
-import { packageMessage, sampleMessage, waLink } from "../data/whatsapp";
+import { discountMessage, packageMessage, sampleMessage, waLink } from "../data/whatsapp";
+import CustomBuilder from "./CustomBuilder";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
 
@@ -39,7 +40,7 @@ export default function Packages({ choice }: { choice: Choice }) {
 
         <div
           className={`mx-auto mt-12 grid grid-cols-1 items-stretch gap-6 sm:mt-16 ${
-            shown.length >= 3 ? "max-w-6xl md:grid-cols-3" : shown.length === 2 ? "max-w-4xl md:grid-cols-2" : "max-w-md"
+            shown.length >= 3 ? "max-w-7xl md:grid-cols-2 xl:grid-cols-4" : shown.length === 2 ? "max-w-6xl md:grid-cols-3" : "max-w-4xl md:grid-cols-2"
           }`}
         >
           {shown.map((pkg, i) => {
@@ -89,9 +90,18 @@ export default function Packages({ choice }: { choice: Choice }) {
                   Choose {pkg.name}
                 </a>
                 <a
+                  href={waLink(discountMessage(choice, pkg.name, pkg.price, pkg.per))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 text-[15px] font-semibold text-emerald-300 transition-colors hover:border-emerald-300 hover:bg-emerald-500/20 hover:text-emerald-200"
+                >
+                  <BadgePercent className="h-5 w-5 shrink-0" />
+                  Ask for a discount
+                </a>
+                <a
                   href="#contact"
                   onClick={() => choose(pkg.name, `${pkg.price}${pkg.per ? ` ${pkg.per}` : ""}`)}
-                  className="mt-3 inline-flex min-h-10 items-center justify-center text-sm font-medium text-mist underline-offset-4 transition-colors hover:text-white hover:underline"
+                  className="mt-2 inline-flex min-h-10 items-center justify-center text-sm font-medium text-mist underline-offset-4 transition-colors hover:text-white hover:underline"
                 >
                   Prefer email?
                 </a>
@@ -99,6 +109,9 @@ export default function Packages({ choice }: { choice: Choice }) {
             </Reveal>
             );
           })}
+          <Reveal delay={shown.length * 0.08} className="h-full">
+            <CustomBuilder choice={choice} />
+          </Reveal>
         </div>
 
         {choice.service === "video" ? (
@@ -153,9 +166,8 @@ export default function Packages({ choice }: { choice: Choice }) {
                 Keeping it fair for everyone
               </h4>
               <p className="mt-2 text-[15px] leading-relaxed text-mist">
-                We trust our clients, that is why you pay after the work, we sincerely hope the
-                day never comes when we need any of the rules below, they are only here to keep
-                it fair for both sides
+                We trust our clients, that is why you pay after the work. We hope we never need
+                the rules below. They are only here to keep things fair for both sides
               </p>
               <ul className="mt-4 space-y-2.5">
                 {NON_PAYMENT_RULES[choice.service].map((rule) => (
@@ -166,7 +178,7 @@ export default function Packages({ choice }: { choice: Choice }) {
                 ))}
               </ul>
               <p className="mt-4 text-sm text-mist">
-                Thank you for understanding, it is what lets us offer pay after delivery to everyone, see our{" "}
+                Thanks for understanding. These rules are what let us offer pay after delivery to everyone. See our{" "}
                 <a href="/terms" className="font-semibold text-bright underline-offset-4 hover:underline">
                   Terms of Service
                 </a>

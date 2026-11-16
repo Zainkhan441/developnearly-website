@@ -40,8 +40,8 @@ function BenefitList({ items }: { items: string[] }) {
 
 const WEB_BENEFITS = [
   "A fast website your customers love to use",
-  "Your menu, services and prices in one place",
-  "Built to show up on Google and bring you orders",
+  "Your services, prices and contact details in one place",
+  "Built to show up on Google and bring in customers",
 ];
 
 function BrowserVisual() {
@@ -140,7 +140,7 @@ function FilmTimelineVisual() {
 
 const DETAILS: Record<ServiceKey, { title: string; description: string; benefits: string[]; visual: React.ReactNode }> = {
   web: {
-    title: "Digital Experiences Built to Perform",
+    title: "Websites That Work as Hard as You Do",
     description: "We design and develop modern websites that look great, work fast, and are easy for your customers to use",
     benefits: WEB_BENEFITS,
     visual: <BrowserVisual />,

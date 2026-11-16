@@ -17,7 +17,7 @@ export default function Faq({ choice }: { choice: Choice }) {
             Questions? <span className="text-gradient-blue">Answered</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-            Everything clients usually ask before starting a project, and anything else, just ask us directly
+            Can&apos;t find your answer? Just message us on WhatsApp
           </p>
         </Reveal>
 
