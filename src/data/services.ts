@@ -28,6 +28,10 @@ export interface Purpose {
   headline: [string, string];
   highlight: string;
   subhead: string;
+  /** Extra FAQ shown first for this purpose. */
+  faq?: { q: string; a: string };
+  /** Portfolio slugs to show first for this purpose. */
+  showFirst?: string[];
 }
 
 export interface Budget {
@@ -94,6 +98,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["EDITS THAT KEEP", "VIEWERS"],
         highlight: "WATCHING",
         subhead: "Long-form YouTube edits for faceless channels and creators, built for retention so people watch to the end",
+        faq: { q: "Do you edit faceless documentary-style videos?", a: "Yes, that is our speciality: script and voiceover in, finished video out, with stock footage, B-roll, maps, text animation and sound design" },
       },
       {
         id: "shorts",
@@ -102,6 +107,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["SHORTS THAT", "STOP THE"],
         highlight: "SCROLL",
         subhead: "Fast, punchy YouTube Shorts with strong hooks and animated captions, ready to post",
+        faq: { q: "Can you turn my long videos into Shorts?", a: "Yes, send us your long video and we will pick the best moments and cut them into vertical Shorts with captions and hooks" },
       },
       {
         id: "reels",
@@ -110,6 +116,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["REELS THAT", "GET YOU"],
         highlight: "NOTICED",
         subhead: "Scroll-stopping Instagram Reels with hooks, captions and music, edited for your page or brand",
+        faq: { q: "Do you add captions and music to Reels?", a: "Yes, every Reel gets animated captions, music and sound effects, cut in the vertical 9:16 format Instagram wants" },
       },
       {
         id: "tiktok",
@@ -118,6 +125,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["TIKTOKS THAT", "PEOPLE"],
         highlight: "SHARE",
         subhead: "TikTok videos cut in the style the platform rewards: quick hooks, captions and trending audio",
+        faq: { q: "Do you follow TikTok trends?", a: "Yes, we edit in the fast style TikTok rewards, with quick hooks, captions and trending-style sounds, you choose the final audio when you post" },
       },
       {
         id: "facebook",
@@ -134,6 +142,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["PODCASTS THAT", "LOOK AS GOOD AS THEY"],
         highlight: "SOUND",
         subhead: "Full podcast episodes edited for YouTube, plus short clips to promote every episode",
+        faq: { q: "Can you turn one episode into short clips?", a: "Yes, from every episode we cut short vertical clips with captions, ready for Shorts, Reels and TikTok" },
       },
       {
         id: "business",
@@ -142,6 +151,8 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["VIDEOS THAT", "SELL YOUR"],
         highlight: "BUSINESS",
         subhead: "Promo, product and ad videos for your business, edited to grab attention and bring customers",
+        faq: { q: "Can you edit ads for Facebook and Instagram?", a: "Yes, we edit promo and ad videos in every size the platforms need, with captions, your logo and a clear call to action" },
+        showFirst: ["winter-jackets","suspicious-supplements"],
       },
       {
         id: "other",
@@ -225,6 +236,8 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["A WEBSITE THAT BRINGS", "YOU"],
         highlight: "CUSTOMERS",
         subhead: "A fast, modern website that shows your services, prices and location, and turns visitors into customers",
+        faq: { q: "Will my business show up on Google?", a: "We set up every site so Google can read it, with page titles, descriptions, Google Maps and fast loading, which helps you get found" },
+        showFirst: ["alaska-restaurant","dynamic-gym","new-fine-steel"],
       },
       {
         id: "landing",
@@ -233,6 +246,8 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["ONE PAGE THAT", "TURNS VISITORS INTO"],
         highlight: "LEADS",
         subhead: "A focused landing page for your offer, ad or launch, built to get people to call, book or buy",
+        faq: { q: "Can the page work with my ads?", a: "Yes, we build the page for your offer and can add tracking for Facebook and Google ads so you can see what brings results" },
+        showFirst: ["dynamic-gym","alaska-restaurant"],
       },
       {
         id: "store",
@@ -241,6 +256,8 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["AN ONLINE STORE", "THAT"],
         highlight: "SELLS",
         subhead: "A beautiful online store with product pages, cart and checkout, easy for you to manage",
+        faq: { q: "Can I add and edit products myself?", a: "Yes, you get an easy dashboard to add products, change prices and manage orders, and we show you how it works" },
+        showFirst: ["zelnivo","aysh-collection"],
       },
       {
         id: "portfolio",
@@ -257,6 +274,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["YOUR WEBSITE,", "BUT"],
         highlight: "BETTER",
         subhead: "We redesign your old website into a fast, modern site that works great on phones",
+        faq: { q: "Will I lose anything from my old website?", a: "No, we keep your content, pages and Google rankings in mind and move everything over to the new design" },
       },
       {
         id: "notsure",

@@ -1,9 +1,10 @@
-import type { ServiceKey } from "../data/services";
-import { SERVICES } from "../data/services";
+import type { Choice } from "../data/services";
+import { SERVICES, purposeOf } from "../data/services";
 import Reveal from "./Reveal";
 
-export default function Faq({ service }: { service: ServiceKey }) {
-  const FAQS = SERVICES[service].faqs;
+export default function Faq({ choice }: { choice: Choice }) {
+  const extra = purposeOf(choice).faq;
+  const FAQS = extra ? [extra, ...SERVICES[choice.service].faqs] : SERVICES[choice.service].faqs;
   return (
     <section id="faq" aria-label="Frequently asked questions" className="scroll-mt-24 border-t border-white/5">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">

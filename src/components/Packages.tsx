@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowRight, Check, Sparkles } from "lucide-react";
+import { ArrowRight, Check, MessageCircle, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
-import { REVISIONS, SERVICES, buildPackages } from "../data/services";
+import { REVISIONS, SERVICES, buildPackages, purposeOf } from "../data/services";
 import Reveal from "./Reveal";
 
 /** Event the Contact form listens for, so "Choose" prefills the form. */
@@ -11,6 +11,11 @@ export const CHOOSE_PACKAGE_EVENT = "dn:choose-package";
 export default function Packages({ choice }: { choice: Choice }) {
   const info = SERVICES[choice.service];
   const { packages: shown, recommended } = buildPackages(choice);
+  const purpose = purposeOf(choice).label;
+  const whatsapp = (name: string, price: string, per?: string) =>
+    `https://wa.me/923131134962?text=${encodeURIComponent(
+      `Hi DevelopNearly! I am interested in the ${name} package (${price}${per ? ` ${per}` : ""}) for: ${purpose}`,
+    )}`;
 
   const choose = (name: string, price: string) => {
     window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: `${name} package (${price})` }));
@@ -84,6 +89,15 @@ export default function Packages({ choice }: { choice: Choice }) {
                 >
                   Choose {pkg.name}
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+                <a
+                  href={whatsapp(pkg.name, pkg.price, pkg.per)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex min-h-10 items-center justify-center gap-2 text-sm font-semibold text-mist transition-colors hover:text-[#25d366]"
+                >
+                  <MessageCircle className="h-4 w-4 text-[#25d366]" />
+                  Ask on WhatsApp
                 </a>
               </div>
             </Reveal>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { Choice } from "../data/services";
+import { purposeOf } from "../data/services";
 import ClientStrip from "./ClientStrip";
 import Contact from "./Contact";
 import Faq from "./Faq";
@@ -31,12 +32,12 @@ export default function ServicePage({
       <main id="main-content">
         <ServiceHero choice={choice} />
         {service === "web" ? <ClientStrip /> : null}
-        <Work kind={service === "video" ? "video" : "website"} />
+        <Work kind={service === "video" ? "video" : "website"} showFirst={purposeOf(choice).showFirst} />
         <Services service={service} />
         <Packages choice={choice} />
         <Process service={service} />
         <Why />
-        <Faq service={service} />
+        <Faq choice={choice} />
         <Contact choice={choice} />
       </main>
       <Footer year={year} servicePage />

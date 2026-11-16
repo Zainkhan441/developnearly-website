@@ -225,8 +225,17 @@ function GroupHeading({ icon, title, count }: { icon: React.ReactNode; title: st
   );
 }
 
-export default function Work({ kind }: { kind: "video" | "website" }) {
-  const items = projects.filter((project) => project.kind === kind);
+export default function Work({ kind, showFirst = [] }: { kind: "video" | "website"; showFirst?: string[] }) {
+  // Work that matches the visitor's answers comes first.
+  const rank = (slug: string) => {
+    const i = showFirst.indexOf(slug);
+    return i === -1 ? showFirst.length : i;
+  };
+  const items = projects
+    .filter((project) => project.kind === kind)
+    .map((project, i) => ({ project, i }))
+    .sort((a, b) => rank(a.project.slug) - rank(b.project.slug) || a.i - b.i)
+    .map(({ project }) => project);
   const isVideo = kind === "video";
   return (
     <section id="work" aria-label="Selected work" className="scroll-mt-24 border-t border-white/5 bg-panel/40">
