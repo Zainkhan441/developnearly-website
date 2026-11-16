@@ -314,7 +314,7 @@ export default function Welcome({
                       autoFocus
                       icon={Clapperboard}
                       label="I want my videos edited"
-                      hint="YouTube, Shorts, Reels, TikTok, podcasts, ads"
+                      hint="YouTube, Shorts, Reels, TikTok, podcasts, ads · free sample edit"
                       onClick={() => setService("video")}
                     />
                     <Option

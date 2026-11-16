@@ -1,6 +1,6 @@
 import { ArrowRight, Check, Play } from "lucide-react";
 import type { Choice } from "../data/services";
-import { REVISIONS, SERVICES, purposeOf } from "../data/services";
+import { FREE_SAMPLE, REVISIONS, SERVICES, purposeOf } from "../data/services";
 
 /**
  * Hero for a single service page. Pure CSS entrance (animate-hero-fade-up)
@@ -46,7 +46,7 @@ export default function ServiceHero({ choice }: { choice: Choice }) {
         </p>
 
         <ul style={d(0.24)} className="mt-7 flex animate-hero-fade-up flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
-          {[`${REVISIONS} free revisions`, "Fixed price, no surprises", "Delivered on time"].map((t) => (
+          {[...(service === "video" ? [FREE_SAMPLE] : []), `${REVISIONS} free revisions`, "Fixed price, no surprises"].map((t) => (
             <li key={t} className="flex items-center gap-2">
               <Check className="h-4 w-4 text-bright" strokeWidth={3} />
               {t}

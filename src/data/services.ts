@@ -64,6 +64,9 @@ export interface ServiceInfo {
 
 export const REVISIONS = 3;
 
+/** Free sample edit offered to video clients before they pay. */
+export const FREE_SAMPLE = "Free 30 sec – 1 min sample edit";
+
 export const SERVICES: Record<ServiceKey, ServiceInfo> = {
   video: {
     key: "video",
@@ -178,6 +181,10 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
     ],
     faqs: [
       {
+        q: "Can I get a free sample first?",
+        a: "Yes, send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can see our quality before you pay anything",
+      },
+      {
         q: "Do you edit for faceless YouTube channels?",
         a: "Yes, most of our work is faceless content: documentaries, list videos, explainers and sports videos, built from a script and voiceover with stock footage, B-roll and text animation",
       },
@@ -195,7 +202,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
       {
         q: "Can I try one video first?",
-        a: "Yes, start with the Starter package or a single YouTube video, if you like the result you can move to a monthly plan",
+        a: "Yes, start with the free sample edit or the Essential package, if you like the result you can move to a monthly plan",
       },
       {
         q: "Do you work with clients outside Pakistan?",

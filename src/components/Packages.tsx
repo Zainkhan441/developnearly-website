@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowRight, Check, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Gift, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
-import { REVISIONS, SERVICES, buildPackages, purposeOf } from "../data/services";
+import { FREE_SAMPLE, REVISIONS, SERVICES, buildPackages, purposeOf } from "../data/services";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
 
@@ -105,6 +105,30 @@ export default function Packages({ choice }: { choice: Choice }) {
             );
           })}
         </div>
+
+        {choice.service === "video" ? (
+          <Reveal delay={0.15}>
+            <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center gap-5 rounded-3xl border border-emerald-400/30 bg-gradient-to-r from-emerald-500/15 via-emerald-500/5 to-transparent p-6 text-center sm:flex-row sm:p-7 sm:text-left">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-300">
+                <Gift className="h-7 w-7" />
+              </span>
+              <div className="flex-1">
+                <p className="font-display text-xl font-bold text-white">Not sure yet? Try us for free</p>
+                <p className="mt-1 text-[15px] leading-relaxed text-mist">
+                  Send your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, you pay nothing unless you like it
+                </p>
+              </div>
+              <a
+                href="#contact"
+                onClick={() => window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: FREE_SAMPLE }))}
+                className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-full bg-emerald-500 px-6 text-sm font-semibold text-ink transition-colors hover:bg-emerald-400"
+              >
+                Get my free sample
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </Reveal>
+        ) : null}
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-mist sm:text-base">
