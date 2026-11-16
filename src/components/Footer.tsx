@@ -2,6 +2,7 @@
 
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import DLogo from "./DLogo";
+import { InstagramIcon, TikTokIcon } from "./SocialIcons";
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
@@ -19,7 +20,8 @@ const SERVICE_LINKS = [
 ];
 
 const SOCIALS = [
-  { name: "Instagram", href: "https://www.instagram.com/developnearly/" },
+  { name: "Instagram", href: "https://www.instagram.com/developnearly/", Icon: InstagramIcon },
+  { name: "TikTok", href: "https://www.tiktok.com/@developnearly", Icon: TikTokIcon },
 ];
 
 export default function Footer({ year }: { year: number }) {
@@ -91,8 +93,9 @@ export default function Footer({ year }: { year: number }) {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/85 transition-colors hover:text-bright"
+                      className="flex items-center gap-2 text-white/85 transition-colors hover:text-bright"
                     >
+                      <social.Icon className="h-4 w-4 shrink-0 text-bright" />
                       {social.name}
                     </a>
                   </li>
