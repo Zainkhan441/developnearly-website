@@ -19,7 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "DevelopNearly | Creative Digital Agency",
   description:
-    "DevelopNearly helps businesses grow through video editing for YouTube channels and brands, and modern websites for businesses",
+    "DevelopNearly is a creative digital agency that helps creators and businesses grow online",
   metadataBase: new URL("https://developnearly-website.vercel.app"),
   alternates: {
     canonical: "/",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DevelopNearly | Creative Digital Agency",
     description:
-      "DevelopNearly helps businesses grow through video editing for YouTube channels and brands, and modern websites for businesses",
+      "DevelopNearly is a creative digital agency that helps creators and businesses grow online",
     type: "website",
     siteName: "DevelopNearly",
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DevelopNearly | Creative Digital Agency",
     description:
-      "DevelopNearly helps businesses grow through video editing for YouTube channels and brands, and modern websites for businesses",
+      "DevelopNearly is a creative digital agency that helps creators and businesses grow online",
     images: ["/og.png"],
   },
   icons: {
@@ -58,7 +58,7 @@ const organizationJsonLd = {
   url: "https://developnearly-website.vercel.app",
   email: "developnearly@gmail.com",
   description:
-    "DevelopNearly helps businesses grow through video editing for YouTube channels and brands, and modern websites for businesses",
+    "DevelopNearly is a creative digital agency that helps creators and businesses grow online",
 };
 
 export default function RootLayout({

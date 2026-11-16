@@ -34,7 +34,7 @@ export default function ServicePage({
         <Services service={service} />
         <Packages choice={choice} />
         <Process service={service} />
-        <Why />
+        <Why service={service} />
         <Faq choice={choice} />
         <Contact choice={choice} />
       </main>

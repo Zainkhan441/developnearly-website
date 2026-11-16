@@ -26,8 +26,7 @@ export default async function TermsPage() {
           <section>
             <h2 className="font-display text-2xl font-bold text-white">Services</h2>
             <p className="mt-3">
-              DevelopNearly provides video editing and website development
-              services, the exact scope, deliverables, timeline, and price of
+              DevelopNearly provides creative digital services, the exact scope, deliverables, timeline, and price of
               each project are agreed with the client in writing (by email) before work
               begins
             </p>

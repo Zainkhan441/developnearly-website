@@ -14,10 +14,10 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-const SERVICE_LINKS = [
-  { label: "Video Editing", href: "/video" },
-  { label: "Website Development", href: "/websites" },
-];
+const SERVICE_ITEMS: Record<string, string[]> = {
+  video: ["YouTube videos", "Shorts & Reels", "TikTok videos", "Podcast editing"],
+  web: ["Business websites", "Landing pages", "Online stores", "Website redesigns"],
+};
 
 const SOCIALS = [
   { name: "Instagram", href: "https://www.instagram.com/developnearly/" },
@@ -58,18 +58,20 @@ export default function Footer({ year, servicePage = false, choice }: { year: nu
                 ))}
               </ul>
             </nav>
-            <nav aria-label="Services">
-              <h3 className="text-xs font-semibold tracking-[0.2em] text-mist">SERVICES</h3>
-              <ul className="mt-4 space-y-3">
-                {SERVICE_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} className="text-sm text-white/85 transition-colors hover:text-bright">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+            {choice ? (
+              <div>
+                <h3 className="text-xs font-semibold tracking-[0.2em] text-mist">WHAT WE DO</h3>
+                <ul className="mt-4 space-y-3">
+                  {SERVICE_ITEMS[choice.service].map((item) => (
+                    <li key={item}>
+                      <a href="#packages" className="text-sm text-white/85 transition-colors hover:text-bright">
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             <div className="col-span-2 sm:col-span-1">
               <h3 className="text-xs font-semibold tracking-[0.2em] text-mist">CONTACT</h3>
               <a

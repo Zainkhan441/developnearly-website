@@ -298,7 +298,7 @@ export default function Work({ kind, showFirst = [] }: { kind: "video" | "websit
         <Reveal className="mt-10">
           <p className="flex items-center gap-2 text-sm text-mist">
             <Globe className="h-4 w-4 text-bright" />
-            Thumbnails are real screenshots and video frames
+            {isVideo ? "Thumbnails are real frames from the videos" : "Thumbnails are real screenshots of the live sites"}
           </p>
         </Reveal>
       </div>

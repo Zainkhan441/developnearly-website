@@ -194,7 +194,7 @@ export default function Contact({ choice }: { choice: Choice }) {
             >
               {/* Honeypot: invisible to humans, catches bots. */}
               <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
-                <label htmlFor="contact-website">Website</label>
+                <label htmlFor="contact-website">URL</label>
                 <input
                   id="contact-website"
                   name="website"
@@ -238,7 +238,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                   <label htmlFor="contact-details" className="mb-2 block text-sm font-semibold text-white">
                     Anything else we should know? <span className="font-normal text-mist">(optional)</span>
                   </label>
-                  <textarea id="contact-details" name="details" rows={4} placeholder="Your channel or website link, deadline, style you like…" value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
+                  <textarea id="contact-details" name="details" rows={4} placeholder={choice.service === "video" ? "Your channel link, deadline, style you like…" : "Your current site (if any), deadline, designs you like…"} value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
                   {errors.details ? <p id="contact-details-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.details}</p> : null}
                 </div>
               </div>
