@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, SlidersHorizontal, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Choice } from "../data/services";
-import { budgetOf, purposeOf } from "../data/services";
+import { purposeOf } from "../data/services";
 import Link from "next/link";
 import DLogo from "./DLogo";
 
@@ -30,12 +30,8 @@ function AnswersChip({ choice, onChange, className = "" }: { choice: Choice; onC
       className={`inline-flex min-h-10 max-w-[13rem] items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 text-xs font-semibold text-white/85 transition-colors hover:border-bright/60 hover:text-white sm:max-w-none sm:text-sm ${className}`}
     >
       <SlidersHorizontal className="h-4 w-4 shrink-0 text-bright" />
-      <span className="truncate">
-        <span className="hidden sm:inline">{purposeOf(choice).label} · </span>
-        {budgetOf(choice).label}
-      </span>
-      <span className="text-bright sm:hidden">Edit</span>
-      <span className="hidden text-bright sm:inline">Change</span>
+      <span className="truncate">{purposeOf(choice).label}</span>
+      <span className="text-bright">Change</span>
     </button>
   );
 }

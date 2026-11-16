@@ -2,7 +2,7 @@
 
 import { ArrowRight, Check, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
-import { REVISIONS, SERVICES, budgetOf, purposeOf, recommend } from "../data/services";
+import { REVISIONS, SERVICES, buildPackages } from "../data/services";
 import Reveal from "./Reveal";
 
 /** Event the Contact form listens for, so "Choose" prefills the form. */
@@ -10,9 +10,7 @@ export const CHOOSE_PACKAGE_EVENT = "dn:choose-package";
 
 export default function Packages({ choice }: { choice: Choice }) {
   const info = SERVICES[choice.service];
-  const budget = budgetOf(choice);
-  const purpose = purposeOf(choice);
-  const { shown, recommended, underBudget } = recommend(choice);
+  const { packages: shown, recommended } = buildPackages(choice);
 
   const choose = (name: string, price: string) => {
     window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: `${name} package (${price})` }));
@@ -29,16 +27,11 @@ export default function Packages({ choice }: { choice: Choice }) {
               <span aria-hidden="true" className="h-px w-8 bg-primary" />
             </p>
             <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Packages for <span className="text-gradient-blue">your budget</span>
+              Packages <span className="text-gradient-blue">made for you</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-              For: {purpose.label} · Budget: {budget.label} · {REVISIONS} free revisions on every package · prices in USD
+              Built around what you told us, every package includes {REVISIONS} free revisions, prices in USD
             </p>
-            {underBudget ? (
-              <p className="mx-auto mt-5 max-w-xl rounded-2xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm leading-relaxed text-amber-100">
-                Your budget is a little under our smallest package, message us anyway, we will find a way to start small and grow with you
-              </p>
-            ) : null}
           </div>
         </Reveal>
 
@@ -49,7 +42,6 @@ export default function Packages({ choice }: { choice: Choice }) {
         >
           {shown.map((pkg, i) => {
             const featured = pkg === recommended;
-            const overBudget = pkg.value > budget.max;
             return (
             <Reveal key={pkg.name} delay={i * 0.08} className="h-full">
               <div
@@ -62,17 +54,9 @@ export default function Packages({ choice }: { choice: Choice }) {
                 {featured ? (
                   <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#2563eb] px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-white shadow-lg">
                     <Sparkles className="h-3.5 w-3.5" />
-                    BEST FOR YOUR BUDGET
+                    RECOMMENDED FOR YOU
                   </span>
-                ) : overBudget ? (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/15 bg-ink px-3 py-1 text-[11px] font-semibold tracking-wider text-mist">
-                    IF YOU WANT MORE
-                  </span>
-                ) : (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-emerald-400/30 bg-ink px-3 py-1 text-[11px] font-semibold tracking-wider text-emerald-300">
-                    FITS YOUR BUDGET
-                  </span>
-                )}
+                ) : null}
                 <h3 className="font-display text-2xl font-bold text-white">{pkg.name}</h3>
                 <p className="mt-1.5 text-sm text-mist">{pkg.tagline}</p>
                 <p className="mt-6 flex items-baseline gap-2">

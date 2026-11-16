@@ -9,14 +9,12 @@ export type ServiceKey = "video" | "web";
 export interface Package {
   name: string;
   price: string;
-  /** Numeric price in USD, used to match packages to the visitor's budget. */
-  value: number;
-  /** Purpose ids this package suits (see purposes). */
-  fits: string[];
   /** Small text after the price, e.g. "/ month" or "per video". */
   per?: string;
   tagline: string;
   features: string[];
+  /** Numeric price in USD (for ordering). */
+  value?: number;
   /** Highlighted card ("Most popular"). */
   featured?: boolean;
 }
@@ -34,8 +32,8 @@ export interface Purpose {
 
 export interface Budget {
   label: string;
-  /** Upper end of the range in USD (Infinity for the top range). */
-  max: number;
+  /** Typical spend inside this range in USD; packages are built around it. */
+  target: number;
 }
 
 export interface ServiceInfo {
@@ -52,7 +50,6 @@ export interface ServiceInfo {
   audience: string[];
   services: string[];
   startingFrom: string;
-  packages: Package[];
   packagesNote: string;
   purposeQuestion: string;
   purposes: Purpose[];
@@ -86,95 +83,6 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       "Podcast clips",
     ],
     startingFrom: "$59",
-    packages: [
-      {
-        name: "Starter",
-        price: "$59",
-        value: 59,
-        fits: ["shorts", "reels", "tiktok", "facebook", "business", "other"],
-        tagline: "The easy way to test us",
-        features: [
-          "2 Shorts, Reels or TikToks (up to 60s)",
-          "Captions, music & sound effects",
-          "Delivered in 48 hours",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-      {
-        name: "YouTube Video",
-        price: "$89",
-        per: "per video",
-        value: 89,
-        fits: ["youtube", "podcast", "business", "other"],
-        tagline: "One full video, start to finish",
-        features: [
-          "1 long-form edit (up to 15 min)",
-          "Stock footage, B-roll & text animation",
-          "Sound design & music",
-          "Delivered in 3–4 days",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-      {
-        name: "Shorts Pack",
-        price: "$149",
-        value: 149,
-        fits: ["shorts", "reels", "tiktok", "facebook", "podcast", "business", "other"],
-        tagline: "A week of short videos",
-        features: [
-          "6 Shorts, Reels or TikToks",
-          "Strong hooks & animated captions",
-          "Trending-style cuts, music & SFX",
-          "Delivered in 3–4 days",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-      {
-        name: "Shorts Monthly",
-        price: "$299",
-        per: "/ month",
-        value: 299,
-        fits: ["shorts", "reels", "tiktok", "facebook", "podcast", "business", "other"],
-        tagline: "Post every day without editing",
-        features: [
-          "20 Shorts, Reels or TikToks a month",
-          "Hooks, captions, music & SFX",
-          "One dedicated editor",
-          `${REVISIONS} free revisions on every video`,
-        ],
-      },
-      {
-        name: "Creator Monthly",
-        price: "$399",
-        per: "/ month",
-        value: 399,
-        fits: ["youtube", "podcast", "business", "other"],
-        tagline: "For channels that post every week",
-        features: [
-          "4 long-form videos (up to 15 min)",
-          "8 Shorts or Reels",
-          "Priority delivery & one dedicated editor",
-          `${REVISIONS} free revisions on every video`,
-          "Save 10% on a 3-month plan",
-        ],
-      },
-      {
-        name: "Pro Channel",
-        price: "$899",
-        per: "/ month",
-        value: 899,
-        fits: ["youtube", "shorts", "reels", "tiktok", "facebook", "podcast", "business", "other"],
-        tagline: "Your full video team",
-        features: [
-          "8 long-form videos (up to 20 min)",
-          "16 Shorts, Reels or TikToks",
-          "Motion graphics & custom animations",
-          "Thumbnail design for every video",
-          "Same-week delivery & priority support",
-          `${REVISIONS} free revisions on every video`,
-        ],
-      },
-    ],
     packagesNote:
       "Longer videos, a different style or a bigger volume? Tell us what you need and we will send a clear, fixed quote",
     purposeQuestion: "Where will your videos go?",
@@ -245,11 +153,11 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
     ],
     budgetOptions: [
-      { label: "Under $100", max: 100 },
-      { label: "$100 – $300", max: 300 },
-      { label: "$300 – $600", max: 600 },
-      { label: "$600 – $1,000", max: 1000 },
-      { label: "$1,000+", max: Infinity },
+      { label: "Under $100", target: 90 },
+      { label: "$100 – $300", target: 250 },
+      { label: "$300 – $600", target: 500 },
+      { label: "$600 – $1,000", target: 850 },
+      { label: "$1,000+", target: 1500 },
     ],
     steps: [
       { title: "Send your files", text: "Share your script, voiceover or raw footage through Google Drive" },
@@ -306,68 +214,6 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       "Website redesigns",
     ],
     startingFrom: "$199",
-    packages: [
-      {
-        name: "Landing Page",
-        price: "$199",
-        value: 199,
-        fits: ["landing", "portfolio", "business", "notsure"],
-        tagline: "One page that sells one thing well",
-        features: [
-          "1 page, mobile-friendly design",
-          "Contact form & WhatsApp button",
-          "Basic Google (SEO) setup",
-          "Ready in 5–7 days",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-      {
-        name: "Business Website",
-        price: "$499",
-        value: 499,
-        fits: ["business", "portfolio", "redesign", "landing", "notsure"],
-        tagline: "Everything a business needs online",
-        features: [
-          "Up to 5 pages",
-          "Services, prices, gallery & contact",
-          "Google Maps & WhatsApp",
-          "Fast loading & SEO setup",
-          "Ready in 1–2 weeks",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-      {
-        name: "Online Store",
-        price: "$799",
-        per: "starting",
-        value: 799,
-        fits: ["store", "redesign", "notsure"],
-        tagline: "Sell your products online",
-        features: [
-          "Product pages, cart & checkout",
-          "Payment setup",
-          "Easy product management",
-          "Ready in 2–3 weeks",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-      {
-        name: "Premium Custom",
-        price: "$1,500",
-        per: "starting",
-        value: 1500,
-        fits: ["business", "store", "redesign", "landing", "portfolio", "notsure"],
-        tagline: "A fully custom site that stands out",
-        features: [
-          "Fully custom design, up to 10 pages",
-          "Animations & premium visuals",
-          "Copywriting for every page",
-          "Online store or booking system if needed",
-          "1 month of free updates after launch",
-          `${REVISIONS} free revisions`,
-        ],
-      },
-    ],
     packagesNote:
       "Want us to keep your site updated? Add our Care Plan for $49 / month: updates, small changes and backups",
     purposeQuestion: "What kind of website do you need?",
@@ -422,11 +268,11 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
     ],
     budgetOptions: [
-      { label: "Under $250", max: 250 },
-      { label: "$250 – $500", max: 500 },
-      { label: "$500 – $1,000", max: 1000 },
-      { label: "$1,000 – $2,000", max: 2000 },
-      { label: "$2,000+", max: Infinity },
+      { label: "Under $250", target: 220 },
+      { label: "$250 – $500", target: 450 },
+      { label: "$500 – $1,000", target: 850 },
+      { label: "$1,000 – $2,000", target: 1700 },
+      { label: "$2,000+", target: 3000 },
     ],
     steps: [
       { title: "Tell us about your business", text: "What you sell, who your customers are and what the site should do" },
@@ -468,41 +314,146 @@ export const SERVICE_LIST: ServiceInfo[] = [SERVICES.video, SERVICES.web];
 /** The visitor's answers to the welcome questions. */
 export interface Choice {
   service: ServiceKey;
+  /** Purpose id, or "custom" when the visitor typed their own. */
   purpose: string;
-  /** Index into budgetOptions. */
-  budget: number;
+  /** What the visitor typed when none of the options fit. */
+  purposeNote?: string;
+  /** Budget as the visitor gave it, only used to prefill the contact form. */
+  budgetLabel: string;
+  /** Budget in USD that packages are built around. */
+  budgetValue: number;
 }
+
+export const CUSTOM = "custom";
 
 export function purposeOf(choice: Choice): Purpose {
   const info = SERVICES[choice.service];
-  return info.purposes.find((p) => p.id === choice.purpose) ?? info.purposes[info.purposes.length - 1];
+  const found = info.purposes.find((p) => p.id === choice.purpose);
+  if (found) return found;
+  const fallback = info.purposes[info.purposes.length - 1];
+  return choice.purposeNote ? { ...fallback, label: choice.purposeNote } : fallback;
 }
 
-export function budgetOf(choice: Choice): Budget {
-  const opts = SERVICES[choice.service].budgetOptions;
-  return opts[Math.min(Math.max(choice.budget, 0), opts.length - 1)];
+/* ---------- Packages built around the visitor's budget ---------- */
+
+/** Round to a friendly price that ends in 9 ($249, $499, $1,299). */
+function nicePrice(n: number): number {
+  if (n < 100) return Math.max(29, Math.round(n / 10) * 10 - 1);
+  if (n < 1000) return Math.round(n / 50) * 50 - 1;
+  return Math.round(n / 100) * 100 - 1;
+}
+
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+const LONG_UNIT = 89; // one long-form edit, up to 15 min
+const SHORT_UNIT = 25; // one Short / Reel / TikTok
+const SHORT_FIRST = new Set(["shorts", "reels", "tiktok", "facebook"]);
+const SHORT_LABEL: Record<string, string> = {
+  shorts: "YouTube Shorts",
+  reels: "Instagram Reels",
+  tiktok: "TikToks",
+  facebook: "Facebook Reels",
+};
+
+function videoPackage(target: number, purpose: string, name: string, tagline: string): Package {
+  const monthly = target >= 250;
+  const shortsOnly = SHORT_FIRST.has(purpose);
+  const shortWord = SHORT_LABEL[purpose] ?? "Shorts or Reels";
+  let longs = 0;
+  let shorts = 0;
+  if (shortsOnly) {
+    shorts = Math.max(2, Math.round(target / SHORT_UNIT));
+  } else if (purpose === "business") {
+    shorts = Math.max(2, Math.round((target * 0.5) / SHORT_UNIT));
+    longs = Math.max(0, Math.floor((target - shorts * SHORT_UNIT) / LONG_UNIT));
+  } else {
+    longs = Math.max(1, Math.floor((target * 0.8) / LONG_UNIT));
+    shorts = Math.max(0, Math.round((target - longs * LONG_UNIT) / SHORT_UNIT));
+  }
+  const raw = longs * LONG_UNIT + shorts * SHORT_UNIT;
+  const price = nicePrice(raw);
+  const per = monthly ? "/ month" : undefined;
+  const features: string[] = [];
+  const [longOne, longMany] =
+    purpose === "podcast"
+      ? ["full podcast episode", "full podcast episodes"]
+      : purpose === "business"
+        ? ["promo or ad video (up to 3 min)", "promo or ad videos (up to 3 min)"]
+        : ["long-form video (up to 15 min)", "long-form videos (up to 15 min)"];
+  if (longs) features.push(`${plural(longs, longOne, longMany)}${monthly ? " a month" : ""}`);
+  if (shorts) features.push(`${shorts === 1 ? "1 Short or Reel" : `${shorts} ${shortWord}`}${monthly ? " a month" : ""}`);
+  features.push(shortsOnly ? "Strong hooks & animated captions" : "Stock footage, B-roll & text animation");
+  features.push("Music & sound design");
+  if (raw >= 400) features.push("Thumbnail for every long video");
+  if (raw >= 700) features.push("Motion graphics & custom animations");
+  if (raw >= 250) features.push("One dedicated editor");
+  features.push(raw >= 600 ? "Priority, same-week delivery" : shortsOnly || longs === 0 ? "Delivered in 2–4 days" : "Delivered in 3–5 days");
+  features.push(`${REVISIONS} free revisions on every video`);
+  return { name, price: usd(price), value: price, per, tagline, features };
+}
+
+const WEB_MIN: Record<string, number> = { store: 499, business: 299, redesign: 299 };
+
+function webPackage(target: number, purpose: string, name: string, tagline: string): Package {
+  const price = nicePrice(Math.max(target, WEB_MIN[purpose] ?? 149));
+  const features: string[] = [];
+  const store = purpose === "store";
+  const minPages = purpose === "business" || purpose === "redesign" ? 3 : 1;
+  const pages = purpose === "landing" ? 1 : Math.max(minPages, price < 300 ? 1 : Math.round(price / 110));
+  if (store) {
+    const products = price < 550 ? 10 : price < 620 ? 20 : price < 800 ? 30 : price < 1500 ? 50 : price < 2500 ? 150 : 500;
+    features.push(`Online store with up to ${products} products`);
+    features.push("Cart, checkout & payment setup");
+  } else if (pages === 1) {
+    features.push("1 page, built to turn visitors into leads");
+  } else {
+    features.push(price >= 2500 ? "As many pages as you need" : `Up to ${pages} pages`);
+  }
+  features.push("Mobile-friendly design");
+  features.push("Contact form & WhatsApp button");
+  if (price >= 300) features.push("Google Maps, gallery & SEO setup");
+  if (price >= 700) features.push(store ? "Discount codes & order emails" : "Blog or booking system");
+  if (price >= 1200) features.push("Fully custom design & animations");
+  if (price >= 1200) features.push("Copywriting for every page");
+  if (price >= 2500) features.push("Custom features (member login, dashboards)");
+  if (price >= 4000) features.push("Advanced SEO & speed optimization");
+  if (price >= 4000) features.push("Dedicated project manager & strategy calls");
+  features.push(price >= 1200 ? `${price >= 2500 ? 3 : 1} month${price >= 2500 ? "s" : ""} of free updates after launch` : "Speed & security setup");
+  const days = price < 300 ? "5–7 days" : price < 800 ? "1–2 weeks" : price < 1500 ? "2–3 weeks" : "3–5 weeks";
+  features.push(`Ready in ${days}`);
+  features.push(`${REVISIONS} free revisions`);
+  return { name, price: usd(price), value: price, per: store || price >= 1200 ? "starting" : undefined, tagline, features };
 }
 
 /**
- * Packages to show for the visitor's answers: the packages that suit their
- * purpose, the best one that fits their budget marked as recommended, and at
- * most one cheaper and one bigger option around it.
+ * Three packages built around the visitor's budget: a smaller option, the
+ * recommended one right at their budget, and a bigger option. Prices and
+ * what each package includes grow with the budget.
  */
-export function recommend(choice: Choice): {
-  shown: Package[];
-  recommended: Package;
-  underBudget: boolean;
-} {
-  const info = SERVICES[choice.service];
-  const budget = budgetOf(choice);
-  let pool = info.packages.filter((p) => p.fits.includes(choice.purpose));
-  if (pool.length === 0) pool = info.packages;
-  pool = [...pool].sort((a, b) => a.value - b.value);
-  const affordable = pool.filter((p) => p.value <= budget.max);
-  const recommended = affordable.length ? affordable[affordable.length - 1] : pool[0];
-  const i = pool.indexOf(recommended);
-  let start = Math.max(0, i - 1);
-  const end = Math.min(pool.length, start + 3);
-  start = Math.max(0, end - 3);
-  return { shown: pool.slice(start, end), recommended, underBudget: affordable.length === 0 };
+export function buildPackages(choice: Choice): { packages: Package[]; recommended: Package } {
+  const b = Math.max(30, choice.budgetValue);
+  const purpose = choice.purpose === CUSTOM ? (choice.service === "video" ? "other" : "notsure") : choice.purpose;
+  const make = choice.service === "video" ? videoPackage : webPackage;
+  const tiers: Array<[number, string, string]> = [
+    [b * 0.55, "Essential", "A great place to start"],
+    [b, "Growth", "Our most popular choice"],
+    [b * 1.7, "Premium", "Everything, done for you"],
+  ];
+  // Each tier must cost more than the one before (small budgets hit the
+  // minimum price), so nudge a tier's target up until it does.
+  const packages: Package[] = [];
+  for (const [t, n, tag] of tiers) {
+    let target = t;
+    let pkg = make(target, purpose, n, tag);
+    const prev = packages[packages.length - 1];
+    for (let i = 0; prev && (pkg.value ?? 0) <= (prev.value ?? 0) && i < 30; i++) {
+      target *= 1.15;
+      pkg = make(target, purpose, n, tag);
+    }
+    packages.push(pkg);
+  }
+  const recommended = packages[1];
+  recommended.featured = true;
+  return { packages, recommended };
 }

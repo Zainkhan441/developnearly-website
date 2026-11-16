@@ -17,6 +17,7 @@ import {
   ShoppingBag,
   Smartphone,
   UserRound,
+  PenLine,
   Wallet,
   MonitorPlay,
   Users,
@@ -24,7 +25,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Choice, ServiceKey } from "../data/services";
-import { SERVICES } from "../data/services";
+import { CUSTOM, SERVICES } from "../data/services";
 import DLogo from "./DLogo";
 
 /**
@@ -96,6 +97,78 @@ function Option({
   );
 }
 
+/** "Write your own" row: a text or number field with a Continue button. */
+function CustomField({
+  label,
+  placeholder,
+  type,
+  prefix,
+  onSubmit,
+}: {
+  label: string;
+  placeholder: string;
+  type: "text" | "number";
+  prefix?: string;
+  onSubmit: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const valid = type === "number" ? Number(value) >= 10 : value.trim().length >= 2;
+
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+
+  if (!open) {
+    return (
+      <div>
+        <Option icon={PenLine} label={label} hint="Type it yourself" onClick={() => setOpen(true)} />
+      </div>
+    );
+  }
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (valid) onSubmit(value.trim());
+      }}
+      className="rounded-2xl border border-bright/50 bg-[#2563eb]/10 p-4 sm:col-span-2"
+    >
+      <label className="block font-display text-base font-bold text-white" htmlFor="welcome-custom">
+        {label}
+      </label>
+      <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          {prefix ? (
+            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-mist">{prefix}</span>
+          ) : null}
+          <input
+            ref={inputRef}
+            id="welcome-custom"
+            type={type}
+            inputMode={type === "number" ? "numeric" : undefined}
+            min={type === "number" ? 10 : undefined}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder={placeholder}
+            maxLength={type === "text" ? 60 : undefined}
+            className={`min-h-12 w-full rounded-xl border border-white/10 bg-ink py-3 pr-4 text-[15px] text-white placeholder:text-mist/60 focus:border-bright focus:outline-none ${prefix ? "pl-9" : "pl-4"}`}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={!valid}
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#2563eb] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Continue
+          <ArrowRight className="h-4 w-4" />
+        </button>
+      </div>
+    </form>
+  );
+}
+
 export default function Welcome({
   initialService,
   onDone,
@@ -105,6 +178,7 @@ export default function Welcome({
 }) {
   const [service, setService] = useState<ServiceKey | null>(initialService ?? null);
   const [purpose, setPurpose] = useState<string | null>(null);
+  const [purposeNote, setPurposeNote] = useState<string | undefined>(undefined);
   const step = service === null ? 0 : purpose === null ? 1 : 2;
   const firstStep = initialService ? 1 : 0;
   const totalSteps = initialService ? 2 : 3;
@@ -119,7 +193,10 @@ export default function Welcome({
   }, []);
 
   const back = () => {
-    if (step === 2) setPurpose(null);
+    if (step === 2) {
+      setPurpose(null);
+      setPurposeNote(undefined);
+    }
     else if (step === 1 && !initialService) setService(null);
   };
 
@@ -207,7 +284,7 @@ export default function Welcome({
 
                 {step === 1 && info && (
                   <div className="grid gap-3 sm:grid-cols-2">
-                    {info.purposes.map((p, i) => (
+                    {info.purposes.filter((p) => p.id !== "other").map((p, i) => (
                       <Option
                         key={p.id}
                         autoFocus={i === 0}
@@ -217,6 +294,15 @@ export default function Welcome({
                         onClick={() => setPurpose(p.id)}
                       />
                     ))}
+                    <CustomField
+                        label="Something else? Write it"
+                        placeholder={service === "video" ? "e.g. wedding video, course videos" : "e.g. school website, booking site"}
+                        type="text"
+                        onSubmit={(v) => {
+                          setPurposeNote(v);
+                          setPurpose(CUSTOM);
+                        }}
+                      />
                   </div>
                 )}
 
@@ -228,9 +314,21 @@ export default function Welcome({
                         autoFocus={i === 0}
                         icon={Wallet}
                         label={b.label}
-                        onClick={() => onDone({ service, purpose, budget: i })}
+                        onClick={() =>
+                          onDone({ service, purpose, purposeNote, budgetLabel: b.label, budgetValue: b.target })
+                        }
                       />
                     ))}
+                    <CustomField
+                      label="Enter your own budget (USD)"
+                      placeholder="e.g. 400"
+                      type="number"
+                      prefix="$"
+                      onSubmit={(v) => {
+                        const n = Math.round(Number(v));
+                        onDone({ service, purpose, purposeNote, budgetLabel: `$${n.toLocaleString("en-US")}`, budgetValue: n });
+                      }}
+                    />
                   </div>
                 )}
               </div>

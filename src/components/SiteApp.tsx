@@ -6,14 +6,14 @@ import { SERVICES } from "../data/services";
 import ServicePage from "./ServicePage";
 import Welcome from "./Welcome";
 
-const STORAGE_KEY = "dn-choice-v1";
+const STORAGE_KEY = "dn-choice-v2";
 
 function readStored(initialService?: ServiceKey): Choice | null {
   try {
     const raw = window.sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const c = JSON.parse(raw) as Choice;
-    if (!SERVICES[c.service]) return null;
+    if (!SERVICES[c.service] || typeof c.budgetValue !== "number" || !c.budgetLabel) return null;
     if (initialService && c.service !== initialService) return null;
     return c;
   } catch {

@@ -3,7 +3,7 @@
 import { Check, ChevronDown, Copy, Mail, MessageCircle, Send } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import type { Choice } from "../data/services";
-import { SERVICES as SERVICE_INFO, budgetOf, purposeOf } from "../data/services";
+import { SERVICES as SERVICE_INFO, purposeOf } from "../data/services";
 import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
 
@@ -40,11 +40,16 @@ const inputClass =
 
 export default function Contact({ choice }: { choice: Choice }) {
   const info = SERVICE_INFO[choice.service];
-  const BUDGETS = [...info.budgetOptions.map((b) => b.label), "Not Sure Yet"];
+  const presetBudgets = info.budgetOptions.map((b) => b.label);
+  const BUDGETS = [
+    ...presetBudgets,
+    ...(presetBudgets.includes(choice.budgetLabel) ? [] : [choice.budgetLabel]),
+    "Not Sure Yet",
+  ];
   const initial: FormState = {
     ...EMPTY,
     service: info.formValue,
-    budget: budgetOf(choice).label,
+    budget: choice.budgetLabel,
     details: `For: ${purposeOf(choice).label}\n`,
   };
   const [form, setForm] = useState<FormState>(initial);

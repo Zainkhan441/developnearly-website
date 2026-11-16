@@ -1,6 +1,6 @@
 import { ArrowRight, Check, Play } from "lucide-react";
 import type { Choice } from "../data/services";
-import { REVISIONS, SERVICES, budgetOf, purposeOf, recommend } from "../data/services";
+import { REVISIONS, SERVICES, purposeOf } from "../data/services";
 
 /**
  * Hero for a single service page. Pure CSS entrance (animate-hero-fade-up)
@@ -10,8 +10,6 @@ export default function ServiceHero({ choice }: { choice: Choice }) {
   const service = choice.service;
   const info = SERVICES[service];
   const purpose = purposeOf(choice);
-  const budget = budgetOf(choice);
-  const { recommended } = recommend(choice);
   const d = (s: number) => ({ animationDelay: `${s}s` });
   return (
     <section
@@ -48,7 +46,7 @@ export default function ServiceHero({ choice }: { choice: Choice }) {
         </p>
 
         <ul style={d(0.24)} className="mt-7 flex animate-hero-fade-up flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
-          {[`Your budget: ${budget.label}`, `${REVISIONS} free revisions`, "Fixed price, no surprises"].map((t) => (
+          {[`${REVISIONS} free revisions`, "Fixed price, no surprises", "Delivered on time"].map((t) => (
             <li key={t} className="flex items-center gap-2">
               <Check className="h-4 w-4 text-bright" strokeWidth={3} />
               {t}
@@ -61,7 +59,7 @@ export default function ServiceHero({ choice }: { choice: Choice }) {
             href="#packages"
             className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)] sm:w-auto"
           >
-            See your best package: {recommended.name}
+            See Your Packages
             <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
           <a
