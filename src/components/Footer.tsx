@@ -34,7 +34,13 @@ export default function Footer({ year, servicePage = false, choice }: { year: nu
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-md">
             <h2 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">
-              Have an idea? Let&apos;s build something <span className="text-gradient-blue">meaningful</span>
+              {choice?.service === "web" ? (
+                <>Ready for your <span className="text-gradient-blue">new website</span>?</>
+              ) : choice?.service === "video" ? (
+                <>Ready for your <span className="text-gradient-blue">next video</span>?</>
+              ) : (
+                <>Let&apos;s work <span className="text-gradient-blue">together</span></>
+              )}
             </h2>
             <a
               href={ctaHref}

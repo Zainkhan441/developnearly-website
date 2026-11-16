@@ -71,7 +71,7 @@ export const FREE_SAMPLE = "Free 30 sec – 1 min sample edit";
 export const PAY_AFTER = "Pay after delivery";
 const PAY_FAQ = {
   q: "When do I pay?",
-  a: "Only after you see the finished work and are happy with it, no upfront payment, you check a preview first and pay within 3 days of approving it, then you get the final files",
+  a: "Only after you have seen the finished work and you are happy with it. You check a preview first, pay within 3 days of approving it, and then get the final files",
 };
 
 /** What happens when approved work is not paid for, shown with the packages and in the terms. */
@@ -148,7 +148,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
         headline: ["EDITS THAT KEEP", "VIEWERS"],
         highlight: "WATCHING",
         subhead: "Long-form YouTube edits for faceless channels and creators, built for retention so people watch to the end",
-        faq: { q: "Do you edit faceless documentary-style videos?", a: "Yes, that is our speciality: script and voiceover in, finished video out, with stock footage, B-roll, maps, text animation and sound design" },
+        faq: { q: "Do you edit faceless documentary-style videos?", a: "Yes, that is what we do most. You send the script and voiceover, we send back a finished video with stock footage, B-roll, maps, text animation and sound design" },
       },
       {
         id: "shorts",
@@ -230,19 +230,19 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       PAY_FAQ,
       {
         q: "Can I get a free sample first?",
-        a: "Yes, send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can see our quality before you pay anything, the sample is watermarked and is only for you to judge our work",
+        a: "Yes. Send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can judge our work before paying anything. The sample comes with a watermark",
       },
       {
         q: "Do you edit for faceless YouTube channels?",
-        a: "Yes, most of our work is faceless content: documentaries, list videos, explainers and sports videos, built from a script and voiceover with stock footage, B-roll and text animation",
+        a: "Yes, most of our work is faceless: documentaries, list videos, explainers and sports videos. We build them from your script and voiceover with stock footage, B-roll and text animation",
       },
       {
         q: "What do I need to send you?",
-        a: "For faceless videos, the script and voiceover, plus any example videos you like, for other videos, your raw footage, everything can be shared through Google Drive",
+        a: "For faceless videos, your script and voiceover, plus a few videos you like. For anything else, your raw footage. Everything can go through Google Drive",
       },
       {
         q: "How fast is delivery?",
-        a: "Shorts and Reels in about 48 hours, long-form videos in 3–4 days, monthly clients get priority",
+        a: "Shorts and Reels in about 48 hours, long videos in 3–4 days. Monthly clients get priority",
       },
       {
         q: "How many revisions do I get?",
@@ -250,7 +250,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
       {
         q: "Can I try one video first?",
-        a: "Yes, start with the free sample edit or the Essential package, if you like the result you can move to a monthly plan",
+        a: "Yes. Start with the free sample or the Essential package, and move to a monthly plan once you like the results",
       },
       {
         q: "Do you work with clients outside Pakistan?",
@@ -357,7 +357,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       PAY_FAQ,
       {
         q: "How long does a website take?",
-        a: "A landing page takes about 5–7 days, a business website 1–2 weeks and an online store 2–3 weeks, once we have your content",
+        a: "Once we have your content, a landing page takes about 5–7 days, a business website 1–2 weeks and an online store 2–3 weeks",
       },
       {
         q: "Will my website work on phones?",
@@ -369,11 +369,11 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       },
       {
         q: "What do I need to give you?",
-        a: "Your logo, photos and some text about your business, if you do not have everything yet, we will help you",
+        a: "Your logo, photos and a little text about your business. Don't have everything yet? We will help you with the rest",
       },
       {
         q: "Do you also handle domain and hosting?",
-        a: "Yes, we help you choose a domain and set up hosting, domain and hosting fees are paid directly by you, so you own everything",
+        a: "Yes. We help you pick a domain and set up hosting. You pay those fees directly, so everything stays in your name",
       },
       {
         q: "Do you work with clients outside Pakistan?",
@@ -430,8 +430,14 @@ const SHORT_LABEL: Record<string, string> = {
   facebook: "Facebook Reels",
 };
 
-function videoPackage(target: number, purpose: string, name: string, tagline: string): Package {
-  const monthly = target >= 250;
+/** Snap a count to a number a person would actually offer (no "7 videos" or "13 Shorts"). */
+const ROUND_COUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60];
+function roundCount(n: number): number {
+  if (n <= 0) return 0;
+  return ROUND_COUNTS.reduce((best, c) => (Math.abs(c - n) < Math.abs(best - n) ? c : best), ROUND_COUNTS[0]);
+}
+
+function videoPackage(target: number, purpose: string, name: string, tagline: string, monthly: boolean): Package {
   const shortsOnly = SHORT_FIRST.has(purpose);
   const shortWord = SHORT_LABEL[purpose] ?? "Shorts or Reels";
   let longs = 0;
@@ -445,6 +451,8 @@ function videoPackage(target: number, purpose: string, name: string, tagline: st
     longs = Math.max(1, Math.floor((target * 0.8) / LONG_UNIT));
     shorts = Math.max(0, Math.round((target - longs * LONG_UNIT) / SHORT_UNIT));
   }
+  longs = roundCount(longs);
+  shorts = shortsOnly ? Math.max(2, roundCount(shorts)) : shorts > 0 ? Math.max(2, roundCount(shorts)) : 0;
   const raw = longs * LONG_UNIT + shorts * SHORT_UNIT;
   const price = nicePrice(raw);
   const per = monthly ? "/ month" : undefined;
@@ -462,7 +470,7 @@ function videoPackage(target: number, purpose: string, name: string, tagline: st
   if (raw >= 400) features.push("Thumbnail for every long video");
   if (raw >= 700) features.push("Motion graphics & custom animations");
   if (raw >= 250) features.push("One dedicated editor");
-  features.push(raw >= 600 ? "Priority, same-week delivery" : shortsOnly || longs === 0 ? "Delivered in 2–4 days" : "Delivered in 3–5 days");
+  features.push(raw >= 600 ? "Priority, same-week delivery" : shortsOnly || longs === 0 ? "Delivered in 2–3 days" : "Delivered in 3–4 days");
   features.push(`${REVISIONS} free revisions on every video`);
   return { name, price: usd(price), value: price, per, tagline, features };
 }
@@ -474,13 +482,14 @@ function webPackage(target: number, purpose: string, name: string, tagline: stri
   const features: string[] = [];
   const store = purpose === "store";
   const minPages = (purpose === "business" || purpose === "redesign") && price >= 250 ? 3 : 1;
-  const pages = purpose === "landing" ? 1 : Math.max(minPages, price < 300 ? 1 : Math.round(price / 110));
+  const rawPages = price < 300 ? 1 : price < 600 ? 5 : price < 1000 ? 8 : price < 1500 ? 10 : 15;
+  const pages = purpose === "landing" ? 1 : Math.max(minPages, rawPages);
   if (store) {
     const products = price < 230 ? 3 : price < 300 ? 5 : price < 550 ? 10 : price < 620 ? 20 : price < 800 ? 30 : price < 1500 ? 50 : price < 2500 ? 150 : 500;
     features.push(`Online store with up to ${products} products`);
     features.push("Cart, checkout & payment setup");
   } else if (pages === 1) {
-    features.push("1 page, built to turn visitors into leads");
+    features.push(purpose === "landing" ? "1 page, built to turn visitors into leads" : "1 page with everything about your business");
   } else {
     features.push(price >= 2500 ? "As many pages as you need" : `Up to ${pages} pages`);
   }
@@ -509,9 +518,11 @@ export function buildPackages(choice: Choice): { packages: Package[]; recommende
   const b = Math.max(30, choice.budgetValue);
   const purpose = choice.purpose === CUSTOM ? (choice.service === "video" ? "other" : "notsure") : choice.purpose;
   const make = choice.service === "video" ? videoPackage : webPackage;
+  // One billing style per row: either all three are monthly plans or all one-time.
+  const monthly = b >= 250;
   const tiers: Array<[number, string, string]> = [
     [b * 0.55, "Essential", "A great place to start"],
-    [b, "Growth", "Our most popular choice"],
+    [b, "Growth", "The best value for most clients"],
     [b * 1.7, "Premium", "Everything, done for you"],
   ];
   // Each tier must cost more than the one before (small budgets hit the
@@ -519,11 +530,11 @@ export function buildPackages(choice: Choice): { packages: Package[]; recommende
   const packages: Package[] = [];
   for (const [t, n, tag] of tiers) {
     let target = t;
-    let pkg = make(target, purpose, n, tag);
+    let pkg = make(target, purpose, n, tag, monthly);
     const prev = packages[packages.length - 1];
     for (let i = 0; prev && (pkg.value ?? 0) <= (prev.value ?? 0) && i < 30; i++) {
       target *= 1.15;
-      pkg = make(target, purpose, n, tag);
+      pkg = make(target, purpose, n, tag, monthly);
     }
     packages.push(pkg);
   }

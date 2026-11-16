@@ -153,9 +153,8 @@ export default function Packages({ choice }: { choice: Choice }) {
                 Keeping it fair for everyone
               </h4>
               <p className="mt-2 text-[15px] leading-relaxed text-mist">
-                We trust our clients, that is why you pay after the work, we sincerely hope the
-                day never comes when we need any of the rules below, they are only here to keep
-                it fair for both sides
+                We trust our clients, that is why you pay after the work. We hope we never need
+                the rules below. They are only here to keep things fair for both sides
               </p>
               <ul className="mt-4 space-y-2.5">
                 {NON_PAYMENT_RULES[choice.service].map((rule) => (
@@ -166,7 +165,7 @@ export default function Packages({ choice }: { choice: Choice }) {
                 ))}
               </ul>
               <p className="mt-4 text-sm text-mist">
-                Thank you for understanding, it is what lets us offer pay after delivery to everyone, see our{" "}
+                Thanks for understanding. These rules are what let us offer pay after delivery to everyone. See our{" "}
                 <a href="/terms" className="font-semibold text-bright underline-offset-4 hover:underline">
                   Terms of Service
                 </a>

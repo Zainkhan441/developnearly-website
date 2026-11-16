@@ -154,8 +154,8 @@ export default function Contact({ choice }: { choice: Choice }) {
               <span className="text-[#25d366]">WhatsApp</span>
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-mist sm:text-lg">
-              The fastest way to start, tap the button, send us a message
-              and we will reply with a clear, fixed price
+              The quickest way to get started. Tap the button, say hi, and we will
+              get back to you with a clear, fixed price
             </p>
 
             <a
