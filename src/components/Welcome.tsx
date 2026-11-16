@@ -282,7 +282,7 @@ export default function Welcome({
                     />
                     <p className="mt-2 text-center text-sm text-mist">
                       <span className="font-semibold text-white">8 YouTube videos</span> edited ·{" "}
-                      <span className="font-semibold text-white">5 websites</span> live · 3 free revisions on everything
+                      <span className="font-semibold text-white">5 websites</span> live · pay after delivery
                     </p>
                   </div>
                 )}

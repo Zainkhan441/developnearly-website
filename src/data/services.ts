@@ -67,6 +67,13 @@ export const REVISIONS = 3;
 /** Free sample edit offered to video clients before they pay. */
 export const FREE_SAMPLE = "Free 30 sec – 1 min sample edit";
 
+/** Payment promise shown across the site. */
+export const PAY_AFTER = "Pay after delivery";
+const PAY_FAQ = {
+  q: "When do I pay?",
+  a: "Only after the work is delivered and you are happy with it, no upfront payment",
+};
+
 export const SERVICES: Record<ServiceKey, ServiceInfo> = {
   video: {
     key: "video",
@@ -180,6 +187,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       { title: "Ready to upload", text: "You get the final file in full quality, ready for YouTube" },
     ],
     faqs: [
+      PAY_FAQ,
       {
         q: "Can I get a free sample first?",
         a: "Yes, send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can see our quality before you pay anything",
@@ -306,6 +314,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       { title: "Go live", text: "We launch your site and show you how everything works" },
     ],
     faqs: [
+      PAY_FAQ,
       {
         q: "How long does a website take?",
         a: "A landing page takes about 5–7 days, a business website 1–2 weeks and an online store 2–3 weeks, once we have your content",

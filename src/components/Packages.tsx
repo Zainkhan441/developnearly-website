@@ -32,7 +32,7 @@ export default function Packages({ choice }: { choice: Choice }) {
               Packages <span className="text-gradient-blue">made for you</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-              Built around what you told us, every package includes {REVISIONS} free revisions, prices in USD
+              Built around what you told us, {REVISIONS} free revisions on every package, and you pay only after delivery
             </p>
           </div>
         </Reveal>

@@ -311,7 +311,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
-                  Your answers are sent with your message, so you do not have to explain anything twice.
+                  Your answers are sent with your message, so you do not have to explain anything twice
                 </p>
               )}
             </form>
