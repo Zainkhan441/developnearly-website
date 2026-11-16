@@ -71,7 +71,47 @@ export const FREE_SAMPLE = "Free 30 sec – 1 min sample edit";
 export const PAY_AFTER = "Pay after delivery";
 const PAY_FAQ = {
   q: "When do I pay?",
-  a: "Only after the work is delivered and you are happy with it, no upfront payment",
+  a: "Only after you see the finished work and are happy with it, no upfront payment, you check a preview first and pay within 3 days of approving it, then you get the final files",
+};
+
+/** What happens when approved work is not paid for, shown with the packages and in the terms. */
+const NON_PAYMENT_COMMON = [
+  "A late fee of 10% of the invoice is added for every 7 days the payment is late",
+  "We may take legal action to recover the full amount, plus late fees, collection and legal costs",
+];
+export const NON_PAYMENT_RULES: Record<ServiceKey, string[]> = {
+  video: [
+    "All work stays the legal property of DevelopNearly until it is fully paid, including the copyright",
+    "Uploading or publishing an unpaid video is copyright infringement",
+    "We file copyright takedown requests (DMCA) with YouTube, Instagram, TikTok or Facebook, and the video is removed",
+    ...NON_PAYMENT_COMMON,
+  ],
+  web: [
+    "All work stays the legal property of DevelopNearly until it is fully paid, including the copyright",
+    "Copying or publishing an unpaid website or its design is copyright infringement",
+    "We file copyright takedown requests (DMCA) with your hosting company, and the copied site is taken offline",
+    ...NON_PAYMENT_COMMON,
+  ],
+};
+
+/** How "pay after the work" stays fair for both sides, shown with the packages. */
+export const PAYMENT_RULES: Record<ServiceKey, string[]> = {
+  video: [
+    "We send you a watermarked preview of the finished video first",
+    "Ask for changes, 3 revisions are free",
+    "When you approve it, pay within 3 days",
+    "As soon as payment arrives, you get the full-quality file without watermark",
+    "Until it is paid, the video belongs to DevelopNearly and can not be uploaded or used",
+    "Monthly plans are paid per delivered video, so you never pay for work you have not seen",
+  ],
+  web: [
+    "We build your site on our own preview link so you can check every page",
+    "Ask for changes, 3 revisions are free",
+    "When you approve it, pay within 3 days",
+    "As soon as payment arrives, we move the site to your domain and hand over every login",
+    "Until it is paid, the website stays on our link and belongs to DevelopNearly",
+    "Domain and hosting fees are paid directly by you, so you own them from day one",
+  ],
 };
 
 export const SERVICES: Record<ServiceKey, ServiceInfo> = {
@@ -190,7 +230,7 @@ export const SERVICES: Record<ServiceKey, ServiceInfo> = {
       PAY_FAQ,
       {
         q: "Can I get a free sample first?",
-        a: "Yes, send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can see our quality before you pay anything",
+        a: "Yes, send us your script, voiceover or footage and we will edit a free 30 second to 1 minute sample, so you can see our quality before you pay anything, the sample is watermarked and is only for you to judge our work",
       },
       {
         q: "Do you edit for faceless YouTube channels?",

@@ -36,9 +36,54 @@ export default async function TermsPage() {
             <h2 className="font-display text-2xl font-bold text-white">Quotes and payment</h2>
             <p className="mt-3">
               Any price given before a project is agreed is an estimate based on the
-              information available at the time, payment terms are agreed per project
-              before work begins
+              information available at the time, payment is made after the work is
+              delivered: the client first receives a watermarked video preview or a
+              website on a DevelopNearly preview link, and payment is due within 3 days of
+              the client approving it
             </p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-2xl font-bold text-white">Ownership until payment</h2>
+            <p className="mt-3">
+              Final full-quality video files are sent, and websites are moved to the
+              client&apos;s domain with all logins handed over, only after payment is
+              received, until then all work, including free sample edits, remains the
+              property of DevelopNearly and may not be published, uploaded, copied or used
+              in any way
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-2xl font-bold text-white">What happens if you do not pay</h2>
+            <p className="mt-3">
+              By approving a preview, the client agrees to pay the agreed price within 3
+              days, if payment is not received on time:
+            </p>
+            <ul className="mt-3 list-disc space-y-2 pl-6">
+              <li>
+                All work, including its copyright, remains the sole property of
+                DevelopNearly, no licence to use it is granted until full payment is received
+              </li>
+              <li>
+                Any use, upload, publication, copy or modification of unpaid work is
+                copyright infringement
+              </li>
+              <li>
+                DevelopNearly may stop all work, remove preview links, and file copyright
+                takedown notices (including under the DMCA) with YouTube, Instagram, TikTok,
+                Facebook, hosting providers or any other platform where the work appears
+              </li>
+              <li>
+                A late fee of 10% of the unpaid amount is added for every 7 days the
+                payment is late
+              </li>
+              <li>
+                DevelopNearly may take legal action or use a collection service to recover
+                the unpaid amount, late fees, and all reasonable collection and legal costs,
+                which the client agrees to pay
+              </li>
+            </ul>
           </section>
 
           <section>

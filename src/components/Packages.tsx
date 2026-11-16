@@ -1,8 +1,8 @@
 "use client";
 
-import { Check, Gift, Sparkles } from "lucide-react";
+import { Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
-import { FREE_SAMPLE, REVISIONS, SERVICES, buildPackages } from "../data/services";
+import { FREE_SAMPLE, NON_PAYMENT_RULES, PAYMENT_RULES, REVISIONS, SERVICES, buildPackages } from "../data/services";
 import { packageMessage, sampleMessage, waLink } from "../data/whatsapp";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
@@ -126,6 +126,49 @@ export default function Packages({ choice }: { choice: Choice }) {
             </div>
           </Reveal>
         ) : null}
+
+        <Reveal delay={0.18}>
+          <div id="payment" className="mx-auto mt-10 max-w-4xl scroll-mt-24 rounded-3xl border border-white/10 bg-ink p-6 sm:p-8">
+            <h3 className="flex items-center gap-3 font-display text-xl font-bold text-white sm:text-2xl">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-300">
+                <ShieldCheck className="h-5 w-5" />
+              </span>
+              How payment works
+            </h3>
+            <p className="mt-2 text-[15px] text-mist">Pay after the work is done, simple and fair for both sides</p>
+            <ol className="mt-6 grid gap-3 sm:grid-cols-2">
+              {PAYMENT_RULES[choice.service].map((rule, i) => (
+                <li key={rule} className="flex items-start gap-3 rounded-2xl border border-white/5 bg-white/[0.03] p-4 text-[15px] leading-relaxed text-white/90">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb]/20 text-xs font-bold text-bright">
+                    {i + 1}
+                  </span>
+                  {rule}
+                </li>
+              ))}
+            </ol>
+
+            <div className="mt-6 rounded-2xl border border-red-400/25 bg-red-500/[0.06] p-5">
+              <h4 className="flex items-center gap-2.5 font-display text-lg font-bold text-white">
+                <Scale className="h-5 w-5 text-red-300" />
+                What if you do not pay after the work?
+              </h4>
+              <ul className="mt-4 space-y-2.5">
+                {NON_PAYMENT_RULES[choice.service].map((rule) => (
+                  <li key={rule} className="flex items-start gap-2.5 text-[15px] leading-relaxed text-white/85">
+                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-300" />
+                    {rule}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-sm text-mist">
+                By approving the work you agree to these rules, see our{" "}
+                <a href="/terms" className="font-semibold text-bright underline-offset-4 hover:underline">
+                  Terms of Service
+                </a>
+              </p>
+            </div>
+          </div>
+        </Reveal>
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-mist sm:text-base">
