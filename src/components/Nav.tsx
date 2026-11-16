@@ -65,21 +65,19 @@ export default function Nav() {
   }, [open ]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-white/10 bg-ink/95 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
-      }`}
-    >
+    <header className="fixed inset-x-0 top-3 z-50 px-4 sm:top-4">
+      {/* Floating pill bar, Justo-style: a narrow rounded bar that stays
+          visible on every scroll, with the logo, links and CTA inside. */}
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
-          scrolled ? "py-3" : "py-5"
-        }`}
+        className={`mx-auto flex max-w-5xl items-center justify-between gap-2 rounded-full border transition-all duration-300 ${
+          scrolled
+            ? "border-white/15 bg-ink/95 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+            : "border-white/10 bg-ink/80 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+        } py-2 pl-3 pr-2 sm:pl-4`}
       >
         <a
           href="#home"
-          className="relative z-10 rounded-lg focus-visible:outline-2"
+          className="relative z-10 shrink-0 rounded-lg focus-visible:outline-2"
           aria-label="DevelopNearly, back to home"
         >
           <DLogo withWordmark />
@@ -90,18 +88,18 @@ export default function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative rounded-lg px-4 py-2.5 text-sm font-medium text-mist transition-colors hover:text-white"
+              className="group relative rounded-full px-3.5 py-2 text-sm font-medium text-mist transition-colors hover:text-white"
             >
               {link.label}
               <span
                 aria-hidden="true"
-                className="absolute inset-x-4 -bottom-px h-px origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100"
+                className="absolute inset-x-3.5 -bottom-px h-px origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100"
               />
             </a>
           ))}
         </nav>
 
-        <div className="relative z-10 hidden lg:block">
+        <div className="relative z-10 hidden shrink-0 lg:block">
           <a
             href="#contact"
             className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#2563eb] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_8px_30px_rgba(37,99,235,0.45)]"
@@ -114,7 +112,7 @@ export default function Nav() {
         <button
           type="button"
           ref={menuButtonRef}
-          className="relative z-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-white/10 bg-panel/80 text-white lg:hidden"
+          className="relative z-10 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-panel/80 text-white lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -133,7 +131,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="mx-4 rounded-2xl border border-white/10 bg-ink/95 p-3 shadow-2xl backdrop-blur-2xl lg:hidden"
+            className="mx-auto mt-2 max-w-5xl rounded-2xl border border-white/10 bg-ink/95 p-3 shadow-2xl backdrop-blur-2xl lg:hidden"
           >
             <ul className="flex flex-col">
               {LINKS.map((link, i) => (

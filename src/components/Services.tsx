@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, MonitorSmartphone } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Reveal from "./Reveal";
 import { usePerformanceMode } from "./usePerformanceMode";
 
@@ -20,16 +21,76 @@ function ServiceList({ items }: { items: string[] }) {
   );
 }
 
-function SectionLabel({ children }: { children: string }) {
+function BenefitList({ items }: { items: string[] }) {
   return (
-    <p className="mb-4 flex items-center gap-2.5 text-xs font-semibold tracking-[0.22em] text-bright">
-      <span aria-hidden="true" className="h-px w-8 bg-primary" />
-      {children}
-    </p>
+    <ul className="mt-7 space-y-3">
+      {items.map((benefit) => (
+        <li key={benefit} className="flex items-start gap-3 text-base font-medium text-white sm:text-lg">
+          <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white">
+            <Check className="h-3.5 w-3.5" strokeWidth={3} />
+          </span>
+          {benefit}
+        </li>
+      ))}
+    </ul>
   );
 }
 
-/* ---------- 04 · VIDEO EDITING ---------- */
+/* ---------- 01 · WEBSITE DEVELOPMENT ---------- */
+
+const WEB_SERVICES = [
+  "Business Websites",
+  "E-commerce Websites",
+  "Landing Pages",
+  "Portfolio Websites",
+  "Web Applications",
+  "Admin Dashboards",
+  "Custom Website Development",
+];
+
+const WEB_BENEFITS = [
+  "A fast website your customers love to use",
+  "Your menu, services and prices in one place",
+  "Built to show up on Google and bring you orders",
+];
+
+function BrowserVisual() {
+  const mode = usePerformanceMode();
+  const floatClass = mode === "low" ? "" : "animate-float-soft";
+  return (
+    <div className="relative aspect-[4/3] w-full" role="img" aria-label="Premium browser window with floating interface elements">
+      <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-primary/30 blur-[90px]" />
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-panel shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
+        <div className="flex items-center gap-2 border-b border-white/5 bg-ink/70 px-4 py-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-3 flex-1 rounded-md bg-white/5 px-3 py-1.5 text-[11px] text-mist">yourbusiness.com</span>
+        </div>
+        <div className="space-y-3 p-5">
+          <div className="h-3 w-1/2 rounded-full bg-gradient-to-r from-bright to-primary" />
+          <div className="h-3 w-3/4 rounded-full bg-white/10" />
+          <div className="h-3 w-2/3 rounded-full bg-white/10" />
+          <div className="grid grid-cols-3 gap-3 pt-2">
+            <div className="h-20 rounded-xl bg-gradient-to-br from-primary/40 to-[#1e3a5f]" />
+            <div className="h-20 rounded-xl bg-white/5" />
+            <div className="h-20 rounded-xl bg-gradient-to-br from-bright/30 to-transparent" />
+          </div>
+          <div className="flex gap-3 pt-1">
+            <span className="inline-flex h-9 items-center rounded-full bg-[#2563eb] px-4 text-xs font-semibold text-white">Get Started</span>
+            <span className="inline-flex h-9 items-center rounded-full border border-white/15 px-4 text-xs font-semibold text-white/80">Learn More</span>
+          </div>
+        </div>
+      </div>
+      <div className={`glass absolute -right-2 top-6 flex items-center gap-2 rounded-2xl px-4 py-3 shadow-xl sm:-right-4 ${floatClass}`}>
+        <MonitorSmartphone className="h-4 w-4 text-bright" />
+        <span className="text-xs font-semibold tracking-wider text-white">Responsive Layout</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- 02 · VIDEO EDITING ---------- */
 
 const VIDEO_SERVICES = [
   "YouTube Video Editing",
@@ -39,6 +100,12 @@ const VIDEO_SERVICES = [
   "Motion Graphics",
   "Cinematic Storytelling",
   "Sound Design",
+];
+
+const VIDEO_BENEFITS = [
+  "Stories that keep people watching to the end",
+  "Documentaries, Shorts and Reels in one place",
+  "Clean sound and a clear message in every cut",
 ];
 
 function FilmTimelineVisual() {
@@ -89,55 +156,7 @@ function FilmTimelineVisual() {
   );
 }
 
-/* ---------- 05 · WEBSITE DEVELOPMENT ---------- */
-
-const WEB_SERVICES = [
-  "Business Websites",
-  "E-commerce Websites",
-  "Landing Pages",
-  "Portfolio Websites",
-  "Web Applications",
-  "Admin Dashboards",
-  "Custom Website Development",
-];
-
-function BrowserVisual() {
-  const mode = usePerformanceMode();
-  const floatClass = mode === "low" ? "" : "animate-float-soft";
-  return (
-    <div className="relative aspect-[4/3] w-full" role="img" aria-label="Premium browser window with floating interface elements">
-      <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-primary/30 blur-[90px]" />
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-panel shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
-        <div className="flex items-center gap-2 border-b border-white/5 bg-ink/70 px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-          <span className="ml-3 flex-1 rounded-md bg-white/5 px-3 py-1.5 text-[11px] text-mist">yourbusiness.com</span>
-        </div>
-        <div className="space-y-3 p-5">
-          <div className="h-3 w-1/2 rounded-full bg-gradient-to-r from-bright to-primary" />
-          <div className="h-3 w-3/4 rounded-full bg-white/10" />
-          <div className="h-3 w-2/3 rounded-full bg-white/10" />
-          <div className="grid grid-cols-3 gap-3 pt-2">
-            <div className="h-20 rounded-xl bg-gradient-to-br from-primary/40 to-[#1e3a5f]" />
-            <div className="h-20 rounded-xl bg-white/5" />
-            <div className="h-20 rounded-xl bg-gradient-to-br from-bright/30 to-transparent" />
-          </div>
-          <div className="flex gap-3 pt-1">
-            <span className="inline-flex h-9 items-center rounded-full bg-[#2563eb] px-4 text-xs font-semibold text-white">Get Started</span>
-            <span className="inline-flex h-9 items-center rounded-full border border-white/15 px-4 text-xs font-semibold text-white/80">Learn More</span>
-          </div>
-        </div>
-      </div>
-      <div className={`glass absolute -right-2 top-6 flex items-center gap-2 rounded-2xl px-4 py-3 shadow-xl sm:-right-4 ${floatClass}`}>
-        <MonitorSmartphone className="h-4 w-4 text-bright" />
-        <span className="text-xs font-semibold tracking-wider text-white">Responsive Layout</span>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- 06 · AI & AUTOMATION ---------- */
+/* ---------- 03 · AI & AUTOMATION ---------- */
 
 const AI_SERVICES = [
   "AI Chatbots",
@@ -146,6 +165,12 @@ const AI_SERVICES = [
   "Lead Management Automation",
   "AI-powered Business Tools",
   "Custom AI Integrations",
+];
+
+const AI_BENEFITS = [
+  "Repetitive work handled while you focus on business",
+  "Customers answered even when you are away",
+  "Your tools connected in one smooth flow",
 ];
 
 function NodeNetworkVisual() {
@@ -205,93 +230,207 @@ function NodeNetworkVisual() {
   );
 }
 
-/* ---------- COMPOSED SECTIONS ---------- */
+/* ---------- TABS ---------- */
 
-interface ServiceSectionProps {
+interface ServiceTab {
   id: string;
+  tab: string;
   label: string;
   title: string;
   description: string;
+  benefits: string[];
   services: string[];
   cta: string;
   visual: React.ReactNode;
-  flip?: boolean;
 }
 
-function ServiceSection({ id, label, title, description, services, cta, visual, flip }: ServiceSectionProps) {
-  return (
-    <article id={id} className="scroll-mt-24">
-      <div className={`grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 ${flip ? "" : ""}`}>
-        <Reveal className={flip ? "lg:order-2" : ""}>
-          <SectionLabel>{label}</SectionLabel>
-          <h3 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
-            {title}
-          </h3>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-mist sm:text-lg">{description}</p>
-          <ServiceList items={services} />
-          <a
-            href="#contact"
-            className="group mt-9 inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-bright/60 hover:bg-white/10"
-          >
-            {cta}
-            <ArrowRight className="h-4 w-4 text-bright transition-transform duration-300 group-hover:translate-x-1" />
-          </a>
-        </Reveal>
-        <Reveal delay={0.12} className={flip ? "lg:order-1" : ""}>
-          <motion.div
-            whileHover={undefined}
-            className="transition-transform duration-500 hover:-translate-y-1.5"
-          >
-            {visual}
-          </motion.div>
-        </Reveal>
-      </div>
-    </article>
-  );
-}
+const TABS: ServiceTab[] = [
+  {
+    id: "web-development",
+    tab: "Website Development",
+    label: "01 · WEBSITE DEVELOPMENT",
+    title: "Digital Experiences Built to Perform",
+    description: "We design and develop modern websites that look great, work fast, and are easy for your customers to use",
+    benefits: WEB_BENEFITS,
+    services: WEB_SERVICES,
+    cta: "Explore Web Development",
+    visual: <BrowserVisual />,
+  },
+  {
+    id: "video-editing",
+    tab: "Video Editing",
+    label: "02 · VIDEO EDITING",
+    title: "Stories That Keep People Watching",
+    description: "We create engaging video content designed to capture attention, communicate ideas, and keep audiences connected",
+    benefits: VIDEO_BENEFITS,
+    services: VIDEO_SERVICES,
+    cta: "Explore Video Services",
+    visual: <FilmTimelineVisual />,
+  },
+  {
+    id: "ai-automation",
+    tab: "AI & Automation",
+    label: "03 · AI & AUTOMATION",
+    title: "Smarter Systems, Better Business",
+    description: "We build AI tools and automations that take care of repetitive work, so your business runs smoother with less manual effort",
+    benefits: AI_BENEFITS,
+    services: AI_SERVICES,
+    cta: "Explore AI Solutions",
+    visual: <NodeNetworkVisual />,
+  },
+];
+
+const ROTATE_MS = 6000;
 
 export default function Services() {
+  const mode = usePerformanceMode();
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Follow a #service anchor (About and Footer link here): select that tab.
+  useEffect(() => {
+    const syncFromHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      const idx = TABS.findIndex((t) => t.id === hash);
+      if (idx >= 0) setActive(idx);
+    };
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, []);
+
+  // Auto-rotate the tabs, Justo-style, until the visitor hovers, focuses
+  // or picks a tab. Off in low mode and when the tab is hidden.
+  useEffect(() => {
+    if (mode === "low" || paused || typeof document === "undefined" || document.hidden) return;
+    const timer = window.setTimeout(() => {
+      setActive((a) => (a + 1) % TABS.length);
+    }, ROTATE_MS);
+    return () => window.clearTimeout(timer);
+  }, [active, paused, mode]);
+
+  const selectTab = useCallback((idx: number, focus = false) => {
+    setActive(idx);
+    if (focus) tabRefs.current[idx]?.focus();
+  }, []);
+
+  const onTabKeyDown = (e: React.KeyboardEvent, idx: number) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      selectTab((idx + 1) % TABS.length, true);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      selectTab((idx - 1 + TABS.length) % TABS.length, true);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      selectTab(0, true);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      selectTab(TABS.length - 1, true);
+    }
+  };
+
+  const tab = TABS[active];
+
   return (
-    <div id="services" className="scroll-mt-24">
+    <div
+      id="services"
+      ref={sectionRef}
+      className="scroll-mt-24"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(e) => {
+        if (!sectionRef.current?.contains(e.relatedTarget as Node)) setPaused(false);
+      }}
+    >
       <h2 className="sr-only">Our Services</h2>
-      <section aria-label="Video editing services" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <ServiceSection
-          id="video-editing"
-          label="01 · VIDEO EDITING"
-          title="Stories That Keep People Watching"
-          description="We create engaging video content designed to capture attention, communicate ideas, and keep audiences connected"
-          services={VIDEO_SERVICES}
-          cta="Explore Video Services"
-          visual={<FilmTimelineVisual />}
-        />
-      </section>
+      <section aria-label="Our services" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-4 flex items-center justify-center gap-2.5 text-xs font-semibold tracking-[0.22em] text-bright">
+              <span aria-hidden="true" className="h-px w-8 bg-primary" />
+              OUR SERVICES
+              <span aria-hidden="true" className="h-px w-8 bg-primary" />
+            </p>
+            <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              Everything your business needs to grow online
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
+              Three services, one team, every project handled in-house from the first idea to launch
+            </p>
+          </div>
+        </Reveal>
 
-      <section aria-label="Website development services" className="border-t border-white/5 bg-panel/40">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-          <ServiceSection
-            id="web-development"
-            label="02 · WEBSITE DEVELOPMENT"
-            title="Digital Experiences Built to Perform"
-            description="We design and develop modern websites that look great, work fast, and are easy for your customers to use"
-            services={WEB_SERVICES}
-            cta="Explore Web Development"
-            visual={<BrowserVisual />}
-            flip
-          />
-        </div>
-      </section>
+        {/* Pill tabs, Justo-style, auto-rotating until the visitor interacts. */}
+        <Reveal delay={0.08}>
+          <div
+            role="tablist"
+            aria-label="Services"
+            className="mt-12 flex flex-wrap justify-center gap-2"
+          >
+            {TABS.map((t, i) => (
+              <button
+                key={t.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                id={t.id}
+                type="button"
+                role="tab"
+                aria-selected={active === i}
+                aria-controls="service-panel"
+                tabIndex={active === i ? 0 : -1}
+                onClick={() => selectTab(i)}
+                onKeyDown={(e) => onTabKeyDown(e, i)}
+                className={`min-h-12 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 sm:px-6 sm:text-base ${
+                  active === i
+                    ? "bg-[#2563eb] text-white shadow-[0_8px_30px_rgba(37,99,235,0.45)]"
+                    : "border border-white/15 bg-white/5 text-white/80 hover:border-bright/60 hover:text-white"
+                }`}
+              >
+                {t.tab}
+              </button>
+            ))}
+          </div>
+        </Reveal>
 
-      <section aria-label="AI and automation services" className="border-t border-white/5">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-          <ServiceSection
-            id="ai-automation"
-            label="03 · AI & AUTOMATION"
-            title="Smarter Systems, Better Business"
-            description="We build AI tools and automations that take care of repetitive work, so your business runs smoother with less manual effort"
-            services={AI_SERVICES}
-            cta="Explore AI Solutions"
-            visual={<NodeNetworkVisual />}
-          />
+        <div id="service-panel" role="tabpanel" aria-live="polite" className="mt-12 sm:mt-16">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tab.id}
+              initial={mode === "low" ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={mode === "low" ? undefined : { opacity: 0, y: -16 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+            >
+              <div>
+                <p className="mb-4 flex items-center gap-2.5 text-xs font-semibold tracking-[0.22em] text-bright">
+                  <span aria-hidden="true" className="h-px w-8 bg-primary" />
+                  {tab.label}
+                </p>
+                <h3 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
+                  {tab.title}
+                </h3>
+                <p className="mt-5 max-w-lg text-base leading-relaxed text-mist sm:text-lg">{tab.description}</p>
+                <BenefitList items={tab.benefits} />
+                <ServiceList items={tab.services} />
+                <a
+                  href="#contact"
+                  className="group mt-9 inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-bright/60 hover:bg-white/10"
+                >
+                  {tab.cta}
+                  <ArrowRight className="h-4 w-4 text-bright transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </div>
+              <div className="transition-transform duration-500 hover:-translate-y-1.5">
+                {tab.visual}
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
     </div>

@@ -1,13 +1,15 @@
 import { getCurrentYear } from "./year";
 import About from "../components/About";
+import ClientStrip from "../components/ClientStrip";
+import Comparison from "../components/Comparison";
 import Contact from "../components/Contact";
 import Faq from "../components/Faq";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
-import Marquee from "../components/Marquee";
 import Nav from "../components/Nav";
 import Process from "../components/Process";
 import Services from "../components/Services";
+import StartTeaser from "../components/StartTeaser";
 import Testimonials from "../components/Testimonials";
 import WhatsAppFloat from "../components/WhatsAppFloat";
 import Why from "../components/Why";
@@ -20,13 +22,15 @@ export default async function Home() {
       <Nav />
       <main id="main-content">
         <Hero />
-        <Marquee />
+        <ClientStrip />
         <Services />
         <Work />
+        <Comparison />
         <Why />
         <Process />
         <About />
         <Testimonials />
+        <StartTeaser />
         <Faq />
         <Contact />
       </main>
