@@ -3,7 +3,8 @@
 import { Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
 import { FREE_SAMPLE, NON_PAYMENT_RULES, PAYMENT_RULES, REVISIONS, SERVICES, buildPackages } from "../data/services";
-import { packageMessage, sampleMessage, waLink } from "../data/whatsapp";
+import { discountMessage, packageMessage, sampleMessage, waLink } from "../data/whatsapp";
+import CustomBuilder from "./CustomBuilder";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
 
@@ -39,7 +40,7 @@ export default function Packages({ choice }: { choice: Choice }) {
 
         <div
           className={`mx-auto mt-12 grid grid-cols-1 items-stretch gap-6 sm:mt-16 ${
-            shown.length >= 3 ? "max-w-6xl md:grid-cols-3" : shown.length === 2 ? "max-w-4xl md:grid-cols-2" : "max-w-md"
+            shown.length >= 3 ? "max-w-7xl md:grid-cols-2 xl:grid-cols-4" : shown.length === 2 ? "max-w-6xl md:grid-cols-3" : "max-w-4xl md:grid-cols-2"
           }`}
         >
           {shown.map((pkg, i) => {
@@ -95,10 +96,21 @@ export default function Packages({ choice }: { choice: Choice }) {
                 >
                   Prefer email?
                 </a>
+                <a
+                  href={waLink(discountMessage(choice, pkg.name, pkg.price, pkg.per))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-10 items-center justify-center text-sm font-medium text-emerald-300 underline-offset-4 transition-colors hover:text-emerald-200 hover:underline"
+                >
+                  Want a discount? Just ask
+                </a>
               </div>
             </Reveal>
             );
           })}
+          <Reveal delay={shown.length * 0.08} className="h-full">
+            <CustomBuilder choice={choice} />
+          </Reveal>
         </div>
 
         {choice.service === "video" ? (

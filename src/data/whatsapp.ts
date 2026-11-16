@@ -37,3 +37,7 @@ export function packageMessage(choice: Choice, name: string, price: string, per?
 export function sampleMessage(choice: Choice): string {
   return `Hi DevelopNearly! I'd like a free 30 sec – 1 min sample edit for ${purposeOf(choice).label}. What should I send you?`;
 }
+
+export function discountMessage(choice: Choice, name: string, price: string, per?: string): string {
+  return `Hi DevelopNearly! I like the ${name} package (${price}${per ? ` ${per}` : ""}) for ${purposeOf(choice).label}${details(choice)}. Is there any discount you can offer?`;
+}

@@ -618,3 +618,56 @@ export function buildPackages(choice: Choice): { packages: Package[]; recommende
   recommended.featured = true;
   return { packages, recommended };
 }
+
+/* ---------- "Build your own package" estimates ---------- */
+
+export const SHORT_FIRST_PURPOSES = SHORT_FIRST;
+
+export interface VideoCustom {
+  longs: number;
+  shorts: number;
+  quality: QualityKey;
+  length: LengthKey;
+}
+
+/** Estimated price for a video package the visitor puts together. */
+export function videoQuote(purpose: string, c: VideoCustom): number {
+  const q = QUALITY_COST[c.quality];
+  const lenCost =
+    purpose === "business" ? 1 : purpose === "podcast" ? 1 + (LENGTH_COST[c.length] - 1) * 0.5 : LENGTH_COST[c.length];
+  const raw = c.longs * BASE_LONG_UNIT * q * lenCost + c.shorts * BASE_SHORT_UNIT * q;
+  return raw > 0 ? nicePrice(Math.max(29, raw)) : 0;
+}
+
+export const WEB_EXTRAS: Array<{ id: string; label: string; price: number; store?: boolean; site?: boolean }> = [
+  { id: "booking", label: "Blog or booking system", price: 120, site: true },
+  { id: "orders", label: "Discount codes & order emails", price: 90, store: true },
+  { id: "seo", label: "Advanced SEO setup", price: 100 },
+  { id: "copy", label: "We write the text for you", price: 80 },
+  { id: "updates", label: "3 months of free updates", price: 90 },
+];
+
+export const STORE_PRODUCTS = [10, 20, 30, 50, 100, 300, 1000];
+const STORE_PRODUCT_COST: Record<number, number> = { 10: 0, 20: 50, 30: 100, 50: 200, 100: 400, 300: 900, 1000: 2000 };
+const WEB_QUALITY_COST: Record<QualityKey, number> = { standard: 0.8, pro: 1, premium: 1.4 };
+
+export interface WebCustom {
+  pages: number;
+  products: number;
+  quality: QualityKey;
+  extras: string[];
+}
+
+/** Estimated price for a website the visitor puts together. */
+export function webQuote(purpose: string, c: WebCustom): number {
+  const q = WEB_QUALITY_COST[c.quality];
+  const base =
+    purpose === "store"
+      ? (249 + (STORE_PRODUCT_COST[c.products] ?? 0) + Math.max(0, c.pages - 5) * 40) * q
+      : (149 + Math.max(0, c.pages - 1) * 45) * q;
+  const extras = WEB_EXTRAS.filter((e) => c.extras.includes(e.id)).reduce(
+    (sum, e) => sum + (e.id === "copy" ? e.price + c.pages * 10 : e.price),
+    0,
+  );
+  return nicePrice(base + extras);
+}
