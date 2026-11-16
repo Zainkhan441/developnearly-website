@@ -286,10 +286,6 @@ export default function Welcome({
                       hint="Business site, landing page, online store"
                       onClick={() => setService("web")}
                     />
-                    <p className="mt-2 text-center text-sm text-mist">
-                      <span className="font-semibold text-white">8 YouTube videos</span> edited ·{" "}
-                      <span className="font-semibold text-white">5 websites</span> live
-                    </p>
                   </div>
                 )}
 

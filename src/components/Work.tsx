@@ -236,17 +236,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-function GroupHeading({ icon, title, count }: { icon: React.ReactNode; title: string; count: string }) {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-ink text-bright">
-        {icon}
-      </span>
-      {title ? <h3 className="font-display text-2xl font-bold text-white">{title}</h3> : null}
-      <span className="text-sm text-mist">{count}</span>
-    </div>
-  );
-}
 
 export default function Work({ kind, showFirst = [] }: { kind: "video" | "website"; showFirst?: string[] }) {
   // Work that matches the visitor's answers comes first.
@@ -279,11 +268,6 @@ export default function Work({ kind, showFirst = [] }: { kind: "video" | "websit
                   : "Real websites for real businesses, click any card to open the live site"}
               </p>
             </div>
-            <GroupHeading
-              icon={isVideo ? <Film className="h-5 w-5" /> : <Globe className="h-5 w-5" />}
-              title=""
-              count={`${items.length} ${isVideo ? "videos" : "websites"}`}
-            />
           </div>
         </Reveal>
 
