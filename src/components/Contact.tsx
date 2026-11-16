@@ -1,41 +1,28 @@
 "use client";
 
-import { Check, ChevronDown, Copy, Mail, MessageCircle, Send } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { Check, Copy, Mail, Send } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import type { Choice } from "../data/services";
+import { SERVICES as SERVICE_INFO, purposeOf } from "../data/services";
+import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
+import WhatsAppIcon from "./WhatsAppIcon";
+import { WHATSAPP_DISPLAY as WHATSAPP_NUMBER, introMessage, waLink } from "../data/whatsapp";
 
-const SERVICES = [
-  "Video Editing",
-  "Website Development",
-  "AI & Automation",
-  "Multiple Services",
-  "Other",
-] as const;
-
-const BUDGETS = [
-  "Under $500",
-  "$500–$1,000",
-  "$1,000–$3,000",
-  "$3,000+",
-  "Not Sure Yet",
-] as const;
 
 const CONTACT_EMAIL = "developnearly@gmail.com";
-const WHATSAPP_NUMBER = "+92 313 1134962";
-const WHATSAPP_URL =
-  "https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project.";
 
 interface FormState {
   name: string;
   email: string;
-  company: string;
+  whatsapp: string;
   service: string;
   budget: string;
   details: string;
   honeypot: string;
 }
 
-const EMPTY: FormState = { name: "", email: "", company: "", service: "", budget: "", details: "", honeypot: "" };
+const EMPTY: FormState = { name: "", email: "", whatsapp: "", service: "", budget: "", details: "", honeypot: "" };
 
 type Errors = Partial<Record<keyof FormState, string>>;
 
@@ -44,8 +31,26 @@ type SubmitStatus = "idle" | "sending" | "sent" | "error";
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-ink px-4 py-3.5 text-[15px] text-white placeholder:text-mist/60 transition-colors focus:border-bright focus:outline-none";
 
-export default function Contact() {
-  const [form, setForm] = useState<FormState>(EMPTY);
+export default function Contact({ choice }: { choice: Choice }) {
+  const info = SERVICE_INFO[choice.service];
+  const initial: FormState = {
+    ...EMPTY,
+    service: info.formValue,
+    budget: choice.budgetLabel,
+  };
+  const [pkg, setPkg] = useState("");
+  const WHATSAPP_URL = waLink(introMessage(choice));
+  const [form, setForm] = useState<FormState>(initial);
+
+  // "Choose <package>" on the Packages section prefills the form.
+  useEffect(() => {
+    const onChoose = (e: Event) => {
+      setPkg((e as CustomEvent<string>).detail);
+      window.setTimeout(() => document.getElementById("contact-name")?.focus({ preventScroll: true }), 600);
+    };
+    window.addEventListener(CHOOSE_PACKAGE_EVENT, onChoose);
+    return () => window.removeEventListener(CHOOSE_PACKAGE_EVENT, onChoose);
+  }, [info.formValue]);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [sentTo, setSentTo] = useState("");
@@ -63,10 +68,8 @@ export default function Contact() {
     if (form.name.trim().length < 2) next.name = "Please enter your full name";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
       next.email = "Please enter a valid email address";
-    if (!form.service) next.service = "Please choose a service";
-    if (!form.budget) next.budget = "Please choose a budget range";
-    if (form.details.trim().length < 10)
-      next.details = "Please tell us a little more about your project (at least 10 characters)";
+    if (form.whatsapp.trim() && form.whatsapp.replace(/[^0-9]/g, "").length < 7)
+      next.whatsapp = "Please enter a valid WhatsApp number, with country code";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -88,10 +91,21 @@ export default function Contact() {
         body: JSON.stringify({
           name: form.name.trim(),
           email: form.email.trim(),
-          company: form.company.trim(),
+          company: "",
           service: form.service,
           budget: form.budget,
-          message: form.details.trim(),
+          // The quiz answers travel with the message so every inquiry has the
+          // full picture, even when the visitor writes nothing else.
+          message: [
+            `For: ${purposeOf(choice).label}`,
+            `Budget: ${choice.budgetLabel}`,
+            pkg ? `Package: ${pkg}` : "",
+            form.whatsapp.trim() ? `WhatsApp: ${form.whatsapp.trim()}` : "",
+            "",
+            form.details.trim() || "(no extra details)",
+          ]
+            .filter((line, i, arr) => line !== "" || (i > 0 && arr[i - 1] !== ""))
+            .join("\n"),
           honeypot: form.honeypot,
         }),
       });
@@ -100,7 +114,8 @@ export default function Contact() {
         throw new Error("Form delivery failed");
       }
       setSentTo(form.email.trim());
-      setForm(EMPTY);
+      setForm(initial);
+      setPkg("");
       setErrors({});
       setStatus("sent");
     } catch {
@@ -131,19 +146,30 @@ export default function Contact() {
           <Reveal className="lg:col-span-5">
             <p className="mb-4 flex items-center gap-2.5 text-xs font-semibold tracking-[0.22em] text-bright">
               <span aria-hidden="true" className="h-px w-8 bg-primary" />
-              GET A QUOTE
+              LET&apos;S TALK
             </p>
             <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
-              Have an Idea?
+              Message us on
               <br />
-              Let&apos;s Build Something <span className="text-gradient-blue">Meaningful</span>
+              <span className="text-[#25d366]">WhatsApp</span>
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-mist sm:text-lg">
-              Tell us about your project and we will get back to you with next steps,
-              no pressure, no obligation, just an honest conversation about your idea
+              The fastest way to start, tap the button, send us a message
+              and we will reply with a clear, fixed price
             </p>
 
-            <div className="mt-10 space-y-4">
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-9 flex min-h-16 items-center justify-center gap-3 rounded-2xl bg-[#25d366] px-6 text-lg font-bold text-ink shadow-[0_16px_50px_rgba(37,211,102,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5b]"
+            >
+              <WhatsAppIcon className="h-7 w-7" />
+              Chat on WhatsApp
+            </a>
+            <p className="mt-3 text-center text-sm text-mist">{WHATSAPP_NUMBER}</p>
+
+            <div className="mt-8">
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
                 className="group flex min-h-14 items-center gap-4 rounded-2xl border border-white/10 bg-panel px-5 transition-colors hover:border-bright/50"
@@ -152,23 +178,8 @@ export default function Contact() {
                   <Mail className="h-5 w-5" />
                 </span>
                 <span>
-                  <span className="block text-xs font-semibold tracking-widest text-mist">EMAIL US</span>
+                  <span className="block text-xs font-semibold tracking-widest text-mist">OR EMAIL US</span>
                   <span className="block font-medium text-white group-hover:text-bright">{CONTACT_EMAIL}</span>
-                </span>
-              </a>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex min-h-14 items-center gap-4 rounded-2xl border border-white/10 bg-panel px-5 transition-colors hover:border-[#25d366]/60"
-              >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#25d366]/15 text-[#25d366]">
-                  <MessageCircle className="h-5 w-5" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-xs font-semibold tracking-widest text-mist">WHATSAPP</span>
-                  <span className="block font-medium text-white group-hover:text-[#25d366]">{WHATSAPP_NUMBER}</span>
-                  <span className="block text-xs text-mist">Tap to chat on WhatsApp</span>
                 </span>
               </a>
             </div>
@@ -183,7 +194,7 @@ export default function Contact() {
             >
               {/* Honeypot: invisible to humans, catches bots. */}
               <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
-                <label htmlFor="contact-website">Website</label>
+                <label htmlFor="contact-website">URL</label>
                 <input
                   id="contact-website"
                   name="website"
@@ -194,6 +205,7 @@ export default function Contact() {
                   onChange={set("honeypot")}
                 />
               </div>
+              <p className="mb-5 font-display text-xl font-bold text-white">No WhatsApp? Send us an email instead</p>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-white">
@@ -209,47 +221,18 @@ export default function Contact() {
                   <input id="contact-email" name="email" type="email" autoComplete="email" placeholder="you@company.com" value={form.email} onChange={set("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "contact-email-error" : undefined} className={inputClass} />
                   {errors.email ? <p id="contact-email-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.email}</p> : null}
                 </div>
-                <div>
-                  <label htmlFor="contact-company" className="mb-2 block text-sm font-semibold text-white">
-                    Company Name <span className="font-normal text-mist">(optional)</span>
-                  </label>
-                  <input id="contact-company" name="company" type="text" autoComplete="organization" placeholder="Your company" value={form.company} onChange={set("company")} className={inputClass} />
-                </div>
-                <div>
-                  <label htmlFor="contact-service" className="mb-2 block text-sm font-semibold text-white">
-                    Service Required <span aria-hidden="true" className="text-bright">*</span>
-                  </label>
-                  <div className="relative">
-                    <select id="contact-service" name="service" value={form.service} onChange={set("service")} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "contact-service-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
-                      <option value="" disabled>Select a service</option>
-                      {SERVICES.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-mist" />
-                  </div>
-                  {errors.service ? <p id="contact-service-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.service}</p> : null}
-                </div>
                 <div className="sm:col-span-2">
-                  <label htmlFor="contact-budget" className="mb-2 block text-sm font-semibold text-white">
-                    Project Budget <span aria-hidden="true" className="text-bright">*</span>
+                  <label htmlFor="contact-whatsapp" className="mb-2 block text-sm font-semibold text-white">
+                    WhatsApp Number <span className="font-normal text-mist">(optional, for a faster reply)</span>
                   </label>
-                  <div className="relative">
-                    <select id="contact-budget" name="budget" value={form.budget} onChange={set("budget")} aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "contact-budget-error" : undefined} className={`${inputClass} appearance-none bg-ink pr-11`}>
-                      <option value="" disabled>Select a budget range</option>
-                      {BUDGETS.map((b) => (
-                        <option key={b} value={b}>{b}</option>
-                      ))}
-                    </select>
-                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-mist" />
-                  </div>
-                  {errors.budget ? <p id="contact-budget-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.budget}</p> : null}
+                  <input id="contact-whatsapp" name="whatsapp" type="tel" autoComplete="tel" placeholder="+1 555 123 4567" value={form.whatsapp} onChange={set("whatsapp")} aria-invalid={Boolean(errors.whatsapp)} aria-describedby={errors.whatsapp ? "contact-whatsapp-error" : undefined} className={inputClass} />
+                  {errors.whatsapp ? <p id="contact-whatsapp-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.whatsapp}</p> : null}
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="contact-details" className="mb-2 block text-sm font-semibold text-white">
-                    Project Details <span aria-hidden="true" className="text-bright">*</span>
+                    Anything else we should know? <span className="font-normal text-mist">(optional)</span>
                   </label>
-                  <textarea id="contact-details" name="details" rows={5} placeholder="Tell us about your project: goals, timeline, anything that matters" value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
+                  <textarea id="contact-details" name="details" rows={4} placeholder={choice.service === "video" ? "Your channel link, deadline, style you like…" : "Your current site (if any), deadline, designs you like…"} value={form.details} onChange={set("details")} aria-invalid={Boolean(errors.details)} aria-describedby={errors.details ? "contact-details-error" : undefined} className={`${inputClass} resize-y`} />
                   {errors.details ? <p id="contact-details-error" role="alert" className="mt-1.5 text-sm text-red-400">{errors.details}</p> : null}
                 </div>
               </div>
@@ -260,7 +243,7 @@ export default function Contact() {
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)] disabled:cursor-wait disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
               >
                 <Send className="h-5 w-5" />
-                {status === "sending" ? "Sending…" : "Send Project Inquiry"}
+                {status === "sending" ? "Sending…" : "Get My Quote"}
               </button>
 
               {status === "sent" ? (
@@ -282,7 +265,7 @@ export default function Contact() {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[#25d366]/20 px-4 py-2 font-semibold text-emerald-100 transition-colors hover:bg-[#25d366]/30"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <WhatsAppIcon className="h-4 w-4" />
                       {WHATSAPP_NUMBER}
                     </a>
                     <button
@@ -308,7 +291,7 @@ export default function Contact() {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[#25d366]/20 px-4 py-2 font-semibold text-amber-100 transition-colors hover:bg-[#25d366]/30"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <WhatsAppIcon className="h-4 w-4" />
                       WhatsApp {WHATSAPP_NUMBER}
                     </a>
                     <a
@@ -322,8 +305,7 @@ export default function Contact() {
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
-                  Your message goes straight to our inbox with no email app needed
-                  Prefer WhatsApp? Tap the number above and chat with us directly
+                  We will reply by email with a clear, fixed price
                 </p>
               )}
             </form>

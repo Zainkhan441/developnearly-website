@@ -1,33 +1,10 @@
+import type { Choice } from "../data/services";
+import { SERVICES, purposeOf } from "../data/services";
 import Reveal from "./Reveal";
 
-const FAQS = [
-  {
-    q: "What services does DevelopNearly offer?",
-    a: "Three core services: professional video editing, complete website development, and AI & automation, every project handled in-house, from the first idea to launch",
-  },
-  {
-    q: "How much does a website cost?",
-    a: "Every project is priced on its scope: pages, features, and timeline, so tell us about your project through the form or WhatsApp and we will give you a clear, fixed price before any work starts, no hidden charges",
-  },
-  {
-    q: "How long does a project take?",
-    a: "Most small business websites take around 1–2 weeks once we have your content, video editing depends on the length and style of the video, and we always confirm the timeline with you before starting",
-  },
-  {
-    q: "Do you work with clients outside Pakistan?",
-    a: "Yes, we work with clients worldwide, fully remote, and communicate in English, you can reach us by email or WhatsApp from anywhere",
-  },
-  {
-    q: "What do you need from me to start?",
-    a: "Your goals, any content you already have (logo, photos, text), and examples of websites or videos you like, and if you do not have everything yet, we will help you figure it out",
-  },
-  {
-    q: "How do we begin?",
-    a: "Fill in the contact form below or message us on WhatsApp and we will reply with the next steps and a price, no pressure, no obligation",
-  },
-] as const;
-
-export default function Faq() {
+export default function Faq({ choice }: { choice: Choice }) {
+  const extra = purposeOf(choice).faq;
+  const FAQS = extra ? [extra, ...SERVICES[choice.service].faqs] : SERVICES[choice.service].faqs;
   return (
     <section id="faq" aria-label="Frequently asked questions" className="scroll-mt-24 border-t border-white/5">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
