@@ -1,9 +1,7 @@
-import ServicePicker from "../components/ServicePicker";
+import SiteApp from "../components/SiteApp";
+import { getCurrentYear } from "./year";
 
-export default function Home() {
-  return (
-    <div className="min-h-full bg-ink font-sans text-white">
-      <ServicePicker />
-    </div>
-  );
+export default async function Home() {
+  const year = await getCurrentYear();
+  return <SiteApp year={year} />;
 }

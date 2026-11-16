@@ -2,8 +2,8 @@
 
 import { Check, ChevronDown, Copy, Mail, MessageCircle, Send } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
-import type { ServiceKey } from "../data/services";
-import { SERVICES as SERVICE_INFO } from "../data/services";
+import type { Choice } from "../data/services";
+import { SERVICES as SERVICE_INFO, budgetOf, purposeOf } from "../data/services";
 import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
 
@@ -38,10 +38,15 @@ type SubmitStatus = "idle" | "sending" | "sent" | "error";
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-ink px-4 py-3.5 text-[15px] text-white placeholder:text-mist/60 transition-colors focus:border-bright focus:outline-none";
 
-export default function Contact({ service }: { service: ServiceKey }) {
-  const info = SERVICE_INFO[service];
-  const BUDGETS = info.budgets;
-  const initial: FormState = { ...EMPTY, service: info.formValue };
+export default function Contact({ choice }: { choice: Choice }) {
+  const info = SERVICE_INFO[choice.service];
+  const BUDGETS = [...info.budgetOptions.map((b) => b.label), "Not Sure Yet"];
+  const initial: FormState = {
+    ...EMPTY,
+    service: info.formValue,
+    budget: budgetOf(choice).label,
+    details: `For: ${purposeOf(choice).label}\n`,
+  };
   const [form, setForm] = useState<FormState>(initial);
 
   // "Choose <package>" on the Packages section prefills the form.
@@ -51,7 +56,7 @@ export default function Contact({ service }: { service: ServiceKey }) {
       setForm((f) => ({
         ...f,
         service: info.formValue,
-        details: f.details.trim() ? f.details : `Hi, I am interested in the ${pkg}. `,
+        details: f.details.includes(pkg) ? f.details : `${f.details.trimEnd()}\nPackage: ${pkg}\n`,
       }));
       window.setTimeout(() => document.getElementById("contact-name")?.focus({ preventScroll: true }), 600);
     };

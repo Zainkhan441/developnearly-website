@@ -1,50 +1,47 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, Menu, SlidersHorizontal, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ServiceKey } from "../data/services";
-import { SERVICE_LIST } from "../data/services";
+import type { Choice } from "../data/services";
+import { budgetOf, purposeOf } from "../data/services";
 import Link from "next/link";
 import DLogo from "./DLogo";
 
 const PAGE_LINKS = [
   { label: "Our Work", href: "#work" },
   { label: "Packages", href: "#packages" },
-  { label: "How it works", href: "#process" },
   { label: "FAQ", href: "#faq" },
 ];
 
 const SITE_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Video Editing", href: "/video" },
-  { label: "Websites", href: "/websites" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
-/** Video | Website switch: jump between the two service pages. */
-function ServiceSwitch({ service, className = "" }: { service: ServiceKey; className?: string }) {
+/** Shows the visitor's answers, with a button to answer again. */
+function AnswersChip({ choice, onChange, className = "" }: { choice: Choice; onChange: () => void; className?: string }) {
   return (
-    <div role="group" aria-label="Switch service" className={`flex items-center rounded-full border border-white/10 bg-white/5 p-1 ${className}`}>
-      {SERVICE_LIST.map((s) => {
-        const active = s.key === service;
-        return (
-          <Link
-            key={s.key}
-            href={s.href}
-            aria-current={active ? "page" : undefined}
-            className={`inline-flex min-h-9 items-center rounded-full px-3.5 text-xs font-semibold transition-colors sm:text-sm ${
-              active ? "bg-[#2563eb] text-white" : "text-mist hover:text-white"
-            }`}
-          >
-            {s.key === "video" ? "Video" : "Website"}
-          </Link>
-        );
-      })}
-    </div>
+    <button
+      type="button"
+      onClick={onChange}
+      title="Change your answers"
+      className={`inline-flex min-h-10 max-w-[13rem] items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 text-xs font-semibold text-white/85 transition-colors hover:border-bright/60 hover:text-white sm:max-w-none sm:text-sm ${className}`}
+    >
+      <SlidersHorizontal className="h-4 w-4 shrink-0 text-bright" />
+      <span className="truncate">
+        <span className="hidden sm:inline">{purposeOf(choice).label} · </span>
+        {budgetOf(choice).label}
+      </span>
+      <span className="text-bright sm:hidden">Edit</span>
+      <span className="hidden text-bright sm:inline">Change</span>
+    </button>
   );
 }
 
-export default function Nav({ service }: { service?: ServiceKey }) {
+export default function Nav({ choice, onChangeAnswers }: { choice?: Choice; onChangeAnswers?: () => void }) {
+  const service = choice?.service;
   const LINKS = service ? PAGE_LINKS : SITE_LINKS;
   const ctaHref = service ? "#contact" : "/";
   const ctaLabel = service ? "Get a Quote" : "Start a Project";
@@ -133,7 +130,9 @@ export default function Nav({ service }: { service?: ServiceKey }) {
           ))}
         </nav>
 
-        {service ? <ServiceSwitch service={service} className="relative z-10 ml-auto lg:ml-0" /> : null}
+        {choice && onChangeAnswers ? (
+          <AnswersChip choice={choice} onChange={onChangeAnswers} className="relative z-10 ml-auto lg:ml-0" />
+        ) : null}
 
         <div className="relative z-10 hidden shrink-0 lg:block">
           <a

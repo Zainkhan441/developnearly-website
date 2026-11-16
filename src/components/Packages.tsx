@@ -1,15 +1,18 @@
 "use client";
 
 import { ArrowRight, Check, Sparkles } from "lucide-react";
-import type { ServiceKey } from "../data/services";
-import { REVISIONS, SERVICES } from "../data/services";
+import type { Choice } from "../data/services";
+import { REVISIONS, SERVICES, budgetOf, purposeOf, recommend } from "../data/services";
 import Reveal from "./Reveal";
 
 /** Event the Contact form listens for, so "Choose" prefills the form. */
 export const CHOOSE_PACKAGE_EVENT = "dn:choose-package";
 
-export default function Packages({ service }: { service: ServiceKey }) {
-  const info = SERVICES[service];
+export default function Packages({ choice }: { choice: Choice }) {
+  const info = SERVICES[choice.service];
+  const budget = budgetOf(choice);
+  const purpose = purposeOf(choice);
+  const { shown, recommended, underBudget } = recommend(choice);
 
   const choose = (name: string, price: string) => {
     window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: `${name} package (${price})` }));
@@ -26,28 +29,48 @@ export default function Packages({ service }: { service: ServiceKey }) {
               <span aria-hidden="true" className="h-px w-8 bg-primary" />
             </p>
             <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Simple, <span className="text-gradient-blue">fixed</span> prices
+              Packages for <span className="text-gradient-blue">your budget</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-              Pick a package, every one includes {REVISIONS} free revisions, prices in USD
+              For: {purpose.label} · Budget: {budget.label} · {REVISIONS} free revisions on every package · prices in USD
             </p>
+            {underBudget ? (
+              <p className="mx-auto mt-5 max-w-xl rounded-2xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm leading-relaxed text-amber-100">
+                Your budget is a little under our smallest package, message us anyway, we will find a way to start small and grow with you
+              </p>
+            ) : null}
           </div>
         </Reveal>
 
-        <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 items-stretch gap-6 sm:mt-16 md:grid-cols-3">
-          {info.packages.map((pkg, i) => (
+        <div
+          className={`mx-auto mt-12 grid grid-cols-1 items-stretch gap-6 sm:mt-16 ${
+            shown.length >= 3 ? "max-w-6xl md:grid-cols-3" : shown.length === 2 ? "max-w-4xl md:grid-cols-2" : "max-w-md"
+          }`}
+        >
+          {shown.map((pkg, i) => {
+            const featured = pkg === recommended;
+            const overBudget = pkg.value > budget.max;
+            return (
             <Reveal key={pkg.name} delay={i * 0.08} className="h-full">
               <div
                 className={`relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 sm:p-8 ${
-                  pkg.featured
+                  featured
                     ? "border border-[#2563eb]/60 bg-gradient-to-b from-[#2563eb]/25 via-[#2563eb]/10 to-panel shadow-[0_24px_60px_rgba(37,99,235,0.25)]"
                     : "border border-white/10 bg-ink hover:border-bright/50"
                 }`}
               >
-                {pkg.featured && (
-                  <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#2563eb] px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-white shadow-lg">
+                {featured ? (
+                  <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#2563eb] px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-white shadow-lg">
                     <Sparkles className="h-3.5 w-3.5" />
-                    MOST POPULAR
+                    BEST FOR YOUR BUDGET
+                  </span>
+                ) : overBudget ? (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/15 bg-ink px-3 py-1 text-[11px] font-semibold tracking-wider text-mist">
+                    IF YOU WANT MORE
+                  </span>
+                ) : (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-emerald-400/30 bg-ink px-3 py-1 text-[11px] font-semibold tracking-wider text-emerald-300">
+                    FITS YOUR BUDGET
                   </span>
                 )}
                 <h3 className="font-display text-2xl font-bold text-white">{pkg.name}</h3>
@@ -70,7 +93,7 @@ export default function Packages({ service }: { service: ServiceKey }) {
                   href="#contact"
                   onClick={() => choose(pkg.name, pkg.price)}
                   className={`group mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ${
-                    pkg.featured
+                    featured
                       ? "bg-[#2563eb] text-white hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)]"
                       : "border border-white/15 bg-white/5 text-white hover:border-bright/60 hover:bg-white/10"
                   }`}
@@ -80,7 +103,8 @@ export default function Packages({ service }: { service: ServiceKey }) {
                 </a>
               </div>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
 
         <Reveal delay={0.2}>

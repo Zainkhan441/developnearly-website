@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ServicePage from "../../components/ServicePage";
+import SiteApp from "../../components/SiteApp";
 import { getCurrentYear } from "../year";
 
 const description =
@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 
 export default async function VideoPage() {
   const year = await getCurrentYear();
-  return <ServicePage service="video" year={year} />;
+  return <SiteApp year={year} initialService="video" />;
 }
