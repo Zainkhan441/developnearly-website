@@ -2,15 +2,16 @@
 
 import { BadgePercent, Minus, Plus, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
-import type { Choice, LengthKey, QualityKey } from "../data/services";
+import type { Choice, LengthKey, PlanKey, QualityKey } from "../data/services";
 import {
   LENGTH_OPTIONS,
+  PLAN_OPTIONS,
   QUALITY_OPTIONS,
   STORE_PRODUCTS,
   SHORT_FIRST_PURPOSES,
   WEB_EXTRAS,
   purposeOf,
-  videoQuote,
+  videoEstimate,
   webQuote,
 } from "../data/services";
 import { waLink } from "../data/whatsapp";
@@ -109,27 +110,29 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
   const [length, setLength] = useState<LengthKey>(choice.length ?? "medium");
   const [longs, setLongs] = useState(shortsOnly ? 0 : 2);
   const [shorts, setShorts] = useState(shortsOnly ? 10 : 4);
-  const [monthly, setMonthly] = useState(true);
+  const [plan, setPlan] = useState<PlanKey>("monthly");
+  const monthly = plan !== "once";
   const [pages, setPages] = useState(purpose === "landing" ? 1 : 5);
   const [products, setProducts] = useState(30);
   const [extras, setExtras] = useState<string[]>([]);
   const [offer, setOffer] = useState("");
 
   const store = purpose === "store";
-  const price = video
-    ? videoQuote(purpose, { longs, shorts, quality, length })
-    : webQuote(purpose, { pages, products, quality, extras });
+  const est = video ? videoEstimate(purpose, { longs, shorts, quality, length }, plan) : null;
+  const price = est ? est.total : webQuote(purpose, { pages, products, quality, extras });
+  const planInfo = PLAN_OPTIONS.find((p) => p.id === plan)!;
 
   const qualityLabel = QUALITY_OPTIONS[choice.service].find((q) => q.id === quality)?.label ?? "";
   const longWord = purpose === "podcast" ? "Podcast episodes" : purpose === "business" ? "Promo or ad videos" : "Long videos";
   const shortWord = shortsOnly ? "Short videos" : "Shorts or Reels";
+  const longOne = purpose === "podcast" ? "podcast episode" : purpose === "business" ? "promo or ad video" : "long video";
 
   const lines: string[] = [];
   if (video) {
-    if (longs) lines.push(`${longs} ${longWord.toLowerCase()} (${LENGTH_OPTIONS.find((l) => l.id === length)?.label.toLowerCase()})`);
-    if (shorts) lines.push(`${shorts} ${shortsOnly ? "short videos" : shortWord}`);
+    if (longs) lines.push(`${longs} ${longs === 1 ? longOne : longWord.toLowerCase()} (${LENGTH_OPTIONS.find((l) => l.id === length)?.label.toLowerCase()})`);
+    if (shorts) lines.push(`${shorts} ${shorts === 1 ? (shortsOnly ? "short video" : "Short or Reel") : shortsOnly ? "short videos" : shortWord}`);
     lines.push(`${qualityLabel} editing`);
-    lines.push(monthly ? "Every month" : "One-time");
+    lines.push(plan === "once" ? "One-time" : plan === "monthly" ? "Monthly" : `${planInfo.months}-month plan`);
   } else {
     lines.push(store ? `Online store with up to ${products} products` : `${pages} page${pages === 1 ? "" : "s"}`);
     if (store && pages > 5) lines.push(`${pages} extra pages`);
@@ -141,6 +144,28 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
   const priceText = `${usd(price)}${per}`;
   const offerNum = Math.round(Number(offer));
   const offerText = offer.trim() && offerNum > 0 ? `${usd(offerNum)}${per}` : "";
+
+  // A friendly, honest reaction to the price the visitor writes.
+  let offerNote: { tone: "good" | "mid" | "low"; text: string } | null = null;
+  if (offerText && price > 0) {
+    const ratio = offerNum / price;
+    if (ratio >= 0.9) offerNote = { tone: "good", text: "That is close to our estimate, there is a good chance we can accept it" };
+    else if (ratio >= 0.7) offerNote = { tone: "mid", text: "We may be able to meet you somewhere in the middle" };
+    else if (video && est && est.count) {
+      const fitLongs = Math.floor(longs * ratio);
+      const fitShorts = Math.floor(shorts * ratio);
+      const parts = [
+        fitLongs ? `${fitLongs} ${fitLongs === 1 ? longOne : longWord.toLowerCase()}` : "",
+        fitShorts ? `${fitShorts} ${fitShorts === 1 ? (shortsOnly ? "short video" : "Short or Reel") : shortsOnly ? "short videos" : shortWord}` : "",
+      ].filter(Boolean);
+      offerNote = {
+        tone: "low",
+        text: parts.length
+          ? `That is a bit low for this setup. For that price we could do about ${parts.join(" and ")}`
+          : "That is a bit low for this setup, try fewer videos or a simpler editing style",
+      };
+    } else offerNote = { tone: "low", text: "That is a bit low for this setup, try fewer pages or a simpler design level" };
+  }
   const message = `Hi DevelopNearly! I built my own ${video ? "video editing" : "website"} package for ${purposeLabel}:\n${lines
     .map((l) => `• ${l}`)
     .join("\n")}\nEstimated price: ${priceText}${offerText ? `\nMy offer: ${offerText}` : ""}. Can we talk about it?`;
@@ -162,6 +187,7 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
           <p className="text-[11px] font-semibold tracking-wider text-mist">ESTIMATED</p>
           <p className="mt-1 font-display text-3xl font-bold tracking-tight text-white">{empty ? "$0" : usd(price)}</p>
           {per ? <p className="text-xs text-mist">per month</p> : null}
+          {est && est.count > 1 ? <p className="text-xs text-mist">≈ {usd(Math.round(est.perVideo * 10) / 10)} per video</p> : null}
         </div>
         <label className="block rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-3 focus-within:border-emerald-300">
           <span className="text-[11px] font-semibold tracking-wider text-emerald-300">YOUR PRICE</span>
@@ -181,7 +207,44 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
           {per ? <span className="block text-xs text-emerald-300/70">per month</span> : null}
         </label>
       </div>
-      <p className="mt-2 text-xs text-mist">Write the price that works for you, we will reply on WhatsApp</p>
+      {offerNote ? (
+        <p
+          className={`mt-2 rounded-xl px-3 py-2 text-xs leading-relaxed ${
+            offerNote.tone === "good"
+              ? "bg-emerald-500/15 text-emerald-200"
+              : offerNote.tone === "mid"
+                ? "bg-amber-500/15 text-amber-200"
+                : "bg-rose-500/15 text-rose-200"
+          }`}
+          aria-live="polite"
+        >
+          {offerNote.text}
+        </p>
+      ) : (
+        <p className="mt-2 text-xs text-mist">Write the price that works for you, we will reply on WhatsApp</p>
+      )}
+      {est && (est.bulkOff > 0 || est.planOff > 0) ? (
+        <div className="mt-3 space-y-1 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs">
+          <p className="flex justify-between text-mist">
+            <span>Subtotal</span>
+            <span>{usd(est.subtotal)}</span>
+          </p>
+          {est.bulkOff > 0 ? (
+            <p className="flex justify-between text-emerald-300">
+              <span>Bulk discount ({est.bulkPct}%)</span>
+              <span>−{usd(est.bulkOff)}</span>
+            </p>
+          ) : null}
+          {est.planOff > 0 ? (
+            <p className="flex justify-between text-emerald-300">
+              <span>{planInfo.months}-month plan ({est.planPct}%)</span>
+              <span>−{usd(est.planOff)}</span>
+            </p>
+          ) : null}
+        </div>
+      ) : est && est.count > 0 && est.count < 10 ? (
+        <p className="mt-3 text-xs text-emerald-300/80">Add {10 - est.count} more video{10 - est.count === 1 ? "" : "s"} to save 5%</p>
+      ) : null}
 
       <div className="mt-6 flex-1 space-y-5">
         {video ? (
@@ -204,12 +267,9 @@ export default function CustomBuilder({ choice }: { choice: Choice }) {
             />
             <Pills
               label="Plan"
-              options={[
-                { id: "monthly", label: "Every month" },
-                { id: "once", label: "One-time" },
-              ]}
-              value={monthly ? "monthly" : "once"}
-              onChange={(v) => setMonthly(v === "monthly")}
+              options={PLAN_OPTIONS.map((p) => ({ id: p.id, label: p.save ? `${p.label} · save ${p.save}%` : p.label }))}
+              value={plan}
+              onChange={setPlan}
             />
           </>
         ) : (
