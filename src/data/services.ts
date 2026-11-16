@@ -461,8 +461,8 @@ const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one :
 
 // Per-video rates used only to work out how many videos a budget covers.
 // The package price itself always follows the budget.
-const BASE_LONG_UNIT = 30; // one long-form edit, 10–20 min
-const BASE_SHORT_UNIT = 8; // one Short / Reel / TikTok
+const BASE_LONG_UNIT = 27; // one long-form edit, 10–20 min
+const BASE_SHORT_UNIT = 7.2; // one Short / Reel / TikTok
 const SHORT_FIRST = new Set(["shorts", "reels", "tiktok", "facebook"]);
 const SHORT_LABEL: Record<string, string> = {
   shorts: "YouTube Shorts",
