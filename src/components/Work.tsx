@@ -215,19 +215,19 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
 function GroupHeading({ icon, title, count }: { icon: React.ReactNode; title: string; count: string }) {
   return (
-    <div className="mb-6 flex items-center gap-3">
+    <div className="flex items-center gap-3">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-ink text-bright">
         {icon}
       </span>
-      <h3 className="font-display text-2xl font-bold text-white">{title}</h3>
+      {title ? <h3 className="font-display text-2xl font-bold text-white">{title}</h3> : null}
       <span className="text-sm text-mist">{count}</span>
     </div>
   );
 }
 
-export default function Work() {
-  const videos = projects.filter((project) => project.kind === "video");
-  const websites = projects.filter((project) => project.kind === "website");
+export default function Work({ kind }: { kind: "video" | "website" }) {
+  const items = projects.filter((project) => project.kind === kind);
+  const isVideo = kind === "video";
   return (
     <section id="work" aria-label="Selected work" className="scroll-mt-24 border-t border-white/5 bg-panel/40">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
@@ -239,34 +239,26 @@ export default function Work() {
                 OUR WORK
               </p>
               <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                Selected Work
+                {isVideo ? "Videos we edited" : "Websites we built"}
               </h2>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-                A look at the work we have actually shipped
+                {isVideo
+                  ? "Real edits for real YouTube channels, hover a video to see a preview"
+                  : "Real websites for real businesses, click any card to open the live site"}
               </p>
             </div>
-            <p className="text-sm text-mist">
-              <span className="font-semibold text-white">{websites.length} websites</span> ·{" "}
-              <span className="font-semibold text-white">{videos.length} videos</span>
-            </p>
+            <GroupHeading
+              icon={isVideo ? <Film className="h-5 w-5" /> : <Globe className="h-5 w-5" />}
+              title=""
+              count={`${items.length} ${isVideo ? "videos" : "websites"}`}
+            />
           </div>
         </Reveal>
 
-        <GroupHeading icon={<Film className="h-5 w-5" />} title="Video Editing" count={`${videos.length} videos`} />
-        {/* Video cards are smaller than website cards: 2 per row on tablets
-            (12-col grid, span-6) and 4 per row on desktop (span-3) so the
-            growing video list stays dense without cramping tablet cards. */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          {videos.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
-          ))}
-        </div>
-
-        <div className="mt-16">
-          <GroupHeading icon={<Globe className="h-5 w-5" />} title="Web Development" count="5 websites" />
-        </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
-          {websites.map((project, i) => (
+        {/* Video cards: 2 per row on tablets, 4 on desktop. Website cards
+            keep their editorial spans in a 6-column grid. */}
+        <div className={`grid grid-cols-1 gap-6 ${isVideo ? "md:grid-cols-12" : "md:grid-cols-6"}`}>
+          {items.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
           ))}
         </div>

@@ -2,17 +2,12 @@
 
 import { motion, useScroll } from "framer-motion";
 import { useRef } from "react";
+import type { ServiceKey } from "../data/services";
+import { SERVICES } from "../data/services";
 import Reveal from "./Reveal";
 
-const STEPS = [
-  { n: "01", title: "Discover", text: "We listen first, to understand your business, your audience, and what success looks like" },
-  { n: "02", title: "Strategize", text: "We turn what we learned into a clear plan: scope, style, structure, and timeline" },
-  { n: "03", title: "Create", text: "Design, development, and editing come together into a working first version" },
-  { n: "04", title: "Refine", text: "We review, test, and polish with your feedback until every detail feels right" },
-  { n: "05", title: "Deliver", text: "We launch, hand over, and support you as your project goes live" },
-];
-
-export default function Process() {
+export default function Process({ service }: { service: ServiceKey }) {
+  const STEPS = SERVICES[service].steps.map((s, i) => ({ ...s, n: String(i + 1).padStart(2, "0") }));
   const trackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -28,7 +23,7 @@ export default function Process() {
             PROCESS
           </p>
           <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            From Idea to Impact
+            How it works
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
             A simple, transparent process so you always know where your project stands
@@ -49,7 +44,7 @@ export default function Process() {
             />
           </div>
 
-          <ol className="relative grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-6">
+          <ol className="relative grid grid-cols-1 gap-10 lg:grid-cols-4 lg:gap-6">
             {STEPS.map((step, i) => (
               <li key={step.n}>
                 <Reveal delay={i * 0.08} className="flex gap-5 lg:flex-col lg:gap-0">

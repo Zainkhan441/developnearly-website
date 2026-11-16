@@ -1,23 +1,17 @@
 "use client";
 
 import { Check, ChevronDown, Copy, Mail, MessageCircle, Send } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import type { ServiceKey } from "../data/services";
+import { SERVICES as SERVICE_INFO } from "../data/services";
+import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
 
 const SERVICES = [
   "Video Editing",
   "Website Development",
-  "AI & Automation",
-  "Multiple Services",
+  "Both (Video + Website)",
   "Other",
-] as const;
-
-const BUDGETS = [
-  "Under $500",
-  "$500–$1,000",
-  "$1,000–$3,000",
-  "$3,000+",
-  "Not Sure Yet",
 ] as const;
 
 const CONTACT_EMAIL = "developnearly@gmail.com";
@@ -44,8 +38,26 @@ type SubmitStatus = "idle" | "sending" | "sent" | "error";
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-ink px-4 py-3.5 text-[15px] text-white placeholder:text-mist/60 transition-colors focus:border-bright focus:outline-none";
 
-export default function Contact() {
-  const [form, setForm] = useState<FormState>(EMPTY);
+export default function Contact({ service }: { service: ServiceKey }) {
+  const info = SERVICE_INFO[service];
+  const BUDGETS = info.budgets;
+  const initial: FormState = { ...EMPTY, service: info.formValue };
+  const [form, setForm] = useState<FormState>(initial);
+
+  // "Choose <package>" on the Packages section prefills the form.
+  useEffect(() => {
+    const onChoose = (e: Event) => {
+      const pkg = (e as CustomEvent<string>).detail;
+      setForm((f) => ({
+        ...f,
+        service: info.formValue,
+        details: f.details.trim() ? f.details : `Hi, I am interested in the ${pkg}. `,
+      }));
+      window.setTimeout(() => document.getElementById("contact-name")?.focus({ preventScroll: true }), 600);
+    };
+    window.addEventListener(CHOOSE_PACKAGE_EVENT, onChoose);
+    return () => window.removeEventListener(CHOOSE_PACKAGE_EVENT, onChoose);
+  }, [info.formValue]);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [sentTo, setSentTo] = useState("");
@@ -100,7 +112,7 @@ export default function Contact() {
         throw new Error("Form delivery failed");
       }
       setSentTo(form.email.trim());
-      setForm(EMPTY);
+      setForm(initial);
       setErrors({});
       setStatus("sent");
     } catch {

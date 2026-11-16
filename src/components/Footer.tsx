@@ -4,25 +4,25 @@ import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import DLogo from "./DLogo";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
+  { label: "Home", href: "/" },
   { label: "Our Work", href: "#work" },
-  { label: "About", href: "#about" },
+  { label: "Packages", href: "#packages" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
 const SERVICE_LINKS = [
-  { label: "Video Editing", href: "#video-editing" },
-  { label: "Website Development", href: "#web-development" },
-  { label: "AI & Automation", href: "#ai-automation" },
+  { label: "Video Editing", href: "/video" },
+  { label: "Website Development", href: "/websites" },
 ];
 
 const SOCIALS = [
   { name: "Instagram", href: "https://www.instagram.com/developnearly/" },
 ];
 
-export default function Footer({ year }: { year: number }) {
+export default function Footer({ year, servicePage = false }: { year: number; servicePage?: boolean }) {
+  const navLinks = servicePage ? NAV_LINKS : NAV_LINKS.filter((l) => !l.href.startsWith("#"));
+  const ctaHref = servicePage ? "#contact" : "/";
   return (
     <footer className="border-t border-white/5 bg-panel/60">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -32,7 +32,7 @@ export default function Footer({ year }: { year: number }) {
               Have an idea? Let&apos;s build something <span className="text-gradient-blue">meaningful</span>
             </h2>
             <a
-              href="#contact"
+              href={ctaHref}
               className="group mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#2563eb] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8]"
             >
               Start a Project
@@ -44,7 +44,7 @@ export default function Footer({ year }: { year: number }) {
             <nav aria-label="Footer">
               <h3 className="text-xs font-semibold tracking-[0.2em] text-mist">NAVIGATE</h3>
               <ul className="mt-4 space-y-3">
-                {NAV_LINKS.map((link) => (
+                {navLinks.map((link) => (
                   <li key={link.href}>
                     <a href={link.href} className="text-sm text-white/85 transition-colors hover:text-bright">
                       {link.label}

@@ -3,18 +3,51 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { ServiceKey } from "../data/services";
+import { SERVICE_LIST } from "../data/services";
+import Link from "next/link";
 import DLogo from "./DLogo";
 
-const LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
+const PAGE_LINKS = [
   { label: "Our Work", href: "#work" },
-  { label: "About", href: "#about" },
+  { label: "Packages", href: "#packages" },
+  { label: "How it works", href: "#process" },
   { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
 ];
 
-export default function Nav() {
+const SITE_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Video Editing", href: "/video" },
+  { label: "Websites", href: "/websites" },
+];
+
+/** Video | Website switch: jump between the two service pages. */
+function ServiceSwitch({ service, className = "" }: { service: ServiceKey; className?: string }) {
+  return (
+    <div role="group" aria-label="Switch service" className={`flex items-center rounded-full border border-white/10 bg-white/5 p-1 ${className}`}>
+      {SERVICE_LIST.map((s) => {
+        const active = s.key === service;
+        return (
+          <Link
+            key={s.key}
+            href={s.href}
+            aria-current={active ? "page" : undefined}
+            className={`inline-flex min-h-9 items-center rounded-full px-3.5 text-xs font-semibold transition-colors sm:text-sm ${
+              active ? "bg-[#2563eb] text-white" : "text-mist hover:text-white"
+            }`}
+          >
+            {s.key === "video" ? "Video" : "Website"}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function Nav({ service }: { service?: ServiceKey }) {
+  const LINKS = service ? PAGE_LINKS : SITE_LINKS;
+  const ctaHref = service ? "#contact" : "/";
+  const ctaLabel = service ? "Get a Quote" : "Start a Project";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -75,13 +108,14 @@ export default function Nav() {
             : "border-white/10 bg-ink/80 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl"
         } py-2 pl-3 pr-2 sm:pl-4`}
       >
-        <a
-          href="#home"
+        <Link
+          href="/"
           className="relative z-10 shrink-0 rounded-lg focus-visible:outline-2"
           aria-label="DevelopNearly, back to home"
         >
-          <DLogo withWordmark />
-        </a>
+          <span className="hidden sm:inline-flex"><DLogo withWordmark /></span>
+          <span className="sm:hidden"><DLogo /></span>
+        </Link>
 
         <nav aria-label="Primary" className="relative z-10 hidden items-center gap-1 lg:flex">
           {LINKS.map((link) => (
@@ -99,12 +133,14 @@ export default function Nav() {
           ))}
         </nav>
 
+        {service ? <ServiceSwitch service={service} className="relative z-10 ml-auto lg:ml-0" /> : null}
+
         <div className="relative z-10 hidden shrink-0 lg:block">
           <a
-            href="#contact"
+            href={ctaHref}
             className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#2563eb] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d4ed8] hover:shadow-[0_8px_30px_rgba(37,99,235,0.45)]"
           >
-            Start a Project
+            {ctaLabel}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
         </div>
@@ -148,11 +184,11 @@ export default function Nav() {
               ))}
               <li className="pt-2">
                 <a
-                  href="#contact"
+                  href={ctaHref}
                   onClick={closeMenuAndRefocus}
                   className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#2563eb] px-4 text-base font-semibold text-white"
                 >
-                  Start a Project
+                  {ctaLabel}
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </li>

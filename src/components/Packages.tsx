@@ -1,0 +1,94 @@
+"use client";
+
+import { ArrowRight, Check, Sparkles } from "lucide-react";
+import type { ServiceKey } from "../data/services";
+import { REVISIONS, SERVICES } from "../data/services";
+import Reveal from "./Reveal";
+
+/** Event the Contact form listens for, so "Choose" prefills the form. */
+export const CHOOSE_PACKAGE_EVENT = "dn:choose-package";
+
+export default function Packages({ service }: { service: ServiceKey }) {
+  const info = SERVICES[service];
+
+  const choose = (name: string, price: string) => {
+    window.dispatchEvent(new CustomEvent(CHOOSE_PACKAGE_EVENT, { detail: `${name} package (${price})` }));
+  };
+
+  return (
+    <section id="packages" aria-label="Packages and prices" className="scroll-mt-24 border-t border-white/5 bg-panel/40">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-4 flex items-center justify-center gap-2.5 text-xs font-semibold tracking-[0.22em] text-bright">
+              <span aria-hidden="true" className="h-px w-8 bg-primary" />
+              PACKAGES
+              <span aria-hidden="true" className="h-px w-8 bg-primary" />
+            </p>
+            <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              Simple, <span className="text-gradient-blue">fixed</span> prices
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
+              Pick a package, every one includes {REVISIONS} free revisions, prices in USD
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 items-stretch gap-6 sm:mt-16 md:grid-cols-3">
+          {info.packages.map((pkg, i) => (
+            <Reveal key={pkg.name} delay={i * 0.08} className="h-full">
+              <div
+                className={`relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 sm:p-8 ${
+                  pkg.featured
+                    ? "border border-[#2563eb]/60 bg-gradient-to-b from-[#2563eb]/25 via-[#2563eb]/10 to-panel shadow-[0_24px_60px_rgba(37,99,235,0.25)]"
+                    : "border border-white/10 bg-ink hover:border-bright/50"
+                }`}
+              >
+                {pkg.featured && (
+                  <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#2563eb] px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-white shadow-lg">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    MOST POPULAR
+                  </span>
+                )}
+                <h3 className="font-display text-2xl font-bold text-white">{pkg.name}</h3>
+                <p className="mt-1.5 text-sm text-mist">{pkg.tagline}</p>
+                <p className="mt-6 flex items-baseline gap-2">
+                  <span className="font-display text-5xl font-bold tracking-tight text-white">{pkg.price}</span>
+                  {pkg.per && <span className="text-sm text-mist">{pkg.per}</span>}
+                </p>
+                <ul className="mt-7 flex-1 space-y-3">
+                  {pkg.features.map((f) => (
+                    <li key={f} className="flex items-start gap-3 text-[15px] leading-relaxed text-white/90">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/20 text-bright">
+                        <Check className="h-3 w-3" strokeWidth={3} />
+                      </span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#contact"
+                  onClick={() => choose(pkg.name, pkg.price)}
+                  className={`group mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ${
+                    pkg.featured
+                      ? "bg-[#2563eb] text-white hover:bg-[#1d4ed8] hover:shadow-[0_12px_40px_rgba(37,99,235,0.5)]"
+                      : "border border-white/15 bg-white/5 text-white hover:border-bright/60 hover:bg-white/10"
+                  }`}
+                >
+                  Choose {pkg.name}
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={0.2}>
+          <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-mist sm:text-base">
+            {info.packagesNote}
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
