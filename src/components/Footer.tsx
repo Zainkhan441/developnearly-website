@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowRight, Mail, MessageCircle } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import DLogo from "./DLogo";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -80,7 +81,7 @@ export default function Footer({ year, servicePage = false }: { year: number; se
                 rel="noopener noreferrer"
                 className="mt-3 flex min-w-0 items-center gap-2 text-sm text-white/85 transition-colors hover:text-[#25d366]"
               >
-                <MessageCircle className="h-4 w-4 shrink-0 text-[#25d366]" />
+                <WhatsAppIcon className="h-4 w-4 shrink-0 text-[#25d366]" />
                 <span className="min-w-0 break-all">+92 313 1134962</span>
               </a>
               <h3 className="mt-7 text-xs font-semibold tracking-[0.2em] text-mist">SOCIAL</h3>

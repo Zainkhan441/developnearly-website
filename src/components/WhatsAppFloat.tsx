@@ -1,7 +1,7 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 const WHATSAPP_URL =
   "https://wa.me/923131134962?text=Hi%20DevelopNearly!%20I%20want%20to%20discuss%20a%20project.";
@@ -43,7 +43,7 @@ export default function WhatsAppFloat() {
         hidden ? "pointer-events-none translate-y-20 opacity-0" : "translate-y-0 opacity-100"
       }`}
     >
-      <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
+      <WhatsAppIcon className="h-7 w-7 sm:h-8 sm:w-8" />
     </a>
   );
 }

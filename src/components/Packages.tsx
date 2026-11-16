@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRight, Check, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
 import { REVISIONS, SERVICES, buildPackages, purposeOf } from "../data/services";
 import Reveal from "./Reveal";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 /** Event the Contact form listens for, so "Choose" prefills the form. */
 export const CHOOSE_PACKAGE_EVENT = "dn:choose-package";
@@ -96,7 +97,7 @@ export default function Packages({ choice }: { choice: Choice }) {
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex min-h-10 items-center justify-center gap-2 text-sm font-semibold text-mist transition-colors hover:text-[#25d366]"
                 >
-                  <MessageCircle className="h-4 w-4 text-[#25d366]" />
+                  <WhatsAppIcon className="h-4 w-4 text-[#25d366]" />
                   Ask on WhatsApp
                 </a>
               </div>

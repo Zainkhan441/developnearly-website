@@ -1,11 +1,12 @@
 "use client";
 
-import { Check, ChevronDown, Copy, Mail, MessageCircle, Send } from "lucide-react";
+import { Check, ChevronDown, Copy, Mail, Send } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import type { Choice } from "../data/services";
 import { SERVICES as SERVICE_INFO, purposeOf } from "../data/services";
 import { CHOOSE_PACKAGE_EVENT } from "./Packages";
 import Reveal from "./Reveal";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 const SERVICES = [
   "Video Editing",
@@ -185,7 +186,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                 className="group flex min-h-14 items-center gap-4 rounded-2xl border border-white/10 bg-panel px-5 transition-colors hover:border-[#25d366]/60"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#25d366]/15 text-[#25d366]">
-                  <MessageCircle className="h-5 w-5" />
+                  <WhatsAppIcon className="h-5 w-5" />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-xs font-semibold tracking-widest text-mist">WHATSAPP</span>
@@ -304,7 +305,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[#25d366]/20 px-4 py-2 font-semibold text-emerald-100 transition-colors hover:bg-[#25d366]/30"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <WhatsAppIcon className="h-4 w-4" />
                       {WHATSAPP_NUMBER}
                     </a>
                     <button
@@ -330,7 +331,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[#25d366]/20 px-4 py-2 font-semibold text-amber-100 transition-colors hover:bg-[#25d366]/30"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <WhatsAppIcon className="h-4 w-4" />
                       WhatsApp {WHATSAPP_NUMBER}
                     </a>
                     <a
