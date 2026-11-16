@@ -1,6 +1,7 @@
 import { ArrowRight, Check, Play } from "lucide-react";
+import PayAfterBadge from "./PayAfterBadge";
 import type { Choice } from "../data/services";
-import { FREE_SAMPLE, PAY_AFTER, REVISIONS, SERVICES, purposeOf } from "../data/services";
+import { FREE_SAMPLE, REVISIONS, SERVICES, purposeOf } from "../data/services";
 
 /**
  * Hero for a single service page. Pure CSS entrance (animate-hero-fade-up)
@@ -24,6 +25,9 @@ export default function ServiceHero({ choice }: { choice: Choice }) {
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <div style={d(0)} className="mb-5 flex animate-hero-fade-up justify-center">
+          <PayAfterBadge />
+        </div>
         <p
           style={d(0)}
           className="mb-6 inline-flex animate-hero-fade-up items-center gap-2.5 rounded-full border border-[#2563eb]/30 bg-[#2563eb]/15 px-4 py-2 text-[11px] font-semibold tracking-[0.22em] text-[#93c5fd]"
@@ -46,7 +50,7 @@ export default function ServiceHero({ choice }: { choice: Choice }) {
         </p>
 
         <ul style={d(0.24)} className="mt-7 flex animate-hero-fade-up flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
-          {[...(service === "video" ? [FREE_SAMPLE] : []), PAY_AFTER, `${REVISIONS} free revisions`].map((t) => (
+          {[...(service === "video" ? [FREE_SAMPLE] : []), `${REVISIONS} free revisions`, "No upfront payment"].map((t) => (
             <li key={t} className="flex items-center gap-2">
               <Check className="h-4 w-4 text-bright" strokeWidth={3} />
               {t}

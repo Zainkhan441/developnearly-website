@@ -27,6 +27,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Choice, ServiceKey } from "../data/services";
 import { CUSTOM, SERVICES } from "../data/services";
 import DLogo from "./DLogo";
+import PayAfterBadge from "./PayAfterBadge";
 
 /**
  * Full-screen welcome questions shown before anything else on the site:
@@ -251,6 +252,11 @@ export default function Welcome({
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
+              {step === 0 ? (
+                <div className="mb-6 flex justify-center">
+                  <PayAfterBadge />
+                </div>
+              ) : null}
               <h1 id="welcome-title" className="text-center font-display text-[clamp(2rem,6vw,3.25rem)] font-bold leading-tight tracking-tight text-white">
                 {step === 0 ? (
                   <>
@@ -282,7 +288,7 @@ export default function Welcome({
                     />
                     <p className="mt-2 text-center text-sm text-mist">
                       <span className="font-semibold text-white">8 YouTube videos</span> edited ·{" "}
-                      <span className="font-semibold text-white">5 websites</span> live · pay after delivery
+                      <span className="font-semibold text-white">5 websites</span> live
                     </p>
                   </div>
                 )}
