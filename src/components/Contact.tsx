@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Mail, Send, Sparkles } from "lucide-react";
+import { Check, Copy, Mail, Send } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import type { Choice } from "../data/services";
 import { SERVICES as SERVICE_INFO, purposeOf } from "../data/services";
@@ -154,8 +154,8 @@ export default function Contact({ choice }: { choice: Choice }) {
               <span className="text-[#25d366]">WhatsApp</span>
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-mist sm:text-lg">
-              The fastest way to start, your answers are already typed in the message,
-              just press send and we will reply with a clear, fixed price
+              The fastest way to start, tap the button, send us a message
+              and we will reply with a clear, fixed price
             </p>
 
             <a
@@ -206,12 +206,6 @@ export default function Contact({ choice }: { choice: Choice }) {
                 />
               </div>
               <p className="mb-5 font-display text-xl font-bold text-white">No WhatsApp? Send us an email instead</p>
-              {pkg ? (
-                <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-bright/40 bg-[#2563eb]/15 px-4 py-2 text-sm font-semibold text-white">
-                  <Sparkles className="h-4 w-4 text-bright" />
-                  Selected: {pkg}
-                </p>
-              ) : null}
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-white">
@@ -311,7 +305,7 @@ export default function Contact({ choice }: { choice: Choice }) {
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-relaxed text-mist">
-                  Your answers are sent with your message, so you do not have to explain anything twice
+                  We will reply by email with a clear, fixed price
                 </p>
               )}
             </form>

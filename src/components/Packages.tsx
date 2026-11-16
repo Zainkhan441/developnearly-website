@@ -29,10 +29,10 @@ export default function Packages({ choice }: { choice: Choice }) {
               <span aria-hidden="true" className="h-px w-8 bg-primary" />
             </p>
             <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Packages <span className="text-gradient-blue">made for you</span>
+              Packages & <span className="text-gradient-blue">Pricing</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist sm:text-lg">
-              Built around what you told us, {REVISIONS} free revisions on every package, and you pay only after delivery
+              {REVISIONS} free revisions on every package, and you pay only after delivery
             </p>
           </div>
         </Reveal>
@@ -56,7 +56,7 @@ export default function Packages({ choice }: { choice: Choice }) {
                 {featured ? (
                   <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#2563eb] px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-white shadow-lg">
                     <Sparkles className="h-3.5 w-3.5" />
-                    RECOMMENDED FOR YOU
+                    MOST POPULAR
                   </span>
                 ) : null}
                 <h3 className="font-display text-2xl font-bold text-white">{pkg.name}</h3>
