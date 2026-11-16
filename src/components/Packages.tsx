@@ -147,21 +147,26 @@ export default function Packages({ choice }: { choice: Choice }) {
               ))}
             </ol>
 
-            <div className="mt-6 rounded-2xl border border-red-400/25 bg-red-500/[0.06] p-5">
+            <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
               <h4 className="flex items-center gap-2.5 font-display text-lg font-bold text-white">
-                <Scale className="h-5 w-5 text-red-300" />
-                What if you do not pay after the work?
+                <Scale className="h-5 w-5 text-bright" />
+                Keeping it fair for everyone
               </h4>
+              <p className="mt-2 text-[15px] leading-relaxed text-mist">
+                We trust our clients, that is why you pay after the work, we sincerely hope the
+                day never comes when we need any of the rules below, they are only here to keep
+                it fair for both sides
+              </p>
               <ul className="mt-4 space-y-2.5">
                 {NON_PAYMENT_RULES[choice.service].map((rule) => (
                   <li key={rule} className="flex items-start gap-2.5 text-[15px] leading-relaxed text-white/85">
-                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-300" />
+                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-bright" />
                     {rule}
                   </li>
                 ))}
               </ul>
               <p className="mt-4 text-sm text-mist">
-                By approving the work you agree to these rules, see our{" "}
+                Thank you for understanding, it is what lets us offer pay after delivery to everyone, see our{" "}
                 <a href="/terms" className="font-semibold text-bright underline-offset-4 hover:underline">
                   Terms of Service
                 </a>

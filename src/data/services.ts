@@ -76,20 +76,20 @@ const PAY_FAQ = {
 
 /** What happens when approved work is not paid for, shown with the packages and in the terms. */
 const NON_PAYMENT_COMMON = [
-  "A late fee of 10% of the invoice is added for every 7 days the payment is late",
-  "We may take legal action to recover the full amount, plus late fees, collection and legal costs",
+  "If a payment is more than 7 days late, a late fee of 10% per week may be added",
+  "Only as a very last step, we may need to take legal action to recover the amount",
 ];
 export const NON_PAYMENT_RULES: Record<ServiceKey, string[]> = {
   video: [
-    "All work stays the legal property of DevelopNearly until it is fully paid, including the copyright",
-    "Uploading or publishing an unpaid video is copyright infringement",
-    "We file copyright takedown requests (DMCA) with YouTube, Instagram, TikTok or Facebook, and the video is removed",
+    "The video stays ours, including the copyright, until it is paid",
+    "Please do not upload or publish it before paying, as that would count as copyright infringement",
+    "If an unpaid video is published, we will have to ask YouTube, Instagram, TikTok or Facebook to remove it",
     ...NON_PAYMENT_COMMON,
   ],
   web: [
-    "All work stays the legal property of DevelopNearly until it is fully paid, including the copyright",
-    "Copying or publishing an unpaid website or its design is copyright infringement",
-    "We file copyright takedown requests (DMCA) with your hosting company, and the copied site is taken offline",
+    "The website stays ours, including the copyright, until it is paid",
+    "Please do not copy or publish it before paying, as that would count as copyright infringement",
+    "If an unpaid site is published, we will have to ask the hosting company to take it offline",
     ...NON_PAYMENT_COMMON,
   ],
 };
