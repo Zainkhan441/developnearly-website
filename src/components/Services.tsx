@@ -106,7 +106,10 @@ function FilmTimelineVisual() {
             <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
           </span>
         </div>
-        <p className="pt-2.5 font-display text-xs font-semibold tracking-wide text-white/90">DOCUMENTARY</p>
+        <div className="flex items-center gap-1.5 pt-2.5" aria-hidden="true">
+          <span className="h-1.5 w-2/3 rounded-full bg-primary" />
+          <span className="h-1.5 flex-1 rounded-full bg-white/20" />
+        </div>
       </div>
       <div className={`relative ml-auto w-2/3 rounded-2xl border border-white/10 bg-ink/90 p-3 shadow-2xl ${floatClass}`} style={{ animationDelay: "1.4s" }}>
         <div className="flex h-16 items-center justify-center rounded-xl bg-gradient-to-br from-[#7f1d1d] via-[#10131c] to-[#1e1b4b] sm:h-20">
