@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Footer from "../../components/Footer";
 import Nav from "../../components/Nav";
+import { Gate } from "../../components/SiteApp";
 import { getCurrentYear } from "../year";
 
 export const metadata = {
@@ -12,6 +13,7 @@ export const metadata = {
 export default async function PrivacyPage() {
   const year = await getCurrentYear();
   return (
+    <Gate>
     <div className="min-h-full bg-ink font-sans text-white">
       <Nav />
       <main id="main-content" className="mx-auto max-w-3xl px-4 pb-24 pt-32 sm:px-6 lg:px-8">
@@ -77,5 +79,6 @@ export default async function PrivacyPage() {
       </main>
       <Footer year={year} />
     </div>
+    </Gate>
   );
 }
