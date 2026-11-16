@@ -19,20 +19,23 @@ import {
   UserRound,
   PenLine,
   Wallet,
+  Sparkles,
+  Gem,
+  Clock,
   MonitorPlay,
   Users,
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import type { Choice, ServiceKey } from "../data/services";
-import { CUSTOM, SERVICES } from "../data/services";
+import type { Choice, LengthKey, QualityKey, ServiceKey } from "../data/services";
+import { CUSTOM, LENGTH_OPTIONS, LONG_FORM_PURPOSES, QUALITY_OPTIONS, SERVICES } from "../data/services";
 import DLogo from "./DLogo";
 import PayAfterBadge from "./PayAfterBadge";
 
 /**
  * Full-screen welcome questions shown before anything else on the site:
- * 1) video or website, 2) what it is for, 3) budget. The site itself is not
- * rendered until all three are answered, so the visitor only ever sees the
+ * video or website, what it is for, how polished, video length (long videos
+ * only) and budget. The site itself is not rendered until all are answered, so the visitor only ever sees the
  * version of the site that matches their answers.
  */
 
@@ -180,11 +183,15 @@ export default function Welcome({
   const [service, setService] = useState<ServiceKey | null>(initialService ?? null);
   const [purpose, setPurpose] = useState<string | null>(null);
   const [purposeNote, setPurposeNote] = useState<string | undefined>(undefined);
-  const finish = (choice: Choice) => onDone(choice);
-  const step = service === null ? 0 : purpose === null ? 1 : 2;
+  const [quality, setQuality] = useState<QualityKey | null>(null);
+  const [length, setLength] = useState<LengthKey | null>(null);
+  const finish = (choice: Choice) => onDone({ ...choice, quality: quality ?? "pro", ...(length ? { length } : {}) });
+  const needsLength = service === "video" && (purpose === null || LONG_FORM_PURPOSES.has(purpose));
+  const step =
+    service === null ? 0 : purpose === null ? 1 : quality === null ? 2 : needsLength && length === null ? 3 : 4;
   const firstStep = initialService ? 1 : 0;
-  const totalSteps = initialService ? 2 : 3;
-  const stepNumber = step - firstStep + 1;
+  const totalSteps = 4 + (needsLength ? 1 : 0) - firstStep;
+  const stepNumber = step - firstStep + 1 - (step === 4 && !needsLength ? 1 : 0);
 
   // Lock page scroll while the questions are open.
   useEffect(() => {
@@ -195,18 +202,26 @@ export default function Welcome({
   }, []);
 
   const back = () => {
-    if (step === 2) {
+    if (step === 4) {
+      if (needsLength) setLength(null);
+      else setQuality(null);
+    } else if (step === 3) setQuality(null);
+    else if (step === 2) {
       setPurpose(null);
       setPurposeNote(undefined);
-    }
-    else if (step === 1 && !initialService) setService(null);
+    } else if (step === 1 && !initialService) setService(null);
   };
 
   const info = service ? SERVICES[service] : null;
 
   const titles = [
-    { title: "What do you need?", sub: "Answer 3 quick questions and we will show you the right packages for you" },
+    { title: "What do you need?", sub: "Answer a few quick questions and we will show you the right packages" },
     { title: info?.purposeQuestion ?? "", sub: "Pick the one that fits best" },
+    {
+      title: service === "web" ? "What level of design do you want?" : "How polished should your videos be?",
+      sub: "Every level is done with care, this just sets the style",
+    },
+    { title: "How long are your videos usually?", sub: "A rough idea is enough, it helps us plan the work" },
     { title: "What is your budget?", sub: "We will show you the packages that fit it, no surprises" },
   ];
 
@@ -313,7 +328,30 @@ export default function Welcome({
                   </div>
                 )}
 
-                {step === 2 && info && service && purpose && (
+                {step === 2 && service && (
+                  <div className="grid gap-3">
+                    {QUALITY_OPTIONS[service].map((q, i) => (
+                      <Option
+                        key={q.id}
+                        autoFocus={i === 0}
+                        icon={q.id === "standard" ? Sparkles : q.id === "pro" ? BriefcaseBusiness : Gem}
+                        label={q.label}
+                        hint={q.hint}
+                        onClick={() => setQuality(q.id)}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {step === 3 && (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {LENGTH_OPTIONS.map((l, i) => (
+                      <Option key={l.id} autoFocus={i === 0} icon={Clock} label={l.label} onClick={() => setLength(l.id)} />
+                    ))}
+                  </div>
+                )}
+
+                {step === 4 && info && service && purpose && (
                   <div className="grid gap-3">
                     {info.budgetOptions.map((b, i) => (
                       <Option
