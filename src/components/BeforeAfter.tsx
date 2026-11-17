@@ -6,8 +6,8 @@ import Reveal from "./Reveal";
 
 const STYLES = [
   { id: "clean", label: "Clean & Simple", note: "Clean cuts, a light color fix and easy-to-read captions" },
-  { id: "pro", label: "Professional", note: "Speed ramps, zoom punches, whip transitions, color grading and word-by-word animated captions" },
-  { id: "cinematic", label: "Premium Cinematic", note: "Film color grade, slow-motion ramps, light leaks, letterbox, grain and story titles" },
+  { id: "pro", label: "Professional", note: "Motion graphics: animated titles, map pin, speedometer, callouts, compass, a new transition on every cut" },
+  { id: "cinematic", label: "Premium Cinematic", note: "Film color grade, slow dissolves and light burns, letterbox, grain and story titles" },
 ] as const;
 
 type StyleId = (typeof STYLES)[number]["id"];
