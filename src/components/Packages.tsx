@@ -3,7 +3,7 @@
 import { BadgePercent, Check, Gift, Scale, ShieldCheck, Sparkles } from "lucide-react";
 import type { Choice } from "../data/services";
 import { FREE_SAMPLE, NON_PAYMENT_RULES, PAYMENT_RULES, REVISIONS, SERVICES, buildPackages } from "../data/services";
-import { discountMessage, packageMessage, sampleMessage, waLink } from "../data/whatsapp";
+import { discountMessage, packageMessage, waLink } from "../data/whatsapp";
 import CustomBuilder from "./CustomBuilder";
 import Reveal from "./Reveal";
 import WhatsAppIcon from "./WhatsAppIcon";
@@ -127,13 +127,11 @@ export default function Packages({ choice }: { choice: Choice }) {
                 </p>
               </div>
               <a
-                href={waLink(sampleMessage(choice))}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#free-sample"
                 data-sample={FREE_SAMPLE}
                 className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-full bg-emerald-500 px-6 text-sm font-semibold text-ink transition-colors hover:bg-emerald-400"
               >
-                <WhatsAppIcon className="h-5 w-5" />
+                <Gift className="h-5 w-5" />
                 Get my free sample
               </a>
             </div>
