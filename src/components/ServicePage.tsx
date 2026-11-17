@@ -5,6 +5,7 @@ import { purposeOf } from "../data/services";
 import ClientStrip from "./ClientStrip";
 import Contact from "./Contact";
 import Faq from "./Faq";
+import FreeOffer from "./FreeOffer";
 import Footer from "./Footer";
 import Nav from "./Nav";
 import Packages from "./Packages";
@@ -29,6 +30,7 @@ export default function ServicePage({
       <Nav choice={choice} />
       <main id="main-content">
         <ServiceHero choice={choice} />
+        <FreeOffer choice={choice} />
         {service === "web" ? <ClientStrip /> : null}
         <Work kind={service === "video" ? "video" : "website"} showFirst={purposeOf(choice).showFirst} />
         <Services service={service} />
