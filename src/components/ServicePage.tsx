@@ -2,6 +2,7 @@
 
 import type { Choice } from "../data/services";
 import { purposeOf } from "../data/services";
+import BeforeAfter from "./BeforeAfter";
 import ClientStrip from "./ClientStrip";
 import Contact from "./Contact";
 import Faq from "./Faq";
@@ -30,6 +31,7 @@ export default function ServicePage({
       <Nav choice={choice} />
       <main id="main-content">
         <ServiceHero choice={choice} />
+        {service === "video" ? <BeforeAfter /> : null}
         <FreeOffer choice={choice} />
         {service === "web" ? <ClientStrip /> : null}
         <Work kind={service === "video" ? "video" : "website"} showFirst={purposeOf(choice).showFirst} />
